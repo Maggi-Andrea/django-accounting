@@ -2,7 +2,8 @@ import logging
 from decimal import Decimal as D
 
 from django.views import generic
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
+
 from django.db.models import Sum
 from django.http import HttpResponseRedirect
 

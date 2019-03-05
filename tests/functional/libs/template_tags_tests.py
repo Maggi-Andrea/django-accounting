@@ -1,3 +1,6 @@
+import django
+django.setup()
+
 from decimal import Decimal as D
 
 from django.test import TestCase

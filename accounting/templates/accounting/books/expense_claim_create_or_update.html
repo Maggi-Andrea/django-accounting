@@ -1,5 +1,6 @@
 {% extends "accounting/layout.html" %}
-{% load static bootstrap3 introspection_filters %}
+{% load static bootstrap4 introspection_filters %}
+{% load icons %}
 
 {% block head %}
     {{ block.super }}
@@ -30,23 +31,23 @@
             <tbody>
             {% for line_form in line_formset %}
                 <tr class="formset-form">
-                    <td class="col-md-0 counter">
+                    <td class="counter">
                         {{ forloop.counter }}
                         {{ line_form.id }}
                     </td>
-                    <td class="col-md-2">
+                    <td>
                         {% bootstrap_field line_form.label show_label=False %}
                     </td>
-                    <td class="col-md-4">
+                    <td>
                         {% bootstrap_field line_form.description show_label=False %}
                     </td>
-                    <td class="col-md-2">
+                    <td>
                         {% bootstrap_field line_form.unit_price_excl_tax show_label=False %}
                     </td>
-                    <td class="col-md-1">
+                    <td>
                         {% bootstrap_field line_form.quantity show_label=False %}
                     </td>
-                    <td class="col-md-1">
+                    <td>
                         {% bootstrap_field line_form.tax_rate show_label=False %}
                     </td>
                     <td></td>
@@ -57,7 +58,7 @@
 
         {% buttons layout='vertical' %}
             <button type="submit" class="btn btn-success">
-                {% bootstrap_icon "star" %} Create
+                {% icon "star" %} Create
             </button>
         {% endbuttons %}
     </form>

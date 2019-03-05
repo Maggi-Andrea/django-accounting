@@ -35,9 +35,10 @@ ACCOUNTING_APPS = (
     'accounting.apps.reports',
 
     # Third party apps that accounting depends on
-    'bootstrap3',
+    'bootstrap4',
+    'django_icons',
     'django_select2',
-    'datetimewidget',
+    'tempus_dominus',
 )
 
 

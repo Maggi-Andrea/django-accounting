@@ -1,7 +1,7 @@
 from datetime import date
 
 from django.views import generic
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import timezone
 
 from dateutil.relativedelta import relativedelta
@@ -186,5 +186,8 @@ class InvoiceDetailsView(TimePeriodFormMixin,
         report.generate()
         ctx['invoices'] = report.invoices
         ctx['tax_rates'] = report.tax_rates
-        ctx['payrun_settings'] = orga.payrun_settings
+        try:
+          ctx['payrun_settings'] = orga.payrun_settings
+        except PayRunSettings.DoesNotExist:
+          ctx['payrun_settings'] = None
         return ctx

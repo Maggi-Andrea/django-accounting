@@ -9,7 +9,7 @@ def organizations(request):
     orga = organization_manager.get_selected_organization(request)
 
     # all user authorized organizations
-    if not request.user or not request.user.is_authenticated():
+    if not request.user or not request.user.is_authenticated:
         user_organizations = None
     else:
         user = request.user

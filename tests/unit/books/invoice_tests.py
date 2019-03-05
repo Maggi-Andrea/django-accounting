@@ -3,7 +3,6 @@ from decimal import Decimal as D
 from django.test import TestCase
 
 from django_dynamic_fixture import G
-import mock
 
 from accounting.apps.books.models import Invoice
 

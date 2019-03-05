@@ -25,6 +25,7 @@ class RootRedirectionView(generic.View):
     def get(self, *args, **kwargs):
         if Organization.objects.all().count():
             return HttpResponseRedirect(reverse('books:dashboard'))
+        return HttpResponseRedirect(reverse('connect:getting-started'))
 
 
 class GettingStartedView(generic.TemplateView):

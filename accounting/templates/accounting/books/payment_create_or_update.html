@@ -1,5 +1,6 @@
 {% extends "accounting/layout.html" %}
-{% load static bootstrap3 introspection_filters %}
+{% load static bootstrap4 introspection_filters %}
+{% load icons %}
 
 {% block head %}
     {{ block.super }}
@@ -24,7 +25,7 @@
 
         {% buttons layout='vertical' %}
             <button type="submit" class="btn btn-success">
-                {% bootstrap_icon "star" %} Create
+                {% icon "star" %} Create
             </button>
         {% endbuttons %}
     </form>
