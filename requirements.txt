@@ -1,16 +1,29 @@
+Django==2.1.4
+django-bootstrap4
+django_icons
+django-tempus-dominus
+
+django-select2
+django-classy-tags
+python-dateutil
+Babel
+
 ## Testing
-coverage==4.3.4
 django-dynamic-fixture>=1.7,<1.8
+
 django-nose>=1.4,<1.5
+coverage==4.3.4
+
+flake8>=2.2.2
+
+WebTest==2.0.12
+django-webtest>=1.7,<1.8
 
 mock>=1.0.1,<1.1.0
 spec>=0.11.1,<0.12
-WebTest==2.0.12
-django-webtest>=1.7,<1.8
+
 coveralls>=0.4,<0.5
 
-## Misc
-flake8>=2.2.2
 ipdb>=0.8,<0.9
 ipdbplugin>=1.4
 ipython>=1.1.0,<1.2.0

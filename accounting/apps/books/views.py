@@ -2,7 +2,8 @@ import logging
 from decimal import Decimal as D
 
 from django.views import generic
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
+
 from django.db.models import Sum
 from django.http import HttpResponseRedirect
 
@@ -44,7 +45,7 @@ logger = logging.getLogger(__name__)
 
 
 class OrganizationSelectorView(generic.TemplateView):
-    template_name = "books/organization_selector.html"
+    template_name = "accounting/books/organization_selector.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -69,7 +70,7 @@ class OrganizationSelectorView(generic.TemplateView):
 
 
 class DashboardView(generic.DetailView):
-    template_name = "books/dashboard.html"
+    template_name = "accounting/books/dashboard.html"
     model = Organization
     context_object_name = "organization"
 
@@ -107,7 +108,7 @@ class DashboardView(generic.DetailView):
 
 
 class OrganizationListView(generic.ListView):
-    template_name = "books/organization_list.html"
+    template_name = "accounting/books/organization_list.html"
     model = Organization
     context_object_name = "organizations"
 
@@ -117,7 +118,7 @@ class OrganizationListView(generic.ListView):
 
 
 class OrganizationCreateView(generic.CreateView):
-    template_name = "books/organization_create_or_update.html"
+    template_name = "accounting/books/organization_create_or_update.html"
     model = Organization
     form_class = OrganizationForm
     success_url = reverse_lazy("books:organization-list")
@@ -129,7 +130,7 @@ class OrganizationCreateView(generic.CreateView):
 
 
 class OrganizationUpdateView(generic.UpdateView):
-    template_name = "books/organization_create_or_update.html"
+    template_name = "accounting/books/organization_create_or_update.html"
     model = Organization
     form_class = OrganizationForm
     success_url = reverse_lazy("books:organization-list")
@@ -140,7 +141,7 @@ class OrganizationUpdateView(generic.UpdateView):
 
 
 class OrganizationDetailView(generic.DetailView):
-    template_name = "books/organization_detail.html"
+    template_name = "accounting/books/organization_detail.html"
     model = Organization
     context_object_name = "organization"
 
@@ -175,14 +176,14 @@ class OrganizationSelectionView(generic.DetailView):
 
 class TaxRateListView(RestrictToSelectedOrganizationQuerySetMixin,
                       generic.ListView):
-    template_name = "books/tax_rate_list.html"
+    template_name = "accounting/books/tax_rate_list.html"
     model = TaxRate
     context_object_name = "tax_rates"
 
 
 class TaxRateCreateView(AutoSetSelectedOrganizationMixin,
                         generic.CreateView):
-    template_name = "books/tax_rate_create_or_update.html"
+    template_name = "accounting/books/tax_rate_create_or_update.html"
     model = TaxRate
     form_class = TaxRateForm
     success_url = reverse_lazy("books:tax_rate-list")
@@ -190,20 +191,20 @@ class TaxRateCreateView(AutoSetSelectedOrganizationMixin,
 
 class TaxRateUpdateView(AutoSetSelectedOrganizationMixin,
                         generic.UpdateView):
-    template_name = "books/tax_rate_create_or_update.html"
+    template_name = "accounting/books/tax_rate_create_or_update.html"
     model = TaxRate
     form_class = TaxRateForm
     success_url = reverse_lazy("books:tax_rate-list")
 
 
 class TaxRateDeleteView(generic.DeleteView):
-    template_name = "_generics/delete_entity.html"
+    template_name = "accounting/_generics/delete_entity.html"
     model = TaxRate
     success_url = reverse_lazy('books:tax_rate-list')
 
 
 class PaymentUpdateView(generic.UpdateView):
-    template_name = "books/payment_create_or_update.html"
+    template_name = "accounting/books/payment_create_or_update.html"
     model = Payment
     form_class = PaymentForm
 
@@ -220,7 +221,7 @@ class PaymentUpdateView(generic.UpdateView):
 
 
 class PaymentDeleteView(generic.DeleteView):
-    template_name = "_generics/delete_entity.html"
+    template_name = "accounting/_generics/delete_entity.html"
     model = Payment
     success_url = reverse_lazy('books:invoice-list')
 
@@ -228,7 +229,7 @@ class PaymentDeleteView(generic.DeleteView):
 class EstimateListView(RestrictToSelectedOrganizationQuerySetMixin,
                        SaleListQuerySetMixin,
                        generic.ListView):
-    template_name = "books/estimate_list.html"
+    template_name = "accounting/books/estimate_list.html"
     model = Estimate
     context_object_name = "estimates"
 
@@ -236,7 +237,7 @@ class EstimateListView(RestrictToSelectedOrganizationQuerySetMixin,
 class EstimateCreateView(AutoSetSelectedOrganizationMixin,
                          AbstractSaleCreateUpdateMixin,
                          generic.CreateView):
-    template_name = "books/bill_create_or_update.html"
+    template_name = "accounting/books/bill_create_or_update.html"
     model = Estimate
     form_class = EstimateForm
     formset_class = EstimateLineFormSet
@@ -260,7 +261,7 @@ class EstimateCreateView(AutoSetSelectedOrganizationMixin,
 class EstimateUpdateView(AutoSetSelectedOrganizationMixin,
                          AbstractSaleCreateUpdateMixin,
                          generic.UpdateView):
-    template_name = "books/estimate_create_or_update.html"
+    template_name = "accounting/books/estimate_create_or_update.html"
     model = Estimate
     form_class = EstimateForm
     formset_class = EstimateLineFormSet
@@ -268,14 +269,14 @@ class EstimateUpdateView(AutoSetSelectedOrganizationMixin,
 
 
 class EstimateDeleteView(generic.DeleteView):
-    template_name = "_generics/delete_entity.html"
+    template_name = "accounting/_generics/delete_entity.html"
     model = Estimate
     success_url = reverse_lazy('books:estimate-list')
 
 
 class EstimateDetailView(AbstractSaleDetailMixin,
                          generic.DetailView):
-    template_name = "books/estimate_detail.html"
+    template_name = "accounting/books/estimate_detail.html"
     model = Estimate
     context_object_name = "estimate"
 
@@ -286,7 +287,7 @@ class EstimateDetailView(AbstractSaleDetailMixin,
 class InvoiceListView(RestrictToSelectedOrganizationQuerySetMixin,
                       SaleListQuerySetMixin,
                       generic.ListView):
-    template_name = "books/invoice_list.html"
+    template_name = "accounting/books/invoice_list.html"
     model = Invoice
     context_object_name = "invoices"
 
@@ -294,7 +295,7 @@ class InvoiceListView(RestrictToSelectedOrganizationQuerySetMixin,
 class InvoiceCreateView(AutoSetSelectedOrganizationMixin,
                         AbstractSaleCreateUpdateMixin,
                         generic.CreateView):
-    template_name = "books/invoice_create_or_update.html"
+    template_name = "accounting/books/invoice_create_or_update.html"
     model = Invoice
     form_class = InvoiceForm
     formset_class = InvoiceLineFormSet
@@ -318,7 +319,7 @@ class InvoiceCreateView(AutoSetSelectedOrganizationMixin,
 class InvoiceUpdateView(AutoSetSelectedOrganizationMixin,
                         AbstractSaleCreateUpdateMixin,
                         generic.UpdateView):
-    template_name = "books/invoice_create_or_update.html"
+    template_name = "accounting/books/invoice_create_or_update.html"
     model = Invoice
     form_class = InvoiceForm
     formset_class = InvoiceLineFormSet
@@ -326,7 +327,7 @@ class InvoiceUpdateView(AutoSetSelectedOrganizationMixin,
 
 
 class InvoiceDeleteView(generic.DeleteView):
-    template_name = "_generics/delete_entity.html"
+    template_name = "accounting/_generics/delete_entity.html"
     model = Invoice
     success_url = reverse_lazy('books:invoice-list')
 
@@ -334,7 +335,7 @@ class InvoiceDeleteView(generic.DeleteView):
 class InvoiceDetailView(PaymentFormMixin,
                         AbstractSaleDetailMixin,
                         generic.DetailView):
-    template_name = "books/invoice_detail.html"
+    template_name = "accounting/books/invoice_detail.html"
     model = Invoice
     context_object_name = "invoice"
     payment_form_class = PaymentForm
@@ -346,7 +347,7 @@ class InvoiceDetailView(PaymentFormMixin,
 class BillListView(RestrictToSelectedOrganizationQuerySetMixin,
                    SaleListQuerySetMixin,
                    generic.ListView):
-    template_name = "books/bill_list.html"
+    template_name = "accounting/books/bill_list.html"
     model = Bill
     context_object_name = "bills"
 
@@ -354,7 +355,7 @@ class BillListView(RestrictToSelectedOrganizationQuerySetMixin,
 class BillCreateView(AutoSetSelectedOrganizationMixin,
                      AbstractSaleCreateUpdateMixin,
                      generic.CreateView):
-    template_name = "books/bill_create_or_update.html"
+    template_name = "accounting/books/bill_create_or_update.html"
     model = Bill
     form_class = BillForm
     formset_class = BillLineFormSet
@@ -378,7 +379,7 @@ class BillCreateView(AutoSetSelectedOrganizationMixin,
 class BillUpdateView(AutoSetSelectedOrganizationMixin,
                      AbstractSaleCreateUpdateMixin,
                      generic.UpdateView):
-    template_name = "books/bill_create_or_update.html"
+    template_name = "accounting/books/bill_create_or_update.html"
     model = Bill
     form_class = BillForm
     formset_class = BillLineFormSet
@@ -386,7 +387,7 @@ class BillUpdateView(AutoSetSelectedOrganizationMixin,
 
 
 class BillDeleteView(generic.DeleteView):
-    template_name = "_generics/delete_entity.html"
+    template_name = "accounting/_generics/delete_entity.html"
     model = Bill
     success_url = reverse_lazy('books:bill-list')
 
@@ -394,7 +395,7 @@ class BillDeleteView(generic.DeleteView):
 class BillDetailView(PaymentFormMixin,
                      AbstractSaleDetailMixin,
                      generic.DetailView):
-    template_name = "books/bill_detail.html"
+    template_name = "accounting/books/bill_detail.html"
     model = Bill
     context_object_name = "bill"
     payment_form_class = PaymentForm
@@ -406,7 +407,7 @@ class BillDetailView(PaymentFormMixin,
 class ExpenseClaimListView(RestrictToSelectedOrganizationQuerySetMixin,
                            SaleListQuerySetMixin,
                            generic.ListView):
-    template_name = "books/expense_claim_list.html"
+    template_name = "accounting/books/expense_claim_list.html"
     model = ExpenseClaim
     context_object_name = "expense_claims"
 
@@ -414,7 +415,7 @@ class ExpenseClaimListView(RestrictToSelectedOrganizationQuerySetMixin,
 class ExpenseClaimCreateView(AutoSetSelectedOrganizationMixin,
                              AbstractSaleCreateUpdateMixin,
                              generic.CreateView):
-    template_name = "books/expense_claim_create_or_update.html"
+    template_name = "accounting/books/expense_claim_create_or_update.html"
     model = ExpenseClaim
     form_class = ExpenseClaimForm
     formset_class = ExpenseClaimLineFormSet
@@ -438,7 +439,7 @@ class ExpenseClaimCreateView(AutoSetSelectedOrganizationMixin,
 class ExpenseClaimUpdateView(AutoSetSelectedOrganizationMixin,
                              AbstractSaleCreateUpdateMixin,
                              generic.UpdateView):
-    template_name = "books/expense_claim_create_or_update.html"
+    template_name = "accounting/books/expense_claim_create_or_update.html"
     model = ExpenseClaim
     form_class = ExpenseClaimForm
     formset_class = ExpenseClaimLineFormSet
@@ -446,7 +447,7 @@ class ExpenseClaimUpdateView(AutoSetSelectedOrganizationMixin,
 
 
 class ExpenseClaimDeleteView(generic.DeleteView):
-    template_name = "_generics/delete_entity.html"
+    template_name = "accounting/_generics/delete_entity.html"
     model = ExpenseClaim
     success_url = reverse_lazy('books:expense_claim-list')
 
@@ -454,7 +455,7 @@ class ExpenseClaimDeleteView(generic.DeleteView):
 class ExpenseClaimDetailView(PaymentFormMixin,
                              AbstractSaleDetailMixin,
                              generic.DetailView):
-    template_name = "books/expense_claim_detail.html"
+    template_name = "accounting/books/expense_claim_detail.html"
     model = ExpenseClaim
     context_object_name = "expense_claim"
     payment_form_class = PaymentForm

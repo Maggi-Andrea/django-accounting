@@ -1,16 +1,17 @@
-from django.conf.urls import patterns, url
+from django.urls import path
 
 from . import views
 
+app_name = 'accounting.apps.connect'
 
-urlpatterns = patterns('',
+urlpatterns = [
 
-    url(r'^$',
-        views.RootRedirectionView.as_view(),
-        name="root"),
+  path('',
+       views.RootRedirectionView.as_view(),
+       name="root"),
 
     # Step by step
-    url(r'^getting-started/$',
-        views.GettingStartedView.as_view(),
-        name="getting-started")
-)
+  path('getting-started/',
+       views.GettingStartedView.as_view(),
+       name="getting-started")
+]

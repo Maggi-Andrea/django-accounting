@@ -38,13 +38,13 @@
 
     <div class="row">
         <div class="col-xs-12 col-sm-6">
-            {% include "books/_partials/invoice_list.html" with invoices=invoices hide_edit=True %}
+            {% include "accounting/books/_generics/sale_list.html" with sales=invoices hide_edit=True %}
             <a href="{% url 'books:invoice-create' %}" class="btn btn-primary btn-lg" role="button">
                 Add an invoice
             </a>
         </div>
         <div class="col-xs-12 col-sm-6">
-            {% include "books/_partials/bill_list.html" with bills=bills hide_edit=True %}
+            {% include "accounting/books/_generics/sale_list.html" with sales=bills hide_edit=True %}
             <a href="{% url 'books:bill-create' %}" class="btn btn-primary btn-lg" role="button">
                 Add an bill
             </a>

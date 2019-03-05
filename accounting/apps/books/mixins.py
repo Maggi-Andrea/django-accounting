@@ -1,9 +1,11 @@
 from django.db.models.fields import FieldDoesNotExist
 from django.views import generic
 from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from .utils import organization_manager
+
+from django.db.models.options import Options
 
 
 class RestrictToSelectedOrganizationQuerySetMixin(object):
@@ -14,7 +16,7 @@ class RestrictToSelectedOrganizationQuerySetMixin(object):
     def get_restriction_filters(self):
         # check for the field
         meta = self.model._meta
-        field, model, direct, m2m = meta.get_field_by_name('organization')
+        field = meta.get_field('organization')
 
         # build the restriction
         orga = organization_manager.get_selected_organization(self.request)
@@ -41,21 +43,20 @@ class RestrictToOrganizationFormRelationsMixin(object):
 
     def _restrict_fields_choices(self, model, organization, fields):
         for source in fields:
-            field, m, direct, m2m = model._meta.get_field_by_name(source)
-            rel = field.rel
-            if not rel:
+            field = model._meta.get_field(source)
+            if not field.is_relation:
                 # next field
                 continue
 
-            rel_model = rel.to
+            rel_model = field.related_model
             try:
-                rel_model._meta.get_field_by_name(self.relation_name)
+                rel_model._meta.get_field(self.relation_name)
             except FieldDoesNotExist:
                 # next field
                 continue
 
             form_field = fields[source]
-            form_field.queryset = (form_field.choices.queryset
+            form_field.widget.queryset = (form_field.widget.queryset
                 .filter(**{self.relation_name: organization}))
 
     def restrict_fields_choices_to_organization(self, form, organization):
@@ -77,14 +78,14 @@ class SaleListQuerySetMixin(object):
 
         try:
             # to raise the exception
-            self.model._meta.get_field_by_name('client')
+            self.model._meta.get_field('client')
             queryset = queryset.select_related('client')
         except FieldDoesNotExist:
             pass
 
         try:
             # to raise the exception
-            self.model._meta.get_field_by_name('payments')
+            self.model._meta.get_field('payments')
             queryset = queryset.prefetch_related('payments')
         except FieldDoesNotExist:
             pass
@@ -152,7 +153,7 @@ class AbstractSaleDetailMixin(object):
 
         try:
             # to raise the exception
-            self.model._meta.get_field_by_name('client')
+            self.model._meta.get_field('client')
             queryset = queryset.select_related('client')
         except FieldDoesNotExist:
             pass

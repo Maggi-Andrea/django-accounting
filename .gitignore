@@ -21,3 +21,7 @@ coverage.xml
 violations.txt
 nosetests.xml
 /htmlcov/*
+/.project
+/.settings/
+/.pydevproject
+/condabin/

@@ -1,4 +1,4 @@
-{% load currency_filters bootstrap3 form_filters check_filters check_tags %}
+{% load currency_filters bootstrap4 form_filters check_filters check_tags %}
 
 <div class="row placeholders">
     <div class="col-xs-6 col-sm-4">
@@ -55,7 +55,7 @@
 {% endif %}
 
 <h3 class="page-header">Content</h3>
-{% include "books/_generics/sale_content.html" with object=object %}
+{% include "accounting/books/_generics/sale_content.html" with object=object %}
 
 <hr>
 
@@ -65,7 +65,7 @@
         <h4>Payments</h4>
     </div>
 
-    {% include "books/_partials/payment_list.html" with payments=payments %}
+    {% include "accounting/books/_partials/payment_list.html" with payments=payments %}
 
     <div class="panel-footer">
         <form action="." method="post" class="form">

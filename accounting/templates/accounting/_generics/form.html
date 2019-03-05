@@ -1,5 +1,7 @@
 {% extends "accounting/layout.html" %}
-{% load bootstrap3 introspection_filters %}
+{% load bootstrap4 %}
+{% load introspection_filters %}
+{% load icons %}
 
 {% block head %}
     {{ block.super }}
@@ -21,9 +23,9 @@
         {% buttons %}
             <button type="submit" class="btn btn-success">
                 {% if object.pk %}
-                    {% bootstrap_icon "hand-right" %} Save changes
+                    {% icon "hand-o-right" %} Save changes
                 {% else %}
-                    {% bootstrap_icon "thumbs-up" %} Send creation
+                    {% icon "thumbs-up" %} Send creation
                 {% endif %}
             </button>
         {% endbuttons %}

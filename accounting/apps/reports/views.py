@@ -1,7 +1,7 @@
 from datetime import date
 
 from django.views import generic
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import timezone
 
 from dateutil.relativedelta import relativedelta
@@ -72,11 +72,11 @@ class TimePeriodFormMixin(object):
 
 
 class ReportListView(generic.TemplateView):
-    template_name = "reports/report_list.html"
+    template_name = "accounting/reports/report_list.html"
 
 
 class SettingsListView(generic.TemplateView):
-    template_name = "reports/settings_list.html"
+    template_name = "accounting/reports/settings_list.html"
 
 
 class GenericSettingsMixin(object):
@@ -95,28 +95,28 @@ class GenericSettingsMixin(object):
 
 class BusinessSettingsUpdateView(GenericSettingsMixin,
                                  generic.UpdateView):
-    template_name = "reports/financial_settings_update.html"
+    template_name = "accounting/reports/financial_settings_update.html"
     model = BusinessSettings
     form_class = BusinessSettingsForm
 
 
 class FinancialSettingsUpdateView(GenericSettingsMixin,
                                   generic.UpdateView):
-    template_name = "reports/financial_settings_update.html"
+    template_name = "accounting/reports/financial_settings_update.html"
     model = FinancialSettings
     form_class = FinancialSettingsForm
 
 
 class PayRunSettingsUpdateView(GenericSettingsMixin,
                                generic.UpdateView):
-    template_name = "reports/payrun_settings_update.html"
+    template_name = "accounting/reports/payrun_settings_update.html"
     model = PayRunSettings
     form_class = PayRunSettingsForm
 
 
 class TaxReportView(TimePeriodFormMixin,
                     generic.FormView):
-    template_name = "reports/tax_report.html"
+    template_name = "accounting/reports/tax_report.html"
     form_class = TimePeriodForm
 
     def get_context_data(self, **kwargs):
@@ -131,7 +131,7 @@ class TaxReportView(TimePeriodFormMixin,
 
 
 class ProfitAndLossReportView(generic.TemplateView):
-    template_name = "reports/profit_and_loss_report.html"
+    template_name = "accounting/reports/profit_and_loss_report.html"
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -155,7 +155,7 @@ class ProfitAndLossReportView(generic.TemplateView):
 
 class PayRunReportView(TimePeriodFormMixin,
                        generic.FormView):
-    template_name = "reports/pay_run_report.html"
+    template_name = "accounting/reports/pay_run_report.html"
     form_class = TimePeriodForm
 
     def get_context_data(self, **kwargs):
@@ -174,7 +174,7 @@ class PayRunReportView(TimePeriodFormMixin,
 
 class InvoiceDetailsView(TimePeriodFormMixin,
                          generic.FormView):
-    template_name = "reports/invoice_details_report.html"
+    template_name = "accounting/reports/invoice_details_report.html"
     form_class = TimePeriodForm
 
     def get_context_data(self, **kwargs):
@@ -186,5 +186,8 @@ class InvoiceDetailsView(TimePeriodFormMixin,
         report.generate()
         ctx['invoices'] = report.invoices
         ctx['tax_rates'] = report.tax_rates
-        ctx['payrun_settings'] = orga.payrun_settings
+        try:
+          ctx['payrun_settings'] = orga.payrun_settings
+        except PayRunSettings.DoesNotExist:
+          ctx['payrun_settings'] = None
         return ctx

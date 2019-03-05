@@ -1,10 +1,12 @@
 # encoding: utf-8
+import django
+django.setup()
 
 import datetime
 
 from django.test import TransactionTestCase, TestCase
 from django.test.utils import override_settings
-from django.core.urlresolvers import ResolverMatch
+# from django.core.urlresolvers import ResolverMatch
 
 from accounting.libs.utils import queryset_iterator
 
