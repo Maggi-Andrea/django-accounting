@@ -35,7 +35,7 @@ import logging
 import warnings
 
 import django
-from django.utils.six.moves import map
+from six.moves import map
 
 from tests.config import configure
 

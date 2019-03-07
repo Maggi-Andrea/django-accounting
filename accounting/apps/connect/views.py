@@ -1,6 +1,6 @@
 from django.views import generic
 from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from accounting.apps.books.models import Organization
 from .steps import (
@@ -29,7 +29,7 @@ class RootRedirectionView(generic.View):
 
 
 class GettingStartedView(generic.TemplateView):
-    template_name = "connect/getting_started.html"
+    template_name = "accounting/connect/getting_started.html"
 
     def get_steps(self, request):
         user = request.user

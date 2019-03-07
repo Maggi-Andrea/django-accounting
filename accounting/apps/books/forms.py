@@ -13,7 +13,6 @@ from .models import (
   ExpenseClaim,
   ExpenseClaimLine,
   Payment)
-from .utils import organization_manager
 from accounting.apps.people.models import Client, Employee
 from accounting.apps.people.forms import UserMultipleChoices
 
@@ -24,8 +23,7 @@ from tempus_dominus.widgets import DatePicker
 class RequiredFirstInlineFormSet(BaseInlineFormSet):
   """
   Used to make empty formset forms required
-  See http://stackoverflow.com/questions/2406537/django-formsets-\
-    make-first-required/4951032#4951032
+  See http://stackoverflow.com/questions/2406537/django-formsets-make-first-required/4951032#4951032
   """
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
@@ -49,14 +47,6 @@ class ClientForOrganizationChoices(ModelSelect2Widget):
     'name__icontains',
   )
 
-  def prepare_qs_params(self, request, search_term, search_fields):
-    """restrict to the current selected organization"""
-    params = super().prepare_qs_params(request, search_term, search_fields)
-    orga = organization_manager.get_selected_organization(request)
-    params['and']['organization'] = orga
-    return params
-
-
 class EmployeeForOrganizationChoices(ModelSelect2Widget):
   queryset = Employee.objects.all()
   search_fields = (
@@ -65,16 +55,7 @@ class EmployeeForOrganizationChoices(ModelSelect2Widget):
     'email__icontains',
   )
 
-  def prepare_qs_params(self, request, search_term, search_fields):
-    """restrict to the current selected organization"""
-    params = super().prepare_qs_params(request, search_term, search_fields)
-    orga = organization_manager.get_selected_organization(request)
-    params['and']['organization'] = orga
-    return params
-
-
 class OrganizationForm(ModelForm):
-  members = UserMultipleChoices(required=False)
 
   class Meta:
     model = Organization
@@ -83,6 +64,10 @@ class OrganizationForm(ModelForm):
       "legal_name",
       "members",
     )
+    
+    widgets = {
+      'members': UserMultipleChoices(),
+    }
 
 
 class TaxRateForm(ModelForm):
@@ -118,7 +103,6 @@ class RestrictLineFormToOrganizationMixin(object):
 
 
 class EstimateForm(ModelForm):
-  client = ClientForOrganizationChoices()
 
   class Meta:
     model = Estimate
@@ -129,6 +113,7 @@ class EstimateForm(ModelForm):
       "date_dued",
     )
     widgets = {
+      'client' : ClientForOrganizationChoices(),
       'date_issued': DatePicker(
         attrs={
           'append': 'fa fa-calendar',
@@ -146,8 +131,7 @@ class EstimateForm(ModelForm):
     }
 
 
-class EstimateLineForm(RestrictLineFormToOrganizationMixin,
-             ModelForm):
+class EstimateLineForm(RestrictLineFormToOrganizationMixin, ModelForm):
   class Meta:
     model = EstimateLine
     fields = (
@@ -168,7 +152,6 @@ EstimateLineFormSet = inlineformset_factory(Estimate,
 
 
 class InvoiceForm(ModelForm):
-  client = ClientForOrganizationChoices()
 
   class Meta:
     model = Invoice
@@ -179,6 +162,7 @@ class InvoiceForm(ModelForm):
       "date_dued",
     )
     widgets = {
+      'client' : ClientForOrganizationChoices(),
       'date_issued': DatePicker(
         attrs={
           'append': 'fa fa-calendar',
@@ -218,7 +202,6 @@ InvoiceLineFormSet = inlineformset_factory(Invoice,
 
 
 class BillForm(ModelForm):
-  client = ClientForOrganizationChoices()
 
   class Meta:
     model = Bill
@@ -229,6 +212,7 @@ class BillForm(ModelForm):
       "date_dued",
     )
     widgets = {
+      'client' : ClientForOrganizationChoices(),
       'date_issued': DatePicker(
         attrs={
           'append': 'fa fa-calendar',
@@ -271,8 +255,6 @@ BillLineFormSet = inlineformset_factory(Bill,
 
 
 class ExpenseClaimForm(ModelForm):
-  employee = EmployeeForOrganizationChoices()
-
   class Meta:
     model = ExpenseClaim
     fields = (
@@ -282,6 +264,7 @@ class ExpenseClaimForm(ModelForm):
       "date_dued",
     )
     widgets = {
+      'employee': EmployeeForOrganizationChoices(),
       'date_issued': DatePicker(
         attrs={
           'append': 'fa fa-calendar',

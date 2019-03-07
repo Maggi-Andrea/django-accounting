@@ -56,7 +56,7 @@ class RestrictToOrganizationFormRelationsMixin(object):
                 continue
 
             form_field = fields[source]
-            form_field.queryset = (form_field.choices.queryset
+            form_field.widget.queryset = (form_field.widget.queryset
                 .filter(**{self.relation_name: organization}))
 
     def restrict_fields_choices_to_organization(self, form, organization):
