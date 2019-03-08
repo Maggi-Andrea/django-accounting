@@ -174,23 +174,20 @@ class OrganizationSelectionView(generic.DetailView):
         return HttpResponseRedirect(reverse('books:dashboard'))
 
 
-class TaxRateListView(RestrictToSelectedOrganizationQuerySetMixin,
-                      generic.ListView):
+class TaxRateListView(RestrictToSelectedOrganizationQuerySetMixin, generic.ListView):
     template_name = "accounting/books/tax_rate_list.html"
     model = TaxRate
     context_object_name = "tax_rates"
 
 
-class TaxRateCreateView(AutoSetSelectedOrganizationMixin,
-                        generic.CreateView):
+class TaxRateCreateView(AutoSetSelectedOrganizationMixin, generic.CreateView):
     template_name = "accounting/books/tax_rate_create_or_update.html"
     model = TaxRate
     form_class = TaxRateForm
     success_url = reverse_lazy("books:tax_rate-list")
 
 
-class TaxRateUpdateView(AutoSetSelectedOrganizationMixin,
-                        generic.UpdateView):
+class TaxRateUpdateView(AutoSetSelectedOrganizationMixin, generic.UpdateView):
     template_name = "accounting/books/tax_rate_create_or_update.html"
     model = TaxRate
     form_class = TaxRateForm

@@ -1,6 +1,6 @@
 {% load currency_filters bootstrap4 form_filters check_filters check_tags %}
 
-<div class="row placeholders">
+<div class="row">
     <div class="col-xs-6 col-sm-4">
         <div class="figure">
             <h4>{{ object.total_incl_tax|currency|default:"-" }}</h4>
@@ -39,57 +39,10 @@
     </div>
 </div>
 
-{% if checklist %}
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">Checklist</h3>
-  </div>
-  <div class="card-body">
-    <ul class="list-group list-group-flush check-list">
-      {% for check in checklist %}
-      <li class="list-group-item list-group-item-{{ check|level_to_css_classname }}">
-        {% render_check check %}
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-</div>
-{% endif %}
+{% include "accounting/books/_generics/checklist.html" with object=object %}
 <hr>
 
 {% include "accounting/books/_generics/sale_content.html" with object=object %}
 <hr>
 
-{% if payment_form %}
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h4>Payments</h4>
-    </div>
-    {% include "accounting/books/_partials/payment_list.html" with payments=payments %}
-
-    <div class="panel-footer">
-        <form action="." method="post" class="form">
-            {% csrf_token %}
-
-            {{ payment_form.non_field_errors }}
-            <div class="row">
-                <div class="col-md-2">
-                    {% bootstrap_field payment_form.date_paid show_label=False %}
-                </div>
-                <div class="col-md-2">
-                    {% bootstrap_field payment_form.reference show_label=False %}
-                </div>
-                <div class="col-md-4">
-                    {% bootstrap_field payment_form.detail show_label=False %}
-                </div>
-                <div class="col-md-2">
-                    {% bootstrap_field payment_form.amount show_label=False %}
-                </div>
-                <div class="col-md-2 text-right">
-                    <button type="submit" class="btn btn-success">Add payment</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-{% endif %}
+{% include "accounting/books/_generics/payments_formset.html"%}

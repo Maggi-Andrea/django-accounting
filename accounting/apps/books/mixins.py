@@ -177,6 +177,11 @@ class PaymentFormMixin(generic.edit.FormMixin):
   def get_form_class(self):
     assert self.payment_form_class is not None, "No formset class specified"
     return self.payment_form_class
+  
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['payment_form'] = self.get_form()
+    return context
 
   def post(self, request, *args, **kwargs):
     """

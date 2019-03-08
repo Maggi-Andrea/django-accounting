@@ -1,0 +1,17 @@
+{% load check_filters check_tags %}
+{% if checklist %}
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Checklist</h3>
+  </div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush check-list">
+      {% for check in checklist %}
+      <li class="list-group-item list-group-item-{{ check|level_to_css_classname }}">
+        {% render_check check %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
