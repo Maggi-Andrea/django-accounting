@@ -32,7 +32,7 @@ class RequiredFirstInlineFormSet(BaseInlineFormSet):
       first_form.empty_permitted = False
 
 
-class SaleInlineLineFormSet(RequiredFirstInlineFormSet):
+class SaleLineInlineFormSet(RequiredFirstInlineFormSet):
 
   def __init__(self, *args, **kwargs):
     orga = kwargs.pop('organization')
@@ -79,7 +79,7 @@ class TaxRateForm(ModelForm):
     )
 
 
-class RestrictLineFormToOrganizationMixin(object):
+class RestrictLineFormToOrganizationMixin:
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
@@ -146,7 +146,7 @@ class EstimateLineForm(RestrictLineFormToOrganizationMixin, ModelForm):
 EstimateLineFormSet = inlineformset_factory(Estimate,
                       EstimateLine,
                       form=EstimateLineForm,
-                      formset=SaleInlineLineFormSet,
+                      formset=SaleLineInlineFormSet,
                       min_num=1,
                       extra=0)
 
@@ -180,8 +180,7 @@ class InvoiceForm(ModelForm):
     }
 
 
-class InvoiceLineForm(RestrictLineFormToOrganizationMixin,
-            ModelForm):
+class InvoiceLineForm(RestrictLineFormToOrganizationMixin, ModelForm):
   class Meta:
     model = InvoiceLine
     fields = (
@@ -196,7 +195,7 @@ class InvoiceLineForm(RestrictLineFormToOrganizationMixin,
 InvoiceLineFormSet = inlineformset_factory(Invoice,
                        InvoiceLine,
                        form=InvoiceLineForm,
-                       formset=SaleInlineLineFormSet,
+                       formset=SaleLineInlineFormSet,
                        min_num=1,
                        extra=0)
 
@@ -249,7 +248,7 @@ class BillLineForm(RestrictLineFormToOrganizationMixin,
 BillLineFormSet = inlineformset_factory(Bill,
                     BillLine,
                     form=BillLineForm,
-                    formset=SaleInlineLineFormSet,
+                    formset=SaleLineInlineFormSet,
                     min_num=1,
                     extra=0)
 
@@ -301,7 +300,7 @@ class ExpenseClaimLineForm(RestrictLineFormToOrganizationMixin,
 ExpenseClaimLineFormSet = inlineformset_factory(ExpenseClaim,
                         ExpenseClaimLine,
                         form=ExpenseClaimLineForm,
-                        formset=SaleInlineLineFormSet,
+                        formset=SaleLineInlineFormSet,
                         min_num=1,
                         extra=0)
 

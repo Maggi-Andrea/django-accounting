@@ -1,7 +1,7 @@
 from django.db.models import Q
 
 
-class OrganizationManager(object):
+class OrganizationManager:
   selected_organization_key = 'selected_organization_pk'
 
   def get_user_organizations(self, user):

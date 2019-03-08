@@ -1,79 +1,82 @@
 {% load currency_filters format_filters %}
 
-<div class="row">
-    <div class="col-xs-5">
-        <div class="panel panel-default">
-            {% with client=object.from_client %}
-            <div class="panel-heading">
-                <h4>From: <a href="{{ client.get_absolute_url }}">{{ client }}</a></h4>
-            </div>
-            <div class="panel-body">
-                <address>
-                    <strong>{{ client.name }}</strong><br>
-                    {{ client.full_address|linebreaksbr }}<br>
-                </address>
-            </div>
-            {% endwith %}
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Content</h3>
+  </div>
+  <div class="card-body">
+    <div class="d-flex flex-column">
+      <div class="d-flex flex-column flex-sm-row justify-content-between">
+        <div class="p-2">
+          <div class="card">
+            <div class="card-body">
+              {% with client=object.from_client %}
+              <h4 class="card-title">From: <a href="{{ client.get_absolute_url }}">{{ client }}</a></h4>
+              <address>
+                <strong>{{ client.name }}</strong><br>
+                {{ client.full_address|linebreaksbr }}<br>
+              </address>
+              {% endwith %}
+            </div> 
+          </div>
         </div>
-    </div>
-    <div class="col-xs-5 col-xs-offset-2 text-right">
-        <div class="panel panel-default">
-            {% with client=object.to_client %}
-            <div class="panel-heading">
-                <h4>To: <a href="{{ client.get_absolute_url }}">{{ client }}</a></h4>
+        <div class="p-2">
+          <div class="card">
+            <div class="card-body">
+              {% with client=object.to_client %}
+              <h4 class="card-title">To: <a href="{{ client.get_absolute_url }}">{{ client }}</a></h4>
+              <address>
+                <strong>{{ client.name }}</strong><br>
+                {{ client.full_address|linebreaksbr }}<br>
+              </address>
+              {% endwith %}
             </div>
-            <div class="panel-body">
-                <address>
-                    <strong>{{ client.name }}</strong><br>
-                    {{ client.full_address|linebreaksbr }}<br>
-                </address>
-            </div>
-            {% endwith %}
+          </div>
         </div>
+      </div>
+      <div>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Label</th>
+              <th>Description</th>
+              <th>Unit (excl. tax)</th>
+              <th>Qt.</th>
+              <th>Tax rate</th>
+              <th class="text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for line in lines.all %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ line.label }}</td>
+              <td>{{ line.description|linebreaks }}</td>
+              <td>{{ line.unit_price_excl_tax|currency }}</td>
+              <td>{{ line.quantity }}</td>
+              <td>{{ line.tax_rate.rate|percentage }}</td>
+              <td class="text-right">{{ line.line_price_excl_tax|currency }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
+  <div class="card-footer">
+    <dl class="row">
+      <dt class="col-sm-1">Sub Total:</dt>
+      <dd class="col-sm">{{object.total_excl_tax|currency }}</dd>
+      <dd class="w-100 m-0 p-0"></dd>
+      <dt class="col-sm-1">Tax:</dt>
+      <dd class="col-sm">{{object.total_tax|currency }}</dd>
+      <dd class="w-100 m-0 p-0"></dd>
+      <dt class="col-sm-1">Total:</dt>
+      <dd class="col-sm">{{object.total_incl_tax|currency }}</dd>
+    </dl>
+  </div>
 </div>
-<!-- / end client details section -->
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr class="row">
-            <th>#</th>
-            <th>Label</th>
-            <th class="col-sm-4">Description</th>
-            <th class="col-sm-2">Unit (excl. tax)</th>
-            <th class="col-sm-1">Qt.</th>
-            <th class="col-sm-1">Tax rate</th>
-            <th class="col-sm-2 text-right">Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for line in lines.all %}
-        <tr class="row">
-            <td>{{ forloop.counter }}</td>
-            <td>{{ line.label }}</td>
-            <td class="col-sm-4">{{ line.description|linebreaks }}</td>
-            <td class="col-sm-2">{{ line.unit_price_excl_tax|currency }}</td>
-            <td class="col-sm-1">{{ line.quantity }}</td>
-            <td class="col-sm-1">{{ line.tax_rate.rate|percentage }}</td>
-            <td class="col-sm-2 text-right">{{ line.line_price_excl_tax|currency }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<div class="row text-right">
-    <div class="col-xs-2 col-xs-offset-8">
-        <p>
-            <strong>
-                Sub Total : <br>
-                Tax : <br>
-                Total : <br>
-            </strong>
-        </p>
-    </div>
-    <div class="col-xs-2">
-        <strong>
-            {{ object.total_excl_tax|currency }} <br>
-            {{ object.total_tax|currency }} <br>
-            {{ object.total_incl_tax|currency }} <br>
-        </strong>
-    </div>
-</div>
+
+
+

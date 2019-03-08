@@ -1,0 +1,26 @@
+{% extends "accounting/layout.html" %}
+
+{% load static %}
+{% load introspection_filters %}
+
+{% block head %}
+    {{ block.super }}
+    {{ form.media }}
+{% endblock head %}
+
+{% block content %}
+<h1 class="page-header">
+  {{object|get_model_verbose_name}} #{{ object.number }} <small>/ detail</small>
+  <div class="btn-group pull-right">
+    {% if object.get_edit_url %}
+      <a href="{{object.get_edit_url}}" class="btn btn-warning" role="button">Edit</a>
+    {% endif %}
+    {% if object.get_delete_url %}
+      <a href="{{object.get_delete_url}}" class="btn btn-danger" role="button">Supprimer</a>
+    {% endif %}
+  </div>
+</h1>
+
+{% include "accounting/books/_generics/sale_detail.html" with object=object lines=lines payments=object.payments.all form=form %}
+
+{% endblock content %}

@@ -39,6 +39,7 @@ setup(name='django-accounting',
           'django-tempus-dominus>=5.1.2.2',
           # Used to improve the forms
           'django_select2==6.3.1',
+          'django-crispy-forms>=1.7.2'
           # Define beautiful tags
           'django-classy-tags>=0.8.0',
           # Internationalization

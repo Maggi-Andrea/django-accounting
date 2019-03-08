@@ -1,12 +1,11 @@
+from django.utils.deprecation import MiddlewareMixin
 from .utils import organization_manager
 
 
-class AutoSelectOrganizationMiddleware:
+
+
+class AutoSelectOrganizationMiddleware(MiddlewareMixin):
   
-  def __init__(self, get_response):
-        self.get_response = get_response
-        # One-time configuration and initialization.
-        
   def process_request(self, request):
     if not request.user or not request.user.is_authenticated:
       return
@@ -19,9 +18,3 @@ class AutoSelectOrganizationMiddleware:
     if user_orgas.count():
       orga = user_orgas.first()
       organization_manager.set_selected_organization(request, orga)
-
-  def __call__(self, request):
-    self.process_request(request)
-    response = self.get_response(request)
-    return response
-

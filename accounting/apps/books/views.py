@@ -237,7 +237,7 @@ class EstimateListView(RestrictToSelectedOrganizationQuerySetMixin,
 class EstimateCreateView(AutoSetSelectedOrganizationMixin,
                          AbstractSaleCreateUpdateMixin,
                          generic.CreateView):
-    template_name = "accounting/books/bill_create_or_update.html"
+    template_name = "accounting/books/sale_create_or_update.html"
     model = Estimate
     form_class = EstimateForm
     formset_class = EstimateLineFormSet
@@ -261,7 +261,7 @@ class EstimateCreateView(AutoSetSelectedOrganizationMixin,
 class EstimateUpdateView(AutoSetSelectedOrganizationMixin,
                          AbstractSaleCreateUpdateMixin,
                          generic.UpdateView):
-    template_name = "accounting/books/estimate_create_or_update.html"
+    template_name = "accounting/books/sale_create_or_update.html"
     model = Estimate
     form_class = EstimateForm
     formset_class = EstimateLineFormSet
@@ -274,9 +274,8 @@ class EstimateDeleteView(generic.DeleteView):
     success_url = reverse_lazy('books:estimate-list')
 
 
-class EstimateDetailView(AbstractSaleDetailMixin,
-                         generic.DetailView):
-    template_name = "accounting/books/estimate_detail.html"
+class EstimateDetailView(AbstractSaleDetailMixin, generic.DetailView):
+    template_name = "accounting/books/sale_detail.html"
     model = Estimate
     context_object_name = "estimate"
 
@@ -295,7 +294,7 @@ class InvoiceListView(RestrictToSelectedOrganizationQuerySetMixin,
 class InvoiceCreateView(AutoSetSelectedOrganizationMixin,
                         AbstractSaleCreateUpdateMixin,
                         generic.CreateView):
-    template_name = "accounting/books/invoice_create_or_update.html"
+    template_name = "accounting/books/sale_create_or_update.html"
     model = Invoice
     form_class = InvoiceForm
     formset_class = InvoiceLineFormSet
@@ -319,7 +318,7 @@ class InvoiceCreateView(AutoSetSelectedOrganizationMixin,
 class InvoiceUpdateView(AutoSetSelectedOrganizationMixin,
                         AbstractSaleCreateUpdateMixin,
                         generic.UpdateView):
-    template_name = "accounting/books/invoice_create_or_update.html"
+    template_name = "accounting/books/sale_create_or_update.html"
     model = Invoice
     form_class = InvoiceForm
     formset_class = InvoiceLineFormSet
@@ -335,7 +334,7 @@ class InvoiceDeleteView(generic.DeleteView):
 class InvoiceDetailView(PaymentFormMixin,
                         AbstractSaleDetailMixin,
                         generic.DetailView):
-    template_name = "accounting/books/invoice_detail.html"
+    template_name = "accounting/books/sale_detail.html"
     model = Invoice
     context_object_name = "invoice"
     payment_form_class = PaymentForm
@@ -355,7 +354,7 @@ class BillListView(RestrictToSelectedOrganizationQuerySetMixin,
 class BillCreateView(AutoSetSelectedOrganizationMixin,
                      AbstractSaleCreateUpdateMixin,
                      generic.CreateView):
-    template_name = "accounting/books/bill_create_or_update.html"
+    template_name = "accounting/books/sale_create_or_update.html"
     model = Bill
     form_class = BillForm
     formset_class = BillLineFormSet
@@ -379,7 +378,7 @@ class BillCreateView(AutoSetSelectedOrganizationMixin,
 class BillUpdateView(AutoSetSelectedOrganizationMixin,
                      AbstractSaleCreateUpdateMixin,
                      generic.UpdateView):
-    template_name = "accounting/books/bill_create_or_update.html"
+    template_name = "accounting/books/sale_create_or_update.html"
     model = Bill
     form_class = BillForm
     formset_class = BillLineFormSet
@@ -395,7 +394,7 @@ class BillDeleteView(generic.DeleteView):
 class BillDetailView(PaymentFormMixin,
                      AbstractSaleDetailMixin,
                      generic.DetailView):
-    template_name = "accounting/books/bill_detail.html"
+    template_name = "accounting/books/sale_detail.html"
     model = Bill
     context_object_name = "bill"
     payment_form_class = PaymentForm
@@ -415,7 +414,7 @@ class ExpenseClaimListView(RestrictToSelectedOrganizationQuerySetMixin,
 class ExpenseClaimCreateView(AutoSetSelectedOrganizationMixin,
                              AbstractSaleCreateUpdateMixin,
                              generic.CreateView):
-    template_name = "accounting/books/expense_claim_create_or_update.html"
+    template_name = "accounting/books/sale_create_or_update.html"
     model = ExpenseClaim
     form_class = ExpenseClaimForm
     formset_class = ExpenseClaimLineFormSet
@@ -439,7 +438,7 @@ class ExpenseClaimCreateView(AutoSetSelectedOrganizationMixin,
 class ExpenseClaimUpdateView(AutoSetSelectedOrganizationMixin,
                              AbstractSaleCreateUpdateMixin,
                              generic.UpdateView):
-    template_name = "accounting/books/expense_claim_create_or_update.html"
+    template_name = "accounting/books/sale_create_or_update.html"
     model = ExpenseClaim
     form_class = ExpenseClaimForm
     formset_class = ExpenseClaimLineFormSet
@@ -455,7 +454,7 @@ class ExpenseClaimDeleteView(generic.DeleteView):
 class ExpenseClaimDetailView(PaymentFormMixin,
                              AbstractSaleDetailMixin,
                              generic.DetailView):
-    template_name = "accounting/books/expense_claim_detail.html"
+    template_name = "accounting/books/sale_detail.html"
     model = ExpenseClaim
     context_object_name = "expense_claim"
     payment_form_class = PaymentForm

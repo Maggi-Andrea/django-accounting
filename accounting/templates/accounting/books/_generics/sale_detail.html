@@ -40,23 +40,24 @@
 </div>
 
 {% if checklist %}
-<h3 class="page-header">Checklist</h3>
-<div class="row">
-    <div class="col-xs-6 col-sm-4">
-        <div class="list-group check-list">
-        {% for check in checklist %}
-            <div class="list-group-item list-group-item-{{ check|level_to_css_classname }}">
-                {% render_check check %}
-            </div>
-        {% endfor %}
-        </div>
-    </div>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Checklist</h3>
+  </div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush check-list">
+      {% for check in checklist %}
+      <li class="list-group-item list-group-item-{{ check|level_to_css_classname }}">
+        {% render_check check %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
 {% endif %}
+<hr>
 
-<h3 class="page-header">Content</h3>
 {% include "accounting/books/_generics/sale_content.html" with object=object %}
-
 <hr>
 
 {% if payment_form %}
@@ -64,7 +65,6 @@
     <div class="panel-heading">
         <h4>Payments</h4>
     </div>
-
     {% include "accounting/books/_partials/payment_list.html" with payments=payments %}
 
     <div class="panel-footer">

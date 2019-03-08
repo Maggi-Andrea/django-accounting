@@ -36,6 +36,7 @@ ACCOUNTING_APPS = (
 
     # Third party apps that accounting depends on
     'bootstrap4',
+    'crispy_forms',
     'django_icons',
     'django_select2',
     'tempus_dominus',

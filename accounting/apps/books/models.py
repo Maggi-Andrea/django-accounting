@@ -106,13 +106,21 @@ class TaxRate(models.Model):
     to='books.Organization',
     on_delete=models.CASCADE,
     related_name="tax_rates",
-    verbose_name="Attached to Organization")
+    verbose_name="Attached to Organization",
+  )
 
-  name = models.CharField(max_length=50)
-  rate = models.DecimalField(max_digits=6,
-                 decimal_places=5,
-                 validators=[MinValueValidator(D('0')),
-                       MaxValueValidator(D('1'))])
+  name = models.CharField(
+    max_length=50,
+  )
+  
+  rate = models.DecimalField(
+    max_digits=6,
+    decimal_places=5,
+    validators=[
+      MinValueValidator(D('0')),
+      MaxValueValidator(D('1')),
+      ]
+    )
 
   class Meta:
     pass
@@ -266,13 +274,25 @@ class AbstractSale(CheckingModelMixin, models.Model):
 
 
 class AbstractSaleLine(models.Model):
-  label = models.CharField(max_length=255)
-  description = models.TextField(blank=True, null=True)
-  unit_price_excl_tax = models.DecimalField(max_digits=8,
-                        decimal_places=2)
-  quantity = models.DecimalField(max_digits=8,
-                   decimal_places=2,
-                   default=1)
+  label = models.CharField(
+    max_length=255,
+    )
+  
+  description = models.TextField(
+    blank=True,
+    null=True,
+    )
+  
+  unit_price_excl_tax = models.DecimalField(
+    max_digits=8,
+    decimal_places=2,
+    )
+  
+  quantity = models.DecimalField(
+    max_digits=8,
+    decimal_places=2,
+    default=1,
+    )
 
   class Meta:
     abstract = True
@@ -332,6 +352,9 @@ class Estimate(AbstractSale):
 
   def get_edit_url(self):
     return reverse('books:estimate-edit', args=[self.pk])
+  
+  def get_delete_url(self):
+    return reverse('books:estimate-delete', args=[self.pk])
 
   def from_client(self):
     return self.organization
@@ -381,6 +404,9 @@ class Invoice(AbstractSale):
 
   def get_edit_url(self):
     return reverse('books:invoice-edit', args=[self.pk])
+  
+  def get_delete_url(self):
+    return reverse('books:invoice-delete', args=[self.pk])
 
   def from_client(self):
     return self.organization
