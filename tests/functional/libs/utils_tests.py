@@ -1,7 +1,4 @@
 # encoding: utf-8
-import django
-django.setup()
-
 import datetime
 
 from django.test import TransactionTestCase, TestCase
@@ -11,9 +8,6 @@ from django.test.utils import override_settings
 from accounting.libs.utils import queryset_iterator
 
 from tests._site.model_tests_app.models import MockModelWitNoFields
-
-import mock
-
 
 class TestQuerysetIteratorHelper(TransactionTestCase):
 

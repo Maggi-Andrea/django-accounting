@@ -55,4 +55,4 @@ ACCOUNTING_MIDDLEWARE_CLASSES = (
 
 
 def get_apps():
-    return ACCOUNTING_APPS
+    return list(ACCOUNTING_APPS)

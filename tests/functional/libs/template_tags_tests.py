@@ -1,6 +1,3 @@
-import django
-django.setup()
-
 from decimal import Decimal as D
 
 from django.test import TestCase
@@ -19,7 +16,7 @@ class TestGetParameterTemplateTag(TestCase):
         self.request = factory.get('/', {'page': 3, 'sort': 'asc'})
         self.request.user = AnonymousUser()
         # Simulate that we get throught the middleware
-        self.request.franchise = None
+        self.request.session = dict()
 
     def test_retrieve_get_param(self):
         out = Template(
@@ -159,7 +156,7 @@ class TestFormatFilterPercentage(TestCase):
         ).render(Context({
             'f': 0.2345678
         }))
-        self.assertEqual(out, "23,46 %")
+        self.assertEqual(out, "23.46 %")
 
     def test_zero_value(self):
         out = Template(
@@ -168,7 +165,7 @@ class TestFormatFilterPercentage(TestCase):
         ).render(Context({
             'f': 0
         }))
-        self.assertEqual(out, "0,00 %")
+        self.assertEqual(out, "0.00 %")
 
 
 class TestUrlTagQuery(TestCase):
@@ -210,7 +207,7 @@ class TestCurrencyFilter(TestCase):
         }))
         # remove spaces (from comparision sake)
         out = out.replace("\xa0", '').replace(' ', '')
-        self.assertEqual(out, '10,23€')
+        self.assertEqual(out, '€10.23')
 
     def test_handles_none_price_gracefully(self):
         self.template.render(Context({

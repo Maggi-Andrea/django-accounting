@@ -4,12 +4,11 @@ import logging
 import accounting
 from accounting.defaults import *
 
-
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 SECRET_KEY = "abcdef"
 
-LANGUAGE_CODE = 'fr-fr'
+LANGUAGE_CODE = 'en-us'
 
 DATABASES = {
     'default': {
@@ -18,22 +17,16 @@ DATABASES = {
     },
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
-
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.flatpages',
+    'django.contrib.messages',
     'django.contrib.staticfiles',
 
     'tests._site.model_tests_app',  # contains models we need for testing
-) + accounting.get_apps()
-
-# convert INSTALL_APPS to `list`
-INSTALLED_APPS = list(INSTALLED_APPS)
+] + accounting.get_apps()
 
 # Remove 'debug_toolbar'
 try:
@@ -44,26 +37,34 @@ except ValueError:
 # Add the 'tests' app, to load test models
 INSTALLED_APPS.append('tests')
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request',
-
-    'accounting.apps.context_processors.metadata',
-)
-
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
+MIDDLEWARE_CLASSES = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-)
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+] + list(accounting.ACCOUNTING_MIDDLEWARE_CLASSES)
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'accounting/templates/accounting')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                
+                'accounting.apps.context_processors.metadata',
+                'accounting.apps.books.context_processors.organizations',
+            ],
+        },
+    },
+]
 
 ADMINS = ('admin@example.com',)
 DEBUG = False
