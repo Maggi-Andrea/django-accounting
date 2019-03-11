@@ -3,10 +3,18 @@ from decimal import Decimal as D
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+class BusinessSubject(models.Model):
+  
+  name = models.CharField(
+    max_length=150,
+    help_text = "Business communicated name",
+  )
+  
+  class Meta:
+    abstract = True
 
-class Client(models.Model):
-  name = models.CharField(max_length=150)
 
+class Client(BusinessSubject):
   # address
   address_line_1 = models.CharField(max_length=128)
   address_line_2 = models.CharField(max_length=128,

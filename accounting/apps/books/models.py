@@ -11,6 +11,8 @@ from django.contrib.contenttypes.fields import (
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 
+
+from accounting.apps.people.models import BusinessSubject
 from accounting.libs import prices
 from accounting.libs.checks import CheckingModelMixin
 from accounting.libs.templatetags.currency_filters import currency_formatter
@@ -21,15 +23,12 @@ from .managers import (
   BillQuerySet,
   ExpenseClaimQuerySet)
 
+
+
 TWO_PLACES = D(10) ** -2
 
 
-class Organization(models.Model):
-  
-  display_name = models.CharField(
-    max_length=150,
-    help_text="Name that you communicate",
-  )
+class Organization(BusinessSubject):
   
   legal_name = models.CharField(
     max_length=150,

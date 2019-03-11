@@ -60,7 +60,7 @@ class OrganizationForm(ModelForm):
   class Meta:
     model = Organization
     fields = (
-      "display_name",
+      "name",
       "legal_name",
       "members",
     )

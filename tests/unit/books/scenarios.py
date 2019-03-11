@@ -18,7 +18,7 @@ class Alfa_Organization:
   
   def setUp(self):
     super().setUp()
-    self.organization_a = G(Organization, display_name='Organization Alfa')
+    self.organization_a = G(Organization, name='Organization Alfa')
     self.iva20_a = G(TaxRate, organization=self.organization_a, name="Iva 20", rate=D('0.20'))
     
   

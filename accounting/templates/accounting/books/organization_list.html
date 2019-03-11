@@ -18,7 +18,7 @@
             {% for orga in organizations %}
             <tr>
                 <td>{{ orga.id }}</td>
-                <td>{{ orga.display_name }}</td>
+                <td>{{ orga.name }}</td>
                 <td>{{ orga.legal_name }}</td>
                 <td>{{ orga.turnover_excl_tax|currency|default:"-" }}</td>
                 <td class="text-right">

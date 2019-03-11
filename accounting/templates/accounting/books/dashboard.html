@@ -3,7 +3,7 @@
 
 {% block content %}
 <h1 class="page-header">
-  {{ organization.display_name }} <small>/ organization detail</small>
+  {{ organization.name }} <small>/ organization detail</small>
   <div class="btn-group pull-right">
     <a href="{% url 'books:organization-edit' organization.pk %}" class="btn btn-secondary" role="button">Edit</a>
   </div>

@@ -16,9 +16,9 @@ class TestUserBelongsToOrganization(TestCase):
         self.user.delete()
 
     def test_no_organization_by_default(self):
-        self.assertEquals(self.user.organizations.all().count(), 0)
+        self.assertEqual(self.user.organizations.all().count(), 0)
 
     def test_belongs_to_an_organization(self):
         orga = G(Organization)
         orga.members.add(self.user)
-        self.assertEquals(self.user.organizations.all().count(), 1)
+        self.assertEqual(self.user.organizations.all().count(), 1)
