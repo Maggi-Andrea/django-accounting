@@ -6,7 +6,7 @@ class PrimaryKeyRelatedField(object):
   pass
 
 
-class CheckResult(object):
+class CheckResult:
   """
   Stands for a checking result of a model field
   """
@@ -55,6 +55,17 @@ class CheckResult(object):
   @property
   def has_passed(self):
     return self.result == self.RESULT_PASSED
+  
+  def __str__(self):
+    result = "%s: %s" % (self.field.name, self.result)
+    if self.has_failed:
+      result = "%s.%s" % (result, self.level)
+    if self.message:
+      result = "%s - %s" % (result, self.message)
+    return result
+  
+  def __repr__(self):
+    return "%s(%s,%s,%s,%s)" % (self.__class__.__name__, self.field, self.result, self.level, self.message)
 
 
 class CheckingModelOptions(object):
@@ -78,38 +89,8 @@ class CheckingModelMixin(object):
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self.opts = self._options_class(getattr(self, 'CheckingOptions', None))
-
-  def has_custom_check_for_field(self, field_name):
-    return hasattr(self, 'check_%s' % field_name)
-
-  def get_check_for_field(self, field_name, checking_fields=None):
-    if checking_fields is None:
-      checking_fields = self.get_checking_fields()
-
-    if field_name not in checking_fields:
-      raise AttributeError("Field '%s' not checkable" % field_name)
-
-    field = checking_fields.get(field_name)
-    check = CheckResult(field=field)
-
-    # custom check method
-    if self.has_custom_check_for_field(field_name):
-      return getattr(self, 'check_%s' % field_name)(check)
-
-    # default check
-    if isinstance(field, PrimaryKeyRelatedField):
-      value = getattr(self, field_name).all()
-      has_failed = bool(value.count() == 0)
-    else:
-      value = getattr(self, field_name)
-      has_failed = bool(value in EMPTY_VALUES)
-
-    if has_failed:
-      check.mark_fail()
-    else:
-      check.mark_pass()
-    return check
-
+    
+  
   def get_checking_fields(self, special_exclude=['id']):
     """
     Returns the set of fields on which we perform checkings
@@ -150,6 +131,37 @@ class CheckingModelMixin(object):
         ret.pop(key, None)
 
     return ret
+
+  def has_custom_check_for_field(self, field_name):
+    return hasattr(self, 'check_%s' % field_name)
+
+  def get_check_for_field(self, field_name, checking_fields=None):
+    if checking_fields is None:
+      checking_fields = self.get_checking_fields()
+
+    if field_name not in checking_fields:
+      raise AttributeError("Field '%s' not checkable" % field_name)
+
+    field = checking_fields.get(field_name)
+    check = CheckResult(field=field)
+
+    # custom check method
+    if self.has_custom_check_for_field(field_name):
+      return getattr(self, 'check_%s' % field_name)(check)
+
+    # default check
+    if isinstance(field, PrimaryKeyRelatedField):
+      value = getattr(self, field_name).all()
+      has_failed = bool(value.count() == 0)
+    else:
+      value = getattr(self, field_name)
+      has_failed = bool(value in EMPTY_VALUES)
+
+    if has_failed:
+      check.mark_fail()
+    else:
+      check.mark_pass()
+    return check
 
   def check_fields(self):
     """

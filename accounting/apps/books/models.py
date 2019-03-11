@@ -25,19 +25,28 @@ TWO_PLACES = D(10) ** -2
 
 
 class Organization(models.Model):
-  display_name = models.CharField(max_length=150,
-    help_text="Name that you communicate")
-  legal_name = models.CharField(max_length=150,
-    help_text="Official name to appear on your reports, sales "
-          "invoices and bills")
+  
+  display_name = models.CharField(
+    max_length=150,
+    help_text="Name that you communicate",
+  )
+  
+  legal_name = models.CharField(
+    max_length=150,
+    help_text="Official name to appear on your reports, sales invoices and bills",
+  )
 
   owner = models.ForeignKey(
     to=settings.AUTH_USER_MODEL,
     on_delete=models.CASCADE,
-    related_name="owned_organizations")
-  members = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                   related_name="organizations",
-                   blank=True, null=True)
+    related_name="owned_organizations",
+  )
+  
+  members = models.ManyToManyField(
+    settings.AUTH_USER_MODEL,
+    related_name="organizations",
+    blank=True,
+  )
 
   class Meta:
     pass
@@ -84,7 +93,7 @@ class Organization(models.Model):
   def overdue_total(self):
     due_invoices = self.invoices.dued()
     if not due_invoices:
-      return 0
+      return D('0.00')
     due_turnonver = due_invoices.turnover_incl_tax()
     total_paid = due_invoices.total_paid()
     return due_turnonver - total_paid
@@ -119,8 +128,8 @@ class TaxRate(models.Model):
     validators=[
       MinValueValidator(D('0')),
       MaxValueValidator(D('1')),
-      ]
-    )
+      ],
+  )
 
   class Meta:
     pass
@@ -130,27 +139,45 @@ class TaxRate(models.Model):
 
 
 class AbstractSale(CheckingModelMixin, models.Model):
-  number = models.IntegerField(default=1,
-                 db_index=True)
+  
+  number = models.IntegerField(
+    default=1,
+    db_index=True,
+  )
 
   # Total price needs to be stored with and wihtout taxes
   # because the tax percentage can vary depending on the associated lines
-  total_incl_tax = models.DecimalField("Total (inc. tax)",
-                     decimal_places=2,
-                     max_digits=12,
-                     default=D('0'))
-  total_excl_tax = models.DecimalField("Total (excl. tax)",
-                     decimal_places=2,
-                     max_digits=12,
-                     default=D('0'))
+  total_incl_tax = models.DecimalField(
+    verbose_name="Total (inc. tax)",
+    decimal_places=2,
+    max_digits=12,
+    default=D('0'),
+  )
+  
+  total_excl_tax = models.DecimalField(
+    verbose_name="Total (excl. tax)",
+    decimal_places=2,
+    max_digits=12,
+    default=D('0'),
+  )
 
   # tracking
-  date_issued = models.DateField(default=date.today)
-  date_dued = models.DateField("Due date",
-                 blank=True, null=True,
-                 help_text="The date when the total amount "
-                       "should have been collected")
-  date_paid = models.DateField(blank=True, null=True)
+  date_issued = models.DateField(
+    default=date.today,
+  )
+  
+  date_dued = models.DateField(
+    verbose_name="Due date",
+    default=None,
+    blank=True, 
+    null=True,
+    help_text="The date when the total amount should have been collected",
+  )
+  
+  date_paid = models.DateField(
+    blank=True,
+    null=True,
+  )
 
   class Meta:
     abstract = True
@@ -174,6 +201,7 @@ class AbstractSale(CheckingModelMixin, models.Model):
   def compute_totals(self):
     self.total_excl_tax = self.get_total_excl_tax()
     self.total_incl_tax = self.get_total_incl_tax()
+    return self
 
   def _get_total(self, prop):
     """
@@ -189,6 +217,9 @@ class AbstractSale(CheckingModelMixin, models.Model):
   @property
   def total_tax(self):
     return self.total_incl_tax - self.total_excl_tax
+  
+  def get_total_tax(self):
+    return self._get_total('line_price_tax')
 
   def get_total_excl_tax(self):
     return self._get_total('line_price_excl_tax')
@@ -231,12 +262,13 @@ class AbstractSale(CheckingModelMixin, models.Model):
     return payroll
 
   def _check_total(self, check, total, computed_total):
+    import html
     if total.quantize(TWO_PLACES) != computed_total.quantize(TWO_PLACES):
       check.mark_fail(level=check.LEVEL_ERROR,
               message="The computed amount isn't correct, it "
                   "should be {}, please edit and save the "
                   "{} to fix it.".format(
-                    currency_formatter(total),
+                    html.escape(currency_formatter(total)),
                     self._meta.verbose_name))
     else:
       check.mark_pass()
@@ -276,23 +308,23 @@ class AbstractSale(CheckingModelMixin, models.Model):
 class AbstractSaleLine(models.Model):
   label = models.CharField(
     max_length=255,
-    )
+  )
   
   description = models.TextField(
     blank=True,
     null=True,
-    )
+  )
   
   unit_price_excl_tax = models.DecimalField(
     max_digits=8,
     decimal_places=2,
-    )
+  )
   
   quantity = models.DecimalField(
     max_digits=8,
     decimal_places=2,
     default=1,
-    )
+  )
 
   class Meta:
     abstract = True
@@ -307,18 +339,24 @@ class AbstractSaleLine(models.Model):
     tax = unit * self.tax_rate.rate
     p = prices.Price(settings.ACCOUNTING_DEFAULT_CURRENCY, unit, tax=tax)
     return p
+  
+  @property
+  def line_price(self):
+    unit = self.quantity * self.unit_price.excl_tax
+    tax = unit * self.tax_rate.rate
+    return prices.Price(settings.ACCOUNTING_DEFAULT_CURRENCY, unit, tax=tax)
 
   @property
   def line_price_excl_tax(self):
-    return self.quantity * self.unit_price.excl_tax
+    return self.line_price.excl_tax
 
   @property
   def line_price_incl_tax(self):
-    return self.quantity * self.unit_price.incl_tax
+    return self.line_price.incl_tax
 
   @property
-  def taxes(self):
-    return self.line_price_incl_tax - self.line_price_excl_tax
+  def line_price_tax(self):
+    return self.line_price.tax
 
   def from_client(self):
     raise NotImplementedError
@@ -339,7 +377,8 @@ class Estimate(AbstractSale):
     on_delete=models.CASCADE,
     verbose_name="To Client")
   
-  payments = GenericRelation('books.Payment')
+  payments = GenericRelation(
+    to='books.Payment')
 
   objects = EstimateQuerySet.as_manager()
 
