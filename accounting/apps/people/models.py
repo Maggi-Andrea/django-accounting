@@ -3,6 +3,7 @@ from decimal import Decimal as D
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
 class BusinessSubject(models.Model):
   
   name = models.CharField(
@@ -10,30 +11,29 @@ class BusinessSubject(models.Model):
     help_text = "Business communicated name",
   )
   
-  class Meta:
-    abstract = True
-
-
-class Client(BusinessSubject):
   # address
-  address_line_1 = models.CharField(max_length=128)
-  address_line_2 = models.CharField(max_length=128,
-                    blank=True, null=True)
-  city = models.CharField(max_length=64)
-  postal_code = models.CharField(max_length=7)
-  country = models.CharField(max_length=50)
-
-  organization = models.ForeignKey(
-    to='books.Organization',
-    on_delete=models.CASCADE,
-    related_name="clients")
-
-  class Meta:
-    pass
-
-  def __str__(self):
-    return self.name
-
+  address_line_1 = models.CharField(
+    max_length=128,
+  )
+  
+  address_line_2 = models.CharField(
+    max_length=128,
+    blank=True,
+    null=True
+  )
+  
+  city = models.CharField(
+    max_length=64
+  )
+  
+  postal_code = models.CharField(
+    max_length=7
+  )
+  
+  country = models.CharField(
+    max_length=50
+  )
+  
   def active_address_fields(self):
     """
     Return the non-empty components of the address
@@ -45,10 +45,27 @@ class Client(BusinessSubject):
 
   def full_address(self, separator="\n"):
     return separator.join(filter(bool, self.active_address_fields()))
+  
+  class Meta:
+    abstract = True
+  
+class BusinessOrganization(BusinessSubject):
+  
+  organization = models.ForeignKey(
+    to='books.Organization',
+    on_delete=models.CASCADE,
+    related_name="%(app_label)s_%(class)ss")
+  
+class Client(BusinessOrganization):
+
+  class Meta:
+    pass
+
+  def __str__(self):
+    return self.name
 
 
-class Employee(models.Model):
-  first_name = models.CharField(max_length=150)
+class Employee(BusinessOrganization):
   last_name = models.CharField(max_length=150)
   email = models.EmailField(max_length=254)
 
@@ -61,7 +78,10 @@ class Employee(models.Model):
     ]
   )
 
-  salary_follows_profits = models.BooleanField(default=False)
+  salary_follows_profits = models.BooleanField(
+    default=False,
+  )
+  
   shares_percentage = models.DecimalField(
     max_digits=6,
     decimal_places=5,
@@ -71,11 +91,6 @@ class Employee(models.Model):
     ]
   )
 
-  organization = models.ForeignKey(
-    to='books.Organization',
-    on_delete=models.CASCADE,
-    related_name="employees")
-
   class Meta:
     pass
 
@@ -84,4 +99,4 @@ class Employee(models.Model):
 
   @property
   def composite_name(self):
-    return "{} {}".format(self.first_name, self.last_name)
+    return "{} {}".format(self.name, self.last_name)

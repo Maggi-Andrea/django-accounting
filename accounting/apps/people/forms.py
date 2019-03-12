@@ -28,7 +28,7 @@ class EmployeeForm(ModelForm):
     class Meta:
         model = Employee
         fields = (
-            "first_name",
+            "name",
             "last_name",
             "email",
 

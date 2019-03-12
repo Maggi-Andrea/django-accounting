@@ -23,8 +23,6 @@ from .managers import (
   BillQuerySet,
   ExpenseClaimQuerySet)
 
-
-
 TWO_PLACES = D(10) ** -2
 
 
@@ -138,12 +136,12 @@ class TaxRate(models.Model):
 
 
 class AbstractSale(CheckingModelMixin, models.Model):
-  
+
   number = models.IntegerField(
     default=1,
     db_index=True,
   )
-
+  
   # Total price needs to be stored with and wihtout taxes
   # because the tax percentage can vary depending on the associated lines
   total_incl_tax = models.DecimalField(

@@ -7,7 +7,7 @@
   <thead>
     <tr>
       <th>#</th>
-      <th>First name</th>
+      <th>Name</th>
       <th>Last name</th>
       <th>Email</th>
       <th class="text-right">Actions</th>
@@ -17,7 +17,7 @@
     {% for emp in employees %}
     <tr>
       <td>{{ emp.id }}</td>
-      <td>{{ emp.first_name }}</td>
+      <td>{{ emp.name }}</td>
       <td>{{ emp.last_name }}</td>
       <td>{{ emp.email }}</td>
       <td class="text-right">
