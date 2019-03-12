@@ -50,7 +50,7 @@ class ClientForOrganizationChoices(ModelSelect2Widget):
 class EmployeeForOrganizationChoices(ModelSelect2Widget):
   queryset = Employee.objects.all()
   search_fields = (
-    'first_name__icontains',
+    'name__icontains',
     'last_name__icontains',
     'email__icontains',
   )
@@ -59,10 +59,20 @@ class OrganizationForm(ModelForm):
 
   class Meta:
     model = Organization
+    exclude = (
+      'owner',
+    )
+    
     fields = (
-      "name",
-      "legal_name",
-      "members",
+      'name',
+      'legal_name',
+      'members',
+      
+      "address_line_1",
+      "address_line_2",
+      "city",
+      "postal_code",
+      "country",
     )
     
     widgets = {
