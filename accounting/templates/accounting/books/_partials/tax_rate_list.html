@@ -3,20 +3,20 @@
 <div class="">
   <table class="table table-striped">
     <thead>
-      <tr class="row">
-        <th scope="col" class="col-sm-1">#</th>
-        <th scope="col" class="col-sm-3">Name</th>
-        <th scope="col" class="col-sm-3">Rate (%)</th>
-        <th scope="col" class="col-sm-5 text-right">Actions</th>
+      <tr class="">
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Rate (%)</th>
+        <th scope="col" class="text-right">Actions</th>
       </tr>
     </thead>
     <tbody>
       {% for tax_rate in tax_rates %}
-      <tr class="row">
-        <td class="col-sm-1">{{ forloop.counter }}</td>
-        <td class="col-sm-3">{{ tax_rate.name }}</td>
-        <td class="col-sm-3">{{ tax_rate.rate|percentage }}</td>
-        <td class="col-sm-5 text-right">
+      <tr class="">
+        <td class="">{{ forloop.counter }}</td>
+        <td class="">{{ tax_rate.name }}</td>
+        <td class="">{{ tax_rate.rate|percentage }}</td>
+        <td class="text-right">
           <a href="{% url 'books:tax_rate-edit' tax_rate.pk %}" class="btn btn-warning btn-sm" role="button">Edit</a>
           <a href="{% url 'books:tax_rate-delete' tax_rate.pk %}" class="btn btn-danger btn-sm" role="button">Delete</a>
         </td>

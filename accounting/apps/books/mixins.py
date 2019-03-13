@@ -97,24 +97,24 @@ class AutoSetSelectedOrganizationMixin(object):
     obj.organization = orga
 
     return super().form_valid(form)
-
-
-class AbstractSaleCreateUpdateMixin(RestrictToOrganizationFormRelationsMixin):
-  formset_class = None
+  
+class SaleLineCreateUpdateMixin(RestrictToOrganizationFormRelationsMixin):
+  inlines_formset_pairs = None
 
   def get_context_data(self, **kwargs):
-    assert self.formset_class is not None, "No formset class specified"
+    assert self.inlines_formset_pairs is not None, "No formset class specified"
     context = super().get_context_data(**kwargs)
     orga = organization_manager.get_selected_organization(self.request)
-    if self.request.POST:
-      context['line_formset'] = self.formset_class(
-        self.request.POST,
-        instance=self.object,
-        organization=orga)
-    else:
-      context['line_formset'] = self.formset_class(
-        instance=self.object,
-        organization=orga)
+    for formset_name, formset_class in self.inlines_formset_pairs:
+      if self.request.POST:
+        context[formset_name] = formset_class(
+          data=self.request.POST,
+          instance=self.object,
+          organization=orga)
+      else:
+        context[formset_name] = formset_class(
+          instance=self.object,
+          organization=orga)
     return context
 
   def get_form(self, form_class=None):
@@ -126,13 +126,15 @@ class AbstractSaleCreateUpdateMixin(RestrictToOrganizationFormRelationsMixin):
 
   def form_valid(self, form):
     context = self.get_context_data()
-    line_formset = context['line_formset']
-    if not line_formset.is_valid():
-      return super().form_invalid(form)
-
+    for formset_name, _ in self.inlines_formset_pairs:
+      line_formset = context[formset_name]
+      if not line_formset.is_valid():
+        return super().form_invalid(form)
     self.object = form.save()
-    line_formset.instance = self.object
-    line_formset.save()
+    for formset_name, _ in self.inlines_formset_pairs:
+      line_formset = context[formset_name]
+      line_formset.instance = self.object
+      line_formset.save()
 
     # update totals
     self.object.compute_totals()

@@ -11,12 +11,13 @@ from .mixins import (
     RestrictToSelectedOrganizationQuerySetMixin,
     SaleListQuerySetMixin,
     AutoSetSelectedOrganizationMixin,
-    AbstractSaleCreateUpdateMixin,
+    SaleLineCreateUpdateMixin,
     AbstractSaleDetailMixin,
     PaymentFormMixin)
 from .models import (
     Organization,
     TaxRate,
+    ContributionRate,
     Estimate,
     Invoice,
     Bill,
@@ -25,10 +26,12 @@ from .models import (
 from .forms import (
     OrganizationForm,
     TaxRateForm,
+    ContributionRateForm,
     EstimateForm,
     EstimateLineFormSet,
     InvoiceForm,
     InvoiceLineFormSet,
+    InvoiceContributionFormSet,
     BillForm,
     BillLineFormSet,
     ExpenseClaimForm,
@@ -198,6 +201,17 @@ class TaxRateDeleteView(generic.DeleteView):
     template_name = "accounting/_generics/delete_entity.html"
     model = TaxRate
     success_url = reverse_lazy('books:tax_rate-list')
+    
+class ContributionRateListView(RestrictToSelectedOrganizationQuerySetMixin, generic.ListView):
+    template_name = "accounting/books/contribution_rate_list.html"
+    model = ContributionRate
+    context_object_name = "contribution_rates"
+    
+class ContributionCreateView(AutoSetSelectedOrganizationMixin, generic.CreateView):
+    template_name = "accounting/books/contribution_create_or_update.html"
+    model = ContributionRate
+    form_class = ContributionRateForm
+    success_url = reverse_lazy("books:contribution_rate-list")
 
 
 class PaymentUpdateView(generic.UpdateView):
@@ -232,19 +246,13 @@ class EstimateListView(RestrictToSelectedOrganizationQuerySetMixin,
 
 
 class EstimateCreateView(AutoSetSelectedOrganizationMixin,
-                         AbstractSaleCreateUpdateMixin,
+                         SaleLineCreateUpdateMixin,
                          generic.CreateView):
     template_name = "accounting/books/sale_create_or_update.html"
     model = Estimate
     form_class = EstimateForm
-    formset_class = EstimateLineFormSet
+    inlines_formset_pairs = (('line_formset', EstimateLineFormSet),)
     success_url = reverse_lazy("books:estimate-list")
-
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        orga = organization_manager.get_selected_organization(self.request)
-        self.restrict_fields_choices_to_organization(form, orga)
-        return form
 
     def get_initial(self):
         initial = super().get_initial()
@@ -256,12 +264,12 @@ class EstimateCreateView(AutoSetSelectedOrganizationMixin,
 
 
 class EstimateUpdateView(AutoSetSelectedOrganizationMixin,
-                         AbstractSaleCreateUpdateMixin,
+                         SaleLineCreateUpdateMixin,
                          generic.UpdateView):
     template_name = "accounting/books/sale_create_or_update.html"
     model = Estimate
     form_class = EstimateForm
-    formset_class = EstimateLineFormSet
+    inlines_formset_pairs = (('line_formset', EstimateLineFormSet),)
     success_url = reverse_lazy("books:estimate-list")
 
 
@@ -289,36 +297,30 @@ class InvoiceListView(RestrictToSelectedOrganizationQuerySetMixin,
 
 
 class InvoiceCreateView(AutoSetSelectedOrganizationMixin,
-                        AbstractSaleCreateUpdateMixin,
+                        SaleLineCreateUpdateMixin,
                         generic.CreateView):
     template_name = "accounting/books/sale_create_or_update.html"
     model = Invoice
     form_class = InvoiceForm
-    formset_class = InvoiceLineFormSet
+    inlines_formset_pairs = (('line_formset', InvoiceLineFormSet),
+                             ('contribution_formset', InvoiceContributionFormSet))
     success_url = reverse_lazy("books:invoice-list")
-
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        orga = organization_manager.get_selected_organization(self.request)
-        self.restrict_fields_choices_to_organization(form, orga)
-        return form
 
     def get_initial(self):
         initial = super().get_initial()
-
         orga = organization_manager.get_selected_organization(self.request)
         initial['number'] = InvoiceNumberGenerator().next_number(orga)
-
         return initial
 
 
 class InvoiceUpdateView(AutoSetSelectedOrganizationMixin,
-                        AbstractSaleCreateUpdateMixin,
+                        SaleLineCreateUpdateMixin,
                         generic.UpdateView):
     template_name = "accounting/books/sale_create_or_update.html"
     model = Invoice
     form_class = InvoiceForm
-    formset_class = InvoiceLineFormSet
+    inlines_formset_pairs = (('line_formset', InvoiceLineFormSet),
+                             ('contribution_formset', InvoiceContributionFormSet))
     success_url = reverse_lazy("books:invoice-list")
 
 
@@ -349,19 +351,13 @@ class BillListView(RestrictToSelectedOrganizationQuerySetMixin,
 
 
 class BillCreateView(AutoSetSelectedOrganizationMixin,
-                     AbstractSaleCreateUpdateMixin,
+                     SaleLineCreateUpdateMixin,
                      generic.CreateView):
     template_name = "accounting/books/sale_create_or_update.html"
     model = Bill
     form_class = BillForm
-    formset_class = BillLineFormSet
+    inlines_formset_pairs = (('line_formset', BillLineFormSet),)
     success_url = reverse_lazy("books:bill-list")
-
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        orga = organization_manager.get_selected_organization(self.request)
-        self.restrict_fields_choices_to_organization(form, orga)
-        return form
 
     def get_initial(self):
         initial = super().get_initial()
@@ -373,12 +369,12 @@ class BillCreateView(AutoSetSelectedOrganizationMixin,
 
 
 class BillUpdateView(AutoSetSelectedOrganizationMixin,
-                     AbstractSaleCreateUpdateMixin,
+                     SaleLineCreateUpdateMixin,
                      generic.UpdateView):
     template_name = "accounting/books/sale_create_or_update.html"
     model = Bill
     form_class = BillForm
-    formset_class = BillLineFormSet
+    inlines_formset_pairs = (('line_formset', BillLineFormSet),)
     success_url = reverse_lazy("books:bill-list")
 
 
@@ -409,36 +405,31 @@ class ExpenseClaimListView(RestrictToSelectedOrganizationQuerySetMixin,
 
 
 class ExpenseClaimCreateView(AutoSetSelectedOrganizationMixin,
-                             AbstractSaleCreateUpdateMixin,
+                             SaleLineCreateUpdateMixin,
                              generic.CreateView):
-    template_name = "accounting/books/sale_create_or_update.html"
-    model = ExpenseClaim
-    form_class = ExpenseClaimForm
-    formset_class = ExpenseClaimLineFormSet
-    success_url = reverse_lazy("books:expense_claim-list")
+  
+  template_name = "accounting/books/sale_create_or_update.html"
+  model = ExpenseClaim
+  form_class = ExpenseClaimForm
+  inlines_formset_pairs = (('line_formset', ExpenseClaimLineFormSet),)
+  success_url = reverse_lazy("books:expense_claim-list")
 
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        orga = organization_manager.get_selected_organization(self.request)
-        self.restrict_fields_choices_to_organization(form, orga)
-        return form
+  def get_initial(self):
+    initial = super().get_initial()
 
-    def get_initial(self):
-        initial = super().get_initial()
+    orga = organization_manager.get_selected_organization(self.request)
+    initial['number'] = ExpenseClaimNumberGenerator().next_number(orga)
 
-        orga = organization_manager.get_selected_organization(self.request)
-        initial['number'] = ExpenseClaimNumberGenerator().next_number(orga)
-
-        return initial
+    return initial
 
 
 class ExpenseClaimUpdateView(AutoSetSelectedOrganizationMixin,
-                             AbstractSaleCreateUpdateMixin,
+                             SaleLineCreateUpdateMixin,
                              generic.UpdateView):
     template_name = "accounting/books/sale_create_or_update.html"
     model = ExpenseClaim
     form_class = ExpenseClaimForm
-    formset_class = ExpenseClaimLineFormSet
+    inlines_formset_pairs = (('line_formset', ExpenseClaimLineFormSet),)
     success_url = reverse_lazy("books:expense_claim-list")
 
 

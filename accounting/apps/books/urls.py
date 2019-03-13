@@ -42,6 +42,15 @@ urlpatterns = [
   path('tax_rates/<int:pk>/delete/',
     views.TaxRateDeleteView.as_view(),
     name="tax_rate-delete"),
+  
+  #Contribution Rates
+  path('contribution_rates/',
+    views.ContributionRateListView.as_view(),
+    name="contribution_rate-list"),
+  path('contribution_rates/create/',
+    views.ContributionCreateView.as_view(),
+    name="contribution_rate-create"),
+  
 
   # Estimates
   path('estimate/',

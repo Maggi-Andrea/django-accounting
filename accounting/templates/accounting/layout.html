@@ -54,11 +54,13 @@
           {% url 'books:bill-list' as books_bill_list_url %}
           {% url 'books:expense_claim-list' as books_exepense_claim_list_url %}
           {% url 'books:tax_rate-list' as books_tax_rate_list_url %}
+          {% url 'books:contribution_rate-list' as books_contribution_rate_list_url %}
           <li class="nav-item"><a class="nav-link {% active request books_estimate_list_url exact_match=True %}" href="{{ books_estimate_list_url }}">Estimates</a></li>
           <li class="nav-item"><a class="nav-link {% active request books_invoice_list_url exact_match=True %}" href="{{ books_invoice_list_url }}">Invoices</a></li>
           <li class="nav-item"><a class="nav-link {% active request books_bill_list_url exact_match=True %}" href="{{ books_bill_list_url }}">Bills</a></li>
           <li class="nav-item"><a class="nav-link {% active request books_exepense_claim_list_url exact_match=True %}" href="{{ books_exepense_claim_list_url }}">Expense claims</a></li>
           <li class="nav-item"><a class="nav-link {% active request books_tax_rate_list_url exact_match=True %}" href="{{ books_tax_rate_list_url }}">Tax Rates</a></li>
+          <li class="nav-item"><a class="nav-link {% active request books_contribution_rate_list_url exact_match=True %}" href="{{ books_contribution_rate_list_url }}">Contribution Rates</a></li>
         </ul>
         <ul class="nav flex-column">
           {% url 'people:client-list' as clients_client_list_url %}

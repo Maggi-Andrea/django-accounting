@@ -4,10 +4,12 @@ from django.forms.models import inlineformset_factory
 from .models import (
   Organization,
   TaxRate,
+  ContributionRate,
   Estimate,
   EstimateLine,
   Invoice,
   InvoiceLine,
+  InvoiceContribution,
   Bill,
   BillLine,
   ExpenseClaim,
@@ -27,9 +29,9 @@ class RequiredFirstInlineFormSet(BaseInlineFormSet):
   """
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    if len(self.forms) > 0:
-      first_form = self.forms[0]
-      first_form.empty_permitted = False
+#     if len(self.forms) > 0:
+#       first_form = self.forms[0]
+#       first_form.empty_permitted = False
 
 
 class SaleLineInlineFormSet(RequiredFirstInlineFormSet):
@@ -87,29 +89,47 @@ class TaxRateForm(ModelForm):
       "name",
       "rate",
     )
+    
+class ContributionRateForm(ModelForm):
+  class Meta:
+    model = ContributionRate
+    fields = (
+      "name",
+      "rate",
+    )
 
 
 class RestrictLineFormToOrganizationMixin:
+  
+  restricted_files = None
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    instance = kwargs.get('instance', None)
-    if instance:
-      if isinstance(instance, InvoiceLine):
-        organization = instance.invoice.organization
-      elif isinstance(instance, BillLine):
-        organization = instance.bill.organization
-      elif isinstance(instance, ExpenseClaimLine):
-        organization = instance.expense_claim.organization
-      elif isinstance(instance, EstimateLine):
-        organization = instance.invoice.organization
-      else:
-        raise NotImplementedError("The mixin has been applied to a "
-                      "form model that is not supported")
-      self.restrict_to_organization(organization)
+#     instance = kwargs.get('instance', None)
+#     if instance:
+#       if isinstance(instance, InvoiceLine):
+#         organization = instance.invoice.organization
+#       elif isinstance(instance, InvoiceContribution):
+#         organization = instance.invoice.organization
+#       elif isinstance(instance, BillLine):
+#         organization = instance.bill.organization
+#       elif isinstance(instance, ExpenseClaimLine):
+#         organization = instance.expense_claim.organization
+#       elif isinstance(instance, EstimateLine):
+#         organization = instance.invoice.organization
+#       else:
+#         raise NotImplementedError("The mixin has been applied to a "
+#                       "form model that is not supported")
+#       self.restrict_to_organization(organization)
+#     else:
+#       pass
 
   def restrict_to_organization(self, organization):
-    self.fields['tax_rate'].queryset = organization.tax_rates.all()
+    if self.restricted_files:
+      for filed in self.restricted_files:
+        new_queryset = self.fields[filed].queryset.filter(organization=organization)
+        print(filed, self.fields[filed].queryset, new_queryset)
+        self.fields[filed].queryset = new_queryset
 
 
 class EstimateForm(ModelForm):
@@ -142,6 +162,9 @@ class EstimateForm(ModelForm):
 
 
 class EstimateLineForm(RestrictLineFormToOrganizationMixin, ModelForm):
+  
+  restricted_files = ('tax_rate', )
+  
   class Meta:
     model = EstimateLine
     fields = (
@@ -191,6 +214,9 @@ class InvoiceForm(ModelForm):
 
 
 class InvoiceLineForm(RestrictLineFormToOrganizationMixin, ModelForm):
+  
+  restricted_files = ('tax_rate', )
+  
   class Meta:
     model = InvoiceLine
     fields = (
@@ -202,12 +228,35 @@ class InvoiceLineForm(RestrictLineFormToOrganizationMixin, ModelForm):
     )
 
 
-InvoiceLineFormSet = inlineformset_factory(Invoice,
-                       InvoiceLine,
-                       form=InvoiceLineForm,
-                       formset=SaleLineInlineFormSet,
-                       min_num=1,
-                       extra=0)
+InvoiceLineFormSet = inlineformset_factory(
+  parent_model = Invoice,
+  model = InvoiceLine,
+  form=InvoiceLineForm,
+  formset=SaleLineInlineFormSet,
+  min_num=1,
+  extra=0,
+)
+
+class InvoiceContributionForm(RestrictLineFormToOrganizationMixin, ModelForm):
+  
+  restricted_files = ('contribution_rate', 'tax_rate', )
+  
+  class Meta:
+    model = InvoiceContribution
+    fields = (
+      "contribution_rate",
+      "tax_rate",
+    )
+
+InvoiceContributionFormSet = inlineformset_factory(
+  parent_model = Invoice,
+  model = InvoiceContribution,
+  form = InvoiceContributionForm,
+  formset = SaleLineInlineFormSet,
+#   fk_name = '?',
+  extra = 1,
+  min_num = 0,
+)
 
 
 class BillForm(ModelForm):
@@ -239,8 +288,10 @@ class BillForm(ModelForm):
     }
 
 
-class BillLineForm(RestrictLineFormToOrganizationMixin,
-           ModelForm):
+class BillLineForm(RestrictLineFormToOrganizationMixin, ModelForm):
+  
+  restricted_files = ('tax_rate', )
+  
   class Meta:
     model = BillLine
     fields = (
@@ -291,8 +342,10 @@ class ExpenseClaimForm(ModelForm):
     }
 
 
-class ExpenseClaimLineForm(RestrictLineFormToOrganizationMixin,
-               ModelForm):
+class ExpenseClaimLineForm(RestrictLineFormToOrganizationMixin, ModelForm):
+  
+  restricted_files = ('tax_rate', )
+  
   class Meta:
     model = ExpenseClaimLine
     fields = (

@@ -95,8 +95,28 @@ class Organization(BusinessSubject):
     total_paid = due_invoices.total_paid()
     return due_turnonver - total_paid
 
+class Rate(models.Model):
+  
+  name = models.CharField(
+    max_length=50,
+  )
+  
+  rate = models.DecimalField(
+    max_digits=6,
+    decimal_places=5,
+    validators=[
+      MinValueValidator(D('0')),
+      MaxValueValidator(D('1')),
+      ],
+  )
+  
+  class Meta:
+    abstract=True
 
-class TaxRate(models.Model):
+  def __str__(self):
+    return "{} ({})".format(self.name, percentage_formatter(self.rate))
+  
+class TaxRate(Rate):
   """
   Every transaction line item needs a Tax Rate.
   Tax Rates can have multiple Tax Components.
@@ -115,27 +135,69 @@ class TaxRate(models.Model):
     verbose_name="Attached to Organization",
   )
 
-  name = models.CharField(
-    max_length=50,
-  )
-  
-  rate = models.DecimalField(
-    max_digits=6,
-    decimal_places=5,
-    validators=[
-      MinValueValidator(D('0')),
-      MaxValueValidator(D('1')),
-      ],
+  class Meta:
+    pass
+
+class ContributionRate(Rate):
+  """
+  Every transaction line item needs a Tax Rate.
+  Tax Rates can have multiple Tax Components.
+
+  For instance, you can have an item that is charged a Tax Rate
+  called "City Import Tax (8%)" that has two components:
+    - a city tax of 5%
+    - an import tax of 3%.
+
+  *inspired by Xero*
+  """
+  organization = models.ForeignKey(
+    to='books.Organization',
+    on_delete=models.CASCADE,
+    related_name="withholding_rates",
+    verbose_name="Attached to Organization",
   )
 
   class Meta:
     pass
+  
+class TotaLinesMixin:
+  
+  def get_lines_total_tax(self, tax_rate=None):
+    if not hasattr(self, 'lines'): return D('0')
+    lines = self.lines.filter(tax_rate = tax_rate) if tax_rate else self.lines
+    return self._get_total(lines, 'line_price_tax')
 
-  def __str__(self):
-    return "{} ({})".format(self.name, percentage_formatter(self.rate))
+  def get_lines_total_excl_tax(self, tax_rate=None):
+    if not hasattr(self, 'lines'): return D('0')
+    lines = self.lines.filter(tax_rate = tax_rate) if tax_rate else self.lines
+    return self._get_total(lines, 'line_price_excl_tax')
 
+  def get_lines_total_incl_tax(self, tax_rate=None):
+    if not hasattr(self, 'lines'): return D('0')
+    lines = self.lines.filter(tax_rate = tax_rate) if tax_rate else self.lines
+    return self._get_total(lines, 'line_price_incl_tax')
+  
+class TotaContributionsMixin:
+  
+  def get_contributions_total_tax(self, tax_rate=None):
+    if not hasattr(self, 'contributions'): return D('0')
+    contributions = self.contributions.filter(tax_rate = tax_rate) if tax_rate else self.contributions
+    return self._get_total(contributions, 'contribution_tax')
 
-class AbstractSale(CheckingModelMixin, models.Model):
+  def get_contributions_total_excl_tax(self, tax_rate=None):
+    if not hasattr(self, 'contributions'): return D('0')
+    contributions = self.contributions.filter(tax_rate = tax_rate) if tax_rate else self.contributions
+    return self._get_total(contributions, 'contribution_excl_tax')
+
+  def get_contributions_total_incl_tax(self, tax_rate=None):
+    if not hasattr(self, 'contributions'): return D('0')
+    contributions = self.contributions.filter(tax_rate = tax_rate) if tax_rate else self.contributions
+    return self._get_total(contributions, 'contribution_incl_tax')
+  
+class AbstractSale(CheckingModelMixin,
+                   TotaLinesMixin,
+                   TotaContributionsMixin,
+                   models.Model):
 
   number = models.IntegerField(
     default=1,
@@ -200,13 +262,13 @@ class AbstractSale(CheckingModelMixin, models.Model):
     self.total_incl_tax = self.get_total_incl_tax()
     return self
 
-  def _get_total(self, prop):
+  def _get_total(self, field, prop):
     """
     For executing a named method on each line of the basket
     and returning the total.
     """
     total = D('0.00')
-    line_queryset = self.lines.all()
+    line_queryset = field.all()
     for line in line_queryset:
       total = total + getattr(line, prop)
     return total
@@ -215,14 +277,20 @@ class AbstractSale(CheckingModelMixin, models.Model):
   def total_tax(self):
     return self.total_incl_tax - self.total_excl_tax
   
-  def get_total_tax(self):
-    return self._get_total('line_price_tax')
+  def get_total_tax(self, tax_rate=None):
+    lines = self.get_lines_total_tax(tax_rate)
+    contributions = self.get_contributions_total_tax(tax_rate)
+    return lines + contributions
 
-  def get_total_excl_tax(self):
-    return self._get_total('line_price_excl_tax')
+  def get_total_excl_tax(self, tax_rate=None):
+    lines = self.get_lines_total_excl_tax(tax_rate)
+    contributions = self.get_contributions_total_excl_tax(tax_rate)
+    return lines + contributions
 
-  def get_total_incl_tax(self):
-    return self._get_total('line_price_incl_tax')
+  def get_total_incl_tax(self, tax_rate=None):
+    lines = self.get_lines_total_incl_tax(tax_rate)
+    contributions = self.get_contributions_total_incl_tax(tax_rate)
+    return lines + contributions
 
   @property
   def total_paid(self):
@@ -466,6 +534,49 @@ class InvoiceLine(AbstractSaleLine):
   class Meta:
     pass
 
+class InvoiceContribution(models.Model):
+  
+  invoice = models.ForeignKey(
+    to='books.Invoice',
+    on_delete=models.CASCADE,
+    related_name="contributions",
+  )
+  
+  contribution_rate = models.ForeignKey(
+    to='books.ContributionRate',
+    on_delete=models.CASCADE,
+  )
+  
+  tax_rate = models.ForeignKey(
+    to='books.TaxRate',
+    on_delete=models.CASCADE,
+  )
+
+  class Meta:
+    pass
+  
+  @property
+  def amount(self):
+    amount = self.invoice.get_lines_total_excl_tax(self.tax_rate) * self.contribution_rate.rate
+    tax = amount * self.tax_rate.rate
+    return prices.Price(settings.ACCOUNTING_DEFAULT_CURRENCY, amount, tax=tax)
+
+  @property
+  def contribution_excl_tax(self):
+    return self.amount.excl_tax
+
+  @property
+  def contribution_incl_tax(self):
+    return self.amount.incl_tax
+
+  @property
+  def contribution_tax(self):
+    return self.amount.tax
+  
+
+  def __str__(self):
+    return "{} ({})".format(self.label, percentage_formatter(self.rate))
+  
 
 class Bill(AbstractSale):
   organization = models.ForeignKey(

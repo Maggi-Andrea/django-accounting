@@ -29,23 +29,29 @@ class EstimateAdmin(admin.ModelAdmin):
     inlines = (
         EstimateLineInline,
     )
-    readonly = (
+    readonly_fields = (
         'total_incl_tax', 'total_excl_tax',
     )
 
 
 class InvoiceLineInline(admin.TabularInline):
     model = models.InvoiceLine
-    extra = 1
+    extra = 0
+    min_num = 1
+    
+class InvoiceContributionInline(admin.TabularInline):
+    model = models.InvoiceContribution
+    extra = 0
 
 
 @admin.register(models.Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
     inlines = (
         InvoiceLineInline,
+        InvoiceContributionInline,
         PaymentInline,
     )
-    readonly = (
+    readonly_fields = (
         'total_incl_tax', 'total_excl_tax',
     )
 
@@ -61,7 +67,7 @@ class BillAdmin(admin.ModelAdmin):
         BillLineInline,
         PaymentInline,
     )
-    readonly = (
+    readonly_fields = (
         'total_incl_tax', 'total_excl_tax',
     )
 
@@ -77,7 +83,7 @@ class ExpenseClaimAdmin(admin.ModelAdmin):
         ExpenseClaimLineInline,
         PaymentInline,
     )
-    readonly = (
+    readonly_fields = (
         'total_incl_tax', 'total_excl_tax',
     )
 

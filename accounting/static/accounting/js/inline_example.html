@@ -1,0 +1,102 @@
+<div class="js-inline-admin-formset inline-group" id="lines-group" data-inline-type="tabular" data-inline-formset="{&quot;name&quot;: &quot;#lines&quot;, &quot;options&quot;: {&quot;addText&quot;: &quot;Add another Invoice line&quot;, &quot;prefix&quot;: &quot;lines&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
+  <div class="tabular inline-related ">
+    <input type="hidden" name="lines-TOTAL_FORMS" value="1" id="id_lines-TOTAL_FORMS" autocomplete="off">
+    <input type="hidden" name="lines-INITIAL_FORMS" value="1" id="id_lines-INITIAL_FORMS">
+    <input type="hidden" name="lines-MIN_NUM_FORMS" value="1" id="id_lines-MIN_NUM_FORMS">
+    <input type="hidden" name="lines-MAX_NUM_FORMS" value="1000" id="id_lines-MAX_NUM_FORMS" autocomplete="off">
+    <fieldset class="module ">
+      <h2>Invoice lines</h2>
+      <table>
+        <thead>
+          <tr>
+            <th class="original"></th>
+            <th class="required">Label</th>
+            <th>Description</th>
+            <th class="required">Unit price excl tax</th>
+            <th class="required">Quantity</th>
+            <th class="required">Tax rate</th>
+            <th>Delete?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="form-row row1 has_original dynamic-lines" id="lines-0">
+            <td class="original">
+              <p>Consulenza</p>
+              <input type="hidden" name="lines-0-id" value="5" id="id_lines-0-id">
+              <input type="hidden" name="lines-0-invoice" value="2" id="id_lines-0-invoice">
+            </td>
+            <td class="field-label">
+              <input type="text" name="lines-0-label" value="Consulenza" class="vTextField" maxlength="255" id="id_lines-0-label">
+            </td>
+            <td class="field-description">
+              <textarea name="lines-0-description" class="vLargeTextField" cols="40" rows="10" id="id_lines-0-description"></textarea>
+            </td>
+            <td class="field-unit_price_excl_tax">
+              <input type="number" name="lines-0-unit_price_excl_tax" value="1.00" step="0.01" id="id_lines-0-unit_price_excl_tax">
+            </td>
+            <td class="field-quantity">
+              <input type="number" name="lines-0-quantity" value="1.00" step="0.01" id="id_lines-0-quantity">
+            </td>
+            <td class="field-tax_rate">
+              <div class="related-widget-wrapper">
+                <select name="lines-0-tax_rate" id="id_lines-0-tax_rate">
+                  <option value="">---------</option>
+                  <option value="1" selected="">Esente (0.00 %)</option>
+                  <option value="2">Super iva (55.00 %)</option>
+                </select>
+                <a class="related-widget-wrapper-link change-related" id="change_id_lines-0-tax_rate" data-href-template="/admin/books/taxrate/__fk__/change/?_to_field=id&amp;_popup=1" title="Change selected tax rate" href="/admin/books/taxrate/1/change/?_to_field=id&amp;_popup=1">
+                  <img src="/static/admin/img/icon-changelink.svg" alt="Change">
+                </a>
+                <a class="related-widget-wrapper-link add-related" id="add_id_lines-0-tax_rate" href="/admin/books/taxrate/add/?_to_field=id&amp;_popup=1" title="Add another tax rate">
+                  <img src="/static/admin/img/icon-addlink.svg" alt="Add">
+                </a>
+              </div>
+            </td>
+            <td class="delete">
+              <input type="checkbox" name="lines-0-DELETE" id="id_lines-0-DELETE">
+            </td>
+          </tr>
+          <tr class="form-row row2 empty-form" id="lines-empty">
+            <td class="original">
+              <input type="hidden" name="lines-__prefix__-id" id="id_lines-__prefix__-id">
+              <input type="hidden" name="lines-__prefix__-invoice" value="2" id="id_lines-__prefix__-invoice">
+            </td>
+            <td class="field-label">
+              <input type="text" name="lines-__prefix__-label" class="vTextField" maxlength="255" id="id_lines-__prefix__-label">
+            </td>
+            <td class="field-description">
+              <textarea name="lines-__prefix__-description" class="vLargeTextField" cols="40" rows="10" id="id_lines-__prefix__-description"></textarea>
+            </td>
+            <td class="field-unit_price_excl_tax">
+              <input type="number" name="lines-__prefix__-unit_price_excl_tax" step="0.01" id="id_lines-__prefix__-unit_price_excl_tax">
+            </td>
+            <td class="field-quantity">
+              <input type="number" name="lines-__prefix__-quantity" value="1" step="0.01" id="id_lines-__prefix__-quantity">
+            </td>
+            <td class="field-tax_rate">
+              <div class="related-widget-wrapper">
+                <select name="lines-__prefix__-tax_rate" id="id_lines-__prefix__-tax_rate">
+                  <option value="" selected="">---------</option>
+                  <option value="1">Esente (0.00 %)</option>
+                  <option value="2">Super iva (55.00 %)</option>
+                </select>
+                <a class="related-widget-wrapper-link change-related" id="change_id_lines-__prefix__-tax_rate" data-href-template="/admin/books/taxrate/__fk__/change/?_to_field=id&amp;_popup=1" title="Change selected tax rate">
+                  <img src="/static/admin/img/icon-changelink.svg" alt="Change">
+                </a>
+                <a class="related-widget-wrapper-link add-related" id="add_id_lines-__prefix__-tax_rate" href="/admin/books/taxrate/add/?_to_field=id&amp;_popup=1" title="Add another tax rate">
+                  <img src="/static/admin/img/icon-addlink.svg" alt="Add">
+                </a>
+              </div>
+            </td>
+            <td class="delete"></td>
+          </tr>
+          <tr class="add-row">
+            <td colspan="7">
+              <a href="#">Add another Invoice line</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </fieldset>
+  </div>
+</div>
