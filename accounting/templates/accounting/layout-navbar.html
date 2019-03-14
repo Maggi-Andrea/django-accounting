@@ -1,0 +1,37 @@
+{% load icons %}
+<header class="navbar fixed-top navbar-expand-md navbar-light bg-light" role="navigation">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      {% url 'books:organization-selector' as books_organization_selector_url %}
+      {% url 'books:dashboard' as books_dashboard_url %}
+      <ul class="navbar-nav mt-2 mt-md-0 mr-auto" >
+        <li class="nav-item mr-2">
+          <a type="nav-link" href="{{books_organization_selector_url}}" >
+            {% icon 'home' size="2x" %}
+          </a>
+        </li>
+        {% if selected_organization %}
+        <li class="nav-item mr-2">
+          <a type="nav-link" href="{{books_dashboard_url}}" >
+            {{selected_organization.name}}
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+      {% url 'connect:getting-started' as getting_started_url %}
+      <ul class="navbar-nav mt-2 mt-md-0">
+        <li class="nav-item mr-2">
+          <a type="nav-link" href="{{getting_started_url}}">
+            Getting started
+          </a>
+        </li>
+      </ul>
+        <span class="navbar-text">
+          Accounting {{ display_version }}
+        </span>
+    </div>
+  </div>
+</header>

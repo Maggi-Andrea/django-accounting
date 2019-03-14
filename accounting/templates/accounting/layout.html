@@ -1,88 +1,27 @@
 {% extends "accounting/base.html" %}
 
 {% load icons %}
-{% load nav bootstrap4 %}
+{% load bootstrap4 %}
 
 {% block maincontent %}
-	{% block nav %}
-	<div class="navbar navbar-expand navbar-light bg-light" role="navigation">
-		<div class="container-fluid">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-	            <span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				{% url 'books:organization-selector' as books_organization_selector_url %}
-				{% url 'books:dashboard' as books_dashboard_url %}
-				<ul class="navbar-nav mr-auto" >
-					<li class="nav-item" >
-						<a type="nav-link" href="{{ books_organization_selector_url }}" >
-						   {% icon 'home' size="2x" %}
-						</a>
-					</li>
-					{% if selected_organization %}
-						<li class="nav-item">
-						   <a href="{{ books_dashboard_url }}">{{ selected_organization.name }}</a>
-						</li>
-					{% endif %}
-				</ul>
-				{% url 'connect:getting-started' as getting_started_url %}
-				<ul class="navbar-nav">
-					<li class="nav-item">
-					    <a type="nav-link" href="{{ getting_started_url }}">
-					        Getting started
-					    </a>
-					</li>
-				</ul>
-				<span  class="navbar-text">Accounting {{ display_version }}</span>
-			</div>
-		</div>
-	</div>
-	{% endblock nav %}
+  {% block nav %}
+    {% include "accounting/layout-navbar.html" %}
+  {% endblock nav %}
 
   {% block container %}
   <div class="container-fluid">
     <div class="row">
-    {% block sidebar %}
-      <div class="col-sm-3 col-md-2">
-        <ul class="nav flex-column">
-          {% url 'books:dashboard' as books_dashboard_url %}
-          <li class="nav-item"><a class="nav-link {% active request books_dashboard_url exact_match=True %}" href="{{ books_dashboard_url }}">Overview</a></li>
-        </ul>
-        <ul class="nav flex-column">
-          {% url 'books:estimate-list' as books_estimate_list_url %}
-          {% url 'books:invoice-list' as books_invoice_list_url %}
-          {% url 'books:bill-list' as books_bill_list_url %}
-          {% url 'books:expense_claim-list' as books_exepense_claim_list_url %}
-          {% url 'books:tax_rate-list' as books_tax_rate_list_url %}
-          {% url 'books:contribution_rate-list' as books_contribution_rate_list_url %}
-          <li class="nav-item"><a class="nav-link {% active request books_estimate_list_url exact_match=True %}" href="{{ books_estimate_list_url }}">Estimates</a></li>
-          <li class="nav-item"><a class="nav-link {% active request books_invoice_list_url exact_match=True %}" href="{{ books_invoice_list_url }}">Invoices</a></li>
-          <li class="nav-item"><a class="nav-link {% active request books_bill_list_url exact_match=True %}" href="{{ books_bill_list_url }}">Bills</a></li>
-          <li class="nav-item"><a class="nav-link {% active request books_exepense_claim_list_url exact_match=True %}" href="{{ books_exepense_claim_list_url }}">Expense claims</a></li>
-          <li class="nav-item"><a class="nav-link {% active request books_tax_rate_list_url exact_match=True %}" href="{{ books_tax_rate_list_url }}">Tax Rates</a></li>
-          <li class="nav-item"><a class="nav-link {% active request books_contribution_rate_list_url exact_match=True %}" href="{{ books_contribution_rate_list_url }}">Contribution Rates</a></li>
-        </ul>
-        <ul class="nav flex-column">
-          {% url 'people:client-list' as clients_client_list_url %}
-          {% url 'people:employee-list' as employees_employee_list_url %}
-          <li class="nav-item"><a class="nav-link {% active request clients_client_list_url exact_match=True %}" href="{{ clients_client_list_url }}">Clients</a></li>
-          <li class="nav-item"><a class="nav-link {% active request employees_employee_list_url exact_match=True %}" href="{{ employees_employee_list_url }}">Employees</a></li>
-        </ul>
-        <ul class="nav flex-column">
-          {% url 'reports:report-list' as reports_report_list_url %}
-          {% url 'reports:settings-list' as reports_settings_list_url %}
-          <li class="nav-item"><a class="nav-link {% active request reports_report_list_url exact_match=True %}" href="{{ reports_report_list_url }}">Reports</a></li>
-          <li class="nav-item"><a class="nav-link {% active request reports_settings_list_url exact_match=True %}" href="{{ reports_settings_list_url }}">Settings</a></li>
-        </ul>
-        <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link disabled" href="">Reconciliation</a></li>
-        </ul>
+      {% block sidebar %}
+      <div class="col-md-2 border-right sidebar">
+        <div class="">
+          {% include "accounting/layout-sidebar.html" %}
+        </div>
       </div>
-    {% endblock sidebar %}
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      {% endblock sidebar %}
+      <main class="col-md-10 ml-sm-auto" role="main">
         {% bootstrap_messages %}
         {% block content %}{% endblock %}
-      </div>
+      </main>
     </div>
   </div>
   {% endblock container %}
