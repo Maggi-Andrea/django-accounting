@@ -286,6 +286,7 @@ class AbstractSale(CheckingModelMixin,
     lines = self.get_lines_total_excl_tax(tax_rate)
     contributions = self.get_contributions_total_excl_tax(tax_rate)
     return lines + contributions
+  get_total_excl_tax.short_description = 'Total Excluded Taxes'
 
   def get_total_incl_tax(self, tax_rate=None):
     lines = self.get_lines_total_incl_tax(tax_rate)
@@ -575,7 +576,7 @@ class InvoiceContribution(models.Model):
   
 
   def __str__(self):
-    return "{} ({})".format(self.label, percentage_formatter(self.rate))
+    return "{} ({})".format(self.contribution_rate, self.tax_rate)
   
 
 class Bill(AbstractSale):
