@@ -1,4 +1,4 @@
-Django==2.1.4
+Django==2.1.7
 django-bootstrap4
 django_icons
 django-tempus-dominus
