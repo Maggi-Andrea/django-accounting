@@ -9,17 +9,22 @@
 {% endblock head %}
 
 {% block content %}
-<h1 class="page-header">
-  {{object|get_model_verbose_name}} #{{ object.number }} <small>/ detail</small>
-  <div class="btn-group pull-right">
-    {% if object.get_edit_url %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="page-header">
+    {{object|get_model_verbose_name}} #{{ object.number }} <small>/ detail</small>
+  </h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      {% if object.get_edit_url %}
       <a href="{{object.get_edit_url}}" class="btn btn-warning" role="button">Edit</a>
-    {% endif %}
-    {% if object.get_delete_url %}
-      <a href="{{object.get_delete_url}}" class="btn btn-danger" role="button">Supprimer</a>
-    {% endif %}
+      {% endif %}
+      {% if object.get_delete_url %}
+        <a href="{{object.get_delete_url}}" class="btn btn-danger" role="button">Supprimer</a>
+      {% endif %}
+    </div>
   </div>
-</h1>
+</div>
+
 
 {% include "accounting/books/_generics/sale_detail.html" with object=object lines=lines payments=object.payments.all form=form %}
 

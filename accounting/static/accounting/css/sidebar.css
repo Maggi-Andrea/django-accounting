@@ -13,7 +13,7 @@ body {
  */
 
 .sidebar {
-    padding-top: 48px  /* Height of navbar */
+    padding-top: 53px  /* Height of navbar */
   }
 
 @media (min-width: 768px){
@@ -23,13 +23,13 @@ body {
 	  bottom: 0;
 	  left: 0;
 	  z-index: 100; /* Behind the navbar */
-	  padding: 48px 0 0; /* Height of navbar */
+	  padding: 53px 0 0; /* Height of navbar */
 	  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 	}
 	.sidebar-sticky {
 	  position: relative;
 	  top: 0;
-	  height: calc(100vh - 48px);
+	  height: calc(100vh - 53px);
 	  padding-top: .5rem;
 	  overflow-x: hidden;
 	  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
@@ -78,7 +78,7 @@ body {
 
 @media (min-width: 768px) {
   [role="main"] {
-    padding-top: 48px; /* Space for fixed navbar */
+    padding-top: 53px; /* Space for fixed navbar */
   }
 }
 
