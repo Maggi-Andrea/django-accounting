@@ -13,8 +13,7 @@
               {% with client=object.from_client %}
               <h4 class="card-title">From: <a href="{{ client.get_absolute_url }}">{{ client }}</a></h4>
               <address>
-                <strong>{{ client.name }}</strong><br>
-                {{ client.full_address|linebreaksbr }}<br>
+                {{ client.address.full_address|linebreaksbr }}<br>
               </address>
               {% endwith %}
             </div> 
@@ -26,8 +25,7 @@
               {% with client=object.to_client %}
               <h4 class="card-title">To: <a href="{{ client.get_absolute_url }}">{{ client }}</a></h4>
               <address>
-                <strong>{{ client.name }}</strong><br>
-                {{ client.full_address|linebreaksbr }}<br>
+                {{ client.address.full_address|linebreaksbr }}<br>
               </address>
               {% endwith %}
             </div>

@@ -34,7 +34,7 @@ class Test_InvoiceLine(Alfa_Organization, TestCase):
     self.assertEqual(D(   '0.0'), line.line_price_tax)
     self.assertEqual(D('2000.0'), line.line_price_incl_tax)
     
-class Test_InvoiceWithholding(Alfa_Organization, TestCase):
+class Test_InvoiceContribution(Alfa_Organization, TestCase):
   
   def test_amount(self):
     contribution = self.invoice_contribution_a_1_01

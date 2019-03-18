@@ -1,0 +1,11 @@
+{% extends "accounting/layout.html" %}
+
+{% block content %}
+{% include "accounting/_partials/layout_detail_title.html" with object=object extra=object.user.username %}
+
+<div>
+  <div>Codice Fiscale:</div>
+  <div>{{object.fiscal_id}}</div>
+</div>
+
+{% endblock content %}

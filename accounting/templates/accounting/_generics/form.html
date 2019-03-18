@@ -16,18 +16,21 @@
     {% endif %}
 
     <form action="." method="post" class="form">
-        {% csrf_token %}
+      {% csrf_token %}
 
-        {% include "accounting/_partials/form_fields.html" with form=form %}
+      {% include "accounting/_partials/form_fields.html" with form=form %}
+      {% if form.address_form %}
+        {% include "accounting/_partials/form_fields.html" with form=form.address_form %}
+      {% endif%}
 
-        {% buttons %}
-            <button type="submit" class="btn btn-success">
-                {% if object.pk %}
-                    {% icon "hand-o-right" %} Save changes
-                {% else %}
-                    {% icon "thumbs-up" %} Send creation
-                {% endif %}
-            </button>
-        {% endbuttons %}
+      {% buttons %}
+          <button type="submit" class="btn btn-success">
+              {% if object.pk %}
+                  {% icon "hand-o-right" %} Save changes
+              {% else %}
+                  {% icon "thumbs-up" %} Send creation
+              {% endif %}
+          </button>
+      {% endbuttons %}
     </form>
 {% endblock content %}

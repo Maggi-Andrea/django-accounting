@@ -12,7 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 
 
-from accounting.apps.people.models import BusinessSubject
+from accounting.apps.people.models import Address
 from accounting.libs import prices
 from accounting.libs.checks import CheckingModelMixin
 from accounting.libs.templatetags.currency_filters import currency_formatter
@@ -26,11 +26,23 @@ from .managers import (
 TWO_PLACES = D(10) ** -2
 
 
-class Organization(BusinessSubject):
+class Organization(models.Model):
+  
+  display_name = models.CharField(
+    max_length=150,
+    help_text="Name that you communicate",
+  )
   
   legal_name = models.CharField(
     max_length=150,
     help_text="Official name to appear on your reports, sales invoices and bills",
+  )
+  
+  address = models.ForeignKey(
+    to=Address,
+    blank=True,
+    null=True,
+    on_delete = models.SET_NULL,
   )
 
   owner = models.ForeignKey(
@@ -53,6 +65,9 @@ class Organization(BusinessSubject):
 
   def get_absolute_url(self):
     return reverse('books:organization-detail', args=[self.pk])
+  
+  def get_edit_url(self):
+    return reverse('books:organization-edit', args=[self.pk])
 
   @property
   def turnover_excl_tax(self):

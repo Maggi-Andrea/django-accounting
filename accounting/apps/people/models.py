@@ -1,39 +1,36 @@
 from decimal import Decimal as D
 
 from django.db import models
+from django.conf import settings
+from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-class BusinessSubject(models.Model):
-  
-  name = models.CharField(
-    max_length=150,
-    help_text = "Business communicated name",
-  )
-  
+class Address(models.Model):
+ 
   # address
   address_line_1 = models.CharField(
     max_length=128,
   )
-  
+   
   address_line_2 = models.CharField(
     max_length=128,
     blank=True,
     null=True
   )
-  
+   
   city = models.CharField(
     max_length=64
   )
-  
+   
   postal_code = models.CharField(
     max_length=7
   )
-  
+   
   country = models.CharField(
     max_length=50
   )
-  
+   
   def active_address_fields(self):
     """
     Return the non-empty components of the address
@@ -42,21 +39,61 @@ class BusinessSubject(models.Model):
           self.city, self.postal_code, self.country]
     fields = [f.strip() for f in fields if f]
     return fields
-
+ 
   def full_address(self, separator="\n"):
     return separator.join(filter(bool, self.active_address_fields()))
+    
+class FiscalProfile(models.Model):
   
-  class Meta:
-    abstract = True
+  user = models.OneToOneField(
+    to=settings.AUTH_USER_MODEL,
+    on_delete=models.CASCADE,
+    related_name="fiscal_profile",
+    primary_key = True,
+  )
   
-class BusinessOrganization(BusinessSubject):
+  fiscal_id = models.CharField(
+    max_length=20,
+  )
+  
+  address = models.ForeignKey(
+    to=Address,
+    blank=True,
+    null=True,
+    on_delete = models.SET_NULL,
+  )
+  
+  def get_absolute_url(self):
+    return self.get_detail_url()
+  
+  def get_detail_url(self):
+    return reverse('people:fiscalprofile-detail', args=[self.pk])
+
+  def get_edit_url(self):
+    return reverse('people:fiscalprofile-edit', args=[self.pk])
+  
+class BusinessOrganization(models.Model):
   
   organization = models.ForeignKey(
     to='books.Organization',
     on_delete=models.CASCADE,
     related_name="%(app_label)s_%(class)ss")
   
+  class Meta:
+    abstract = True
+  
 class Client(BusinessOrganization):
+  
+  name = models.CharField(
+    max_length=150,
+  )
+  
+  address = models.ForeignKey(
+    to=Address,
+    blank=True,
+    null=True,
+    on_delete = models.SET_NULL,
+  )
 
   class Meta:
     pass
@@ -66,8 +103,23 @@ class Client(BusinessOrganization):
 
 
 class Employee(BusinessOrganization):
-  last_name = models.CharField(max_length=150)
-  email = models.EmailField(max_length=254)
+  
+  first_name = models.CharField(
+    max_length=150,
+  )
+  
+  last_name = models.CharField(
+    max_length=150,
+  )
+  
+  email = models.EmailField()
+  
+  address = models.ForeignKey(
+    to=Address,
+    blank=True,
+    null=True,
+    on_delete = models.SET_NULL,
+  )
 
   payroll_tax_rate = models.DecimalField(
     max_digits=6,

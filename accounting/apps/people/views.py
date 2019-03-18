@@ -4,16 +4,51 @@ from django.urls import reverse
 from accounting.apps.books.mixins import (
     RestrictToSelectedOrganizationQuerySetMixin,
     AutoSetSelectedOrganizationMixin)
-from .models import Client, Employee
-from .forms import ClientForm, EmployeeForm
 
+from .models import Client, Employee, FiscalProfile
+from .forms import ClientForm, EmployeeForm, FiscalProfileForm
+
+
+class FiscalProfileCreateView(generic.CreateView):
+  
+  template_name = "accounting/people/fiscalprofile_edit.html"
+  
+  model = FiscalProfile
+  
+  form_class = FiscalProfileForm
+  
+  def form_valid(self, form):
+    profile = form.save(commit=False)
+    profile.user = self.request.user
+    profile.save()
+    return super().form_valid(form)
+
+class FiscalProfileDetailView(generic.DetailView):
+  
+  template_name = "accounting/people/fiscalprofile_detail.html"
+  
+  model = FiscalProfile
+  
+  def get(self, request, *args, **kwargs):
+    try:
+      self.get_object()
+    except Exception as e:
+      FiscalProfile(request.user, fiscal_id = request.user.username).save()
+    return super().get(request, *args, **kwargs)
+  
+class FiscalProfileEditView(generic.UpdateView):
+  
+  template_name = "accounting/people/fiscalprofile_edit.html"
+  
+  model = FiscalProfile
+  
+  form_class = FiscalProfileForm
 
 class ClientListView(RestrictToSelectedOrganizationQuerySetMixin,
                      generic.ListView):
     template_name = "accounting/people/client_list.html"
     model = Client
     context_object_name = "clients"
-
 
 class ClientCreateView(AutoSetSelectedOrganizationMixin,
                        generic.CreateView):

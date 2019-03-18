@@ -48,8 +48,11 @@ urlpatterns = [
     views.ContributionRateListView.as_view(),
     name="contribution_rate-list"),
   path('contribution_rates/create/',
-    views.ContributionCreateView.as_view(),
+    views.ContributionRateCreateView.as_view(),
     name="contribution_rate-create"),
+  path('contribution_rates/<int:pk>/edit/',
+    views.ContributionRateUpdateView.as_view(),
+    name="contribution_rate-edit"),
   
 
   # Estimates

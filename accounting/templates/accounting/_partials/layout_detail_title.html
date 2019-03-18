@@ -1,0 +1,16 @@
+{% load introspection_filters %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1>
+    {{object|get_model_verbose_name}} {{extra}} <small>/ detail</small>
+  </h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      {% if object.get_edit_url %}
+      <a href="{{object.get_edit_url}}" class="btn btn-warning" role="button">Edit</a>
+      {% endif %}
+      {% if object.get_delete_url %}
+        <a href="{{object.get_delete_url}}" class="btn btn-danger" role="button">Supprimer</a>
+      {% endif %}
+    </div>
+  </div>
+</div>

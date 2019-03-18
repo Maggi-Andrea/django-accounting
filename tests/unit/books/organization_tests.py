@@ -13,7 +13,7 @@ class Test_NewOrganization(scenarios.Alfa_Organization, TestCase):
   
   def test_organization_alfa(self):
     organization = self.organization_a
-    self.assertEqual('Organization Alfa', organization.name)
+    self.assertEqual('Organization Alfa', organization.display_name)
     
     self.assertEqual(D('0'), organization.turnover_excl_tax)
     self.assertEqual(D('0'), organization.turnover_incl_tax)
@@ -32,7 +32,7 @@ class Test_DebtsOrganization(scenarios.Alfa_Bills_1_2, scenarios.Alfa_Organizati
   
   def test_display_name(self):
     organization = self.organization_a
-    self.assertEqual('Organization Alfa', organization.name)
+    self.assertEqual('Organization Alfa', organization.display_name)
     
   def test_(self):
     organization = self.organization_a

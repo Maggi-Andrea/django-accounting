@@ -11,3 +11,7 @@ class ClientAdmin(admin.ModelAdmin):
 @admin.register(models.Employee)
 class EmployeeAdmin(admin.ModelAdmin):
     pass
+  
+@admin.register(models.FiscalProfile)
+class FiscalProfileAdmin(admin.ModelAdmin):
+    pass

@@ -15,6 +15,9 @@ from .models import (
   ExpenseClaim,
   ExpenseClaimLine,
   Payment)
+
+from accounting.apps.people.forms import AddressFormMixin
+
 from accounting.apps.people.models import Client, Employee
 from accounting.apps.people.forms import UserMultipleChoices
 
@@ -57,7 +60,7 @@ class EmployeeForOrganizationChoices(ModelSelect2Widget):
     'email__icontains',
   )
 
-class OrganizationForm(ModelForm):
+class OrganizationForm(AddressFormMixin, ModelForm):
 
   class Meta:
     model = Organization
@@ -66,20 +69,15 @@ class OrganizationForm(ModelForm):
     )
     
     fields = (
-      'name',
+      'display_name',
       'legal_name',
       'members',
-      
-      "address_line_1",
-      "address_line_2",
-      "city",
-      "postal_code",
-      "country",
     )
     
     widgets = {
       'members': UserMultipleChoices(),
     }
+    
 
 
 class TaxRateForm(ModelForm):
