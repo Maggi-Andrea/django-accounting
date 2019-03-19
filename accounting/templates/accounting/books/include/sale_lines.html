@@ -1,0 +1,28 @@
+{% load currency_filters format_filters %}
+<h4>lines:</h4>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Label</th>
+      <th scope="col">Description</th>
+      <th scope="col">Unit (excl. tax)</th>
+      <th scope="col">Qt.</th>
+      <th scope="col">Tax rate</th>
+      <th scope="col" class="text-right">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for line in lines.all %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ line.label }}</td>
+      <td>{{ line.description|linebreaks }}</td>
+      <td>{{ line.unit_price_excl_tax|currency }}</td>
+      <td>{{ line.quantity }}</td>
+      <td>{{ line.tax_rate.rate|percentage }}</td>
+      <td class="text-right">{{ line.line_price_excl_tax|currency }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

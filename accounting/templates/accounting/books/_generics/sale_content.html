@@ -2,7 +2,7 @@
 
 <div class="card">
   <div class="card-header">
-    <h3 class="card-title">Content</h3>
+    <h3 class="card-title">Invoice</h3>
   </div>
   <div class="card-body">
     <div class="d-flex flex-column">
@@ -33,45 +33,23 @@
         </div>
       </div>
       <div>
-        <table class="table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Label</th>
-              <th scope="col">Description</th>
-              <th scope="col">Unit (excl. tax)</th>
-              <th scope="col">Qt.</th>
-              <th scope="col">Tax rate</th>
-              <th scope="col" class="text-right">Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for line in lines.all %}
-            <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>{{ line.label }}</td>
-              <td>{{ line.description|linebreaks }}</td>
-              <td>{{ line.unit_price_excl_tax|currency }}</td>
-              <td>{{ line.quantity }}</td>
-              <td>{{ line.tax_rate.rate|percentage }}</td>
-              <td class="text-right">{{ line.line_price_excl_tax|currency }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        {% include "accounting/books/include/sale_lines.html" with lines=lines %}
+        {% include "accounting/books/include/sale_contributions.html" with lines=contributions %}
       </div>
     </div>
   </div>
   <div class="card-footer">
-    <dl class="row m-0">
-      <dt class="col-sm-1">Sub Total:</dt>
-      <dd class="col-sm">{{object.total_excl_tax|currency }}</dd>
-      <dd class="w-100 m-0 p-0"></dd>
-      <dt class="col-sm-1">Tax:</dt>
-      <dd class="col-sm">{{object.total_tax|currency }}</dd>
-      <dd class="w-100 m-0 p-0"></dd>
-      <dt class="col-sm-1">Total:</dt>
-      <dd class="col-sm">{{object.total_incl_tax|currency }}</dd>
+    <dl class="row m-0 justify-content-end text-right">
+      <dt class="col-auto">Sub Total:</dt>
+      <dd class="col-3 col-xl-2">{{object.total_excl_tax|currency }}</dd>
+    </dl>
+    <dl class="row m-0 justify-content-end text-right">
+      <dt class="col-auto">Tax:</dt>
+      <dd class="col-3 col-xl-2">{{object.total_tax|currency }}</dd>
+    </dl>
+    <dl class="row m-0 justify-content-end text-right">
+      <dt class="col-auto">Total:</dt>
+      <dd class="col-3 col-xl-2">{{object.total_incl_tax|currency }}</dd>
     </dl>
   </div>
 </div>

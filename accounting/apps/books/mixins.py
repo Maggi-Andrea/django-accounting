@@ -170,7 +170,10 @@ class AbstractSaleDetailMixin(object):
     ctx = super().get_context_data(**kwargs)
     obj = self.get_object()
     ctx["checklist"] = obj.full_check()
-    ctx["lines"] = (obj.lines.all().select_related('tax_rate'))
+    if hasattr(obj, 'lines'):
+      ctx["lines"] = obj.lines.all().select_related('tax_rate')
+    if hasattr(obj, 'contributions'):
+      ctx["contributions"] = obj.contributions.all().select_related('contribution_rate', 'tax_rate')
     return ctx
 
 class PaymentFormMixin(generic.edit.FormMixin):

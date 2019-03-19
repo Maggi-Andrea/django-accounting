@@ -1,0 +1,24 @@
+{% load currency_filters format_filters %}
+<h4>contributions:</h4>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Label</th>
+      <th scope="col">Amount (excl. tax)</th>
+      <th scope="col">Tax rate</th>
+      <th scope="col" class="text-right">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for line in lines.all %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ line.contribution_rate.name}}</td>
+      <td>{{ line.contribution_excl_tax|currency }}</td>
+      <td>{{ line.tax_rate.rate|percentage }}</td>
+      <td class="text-right">{{ line.contribution_incl_tax|currency }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

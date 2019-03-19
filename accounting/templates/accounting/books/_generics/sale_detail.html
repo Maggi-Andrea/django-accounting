@@ -1,43 +1,5 @@
-{% load currency_filters bootstrap4 form_filters check_filters check_tags %}
-
-<div class="row">
-    <div class="col-xs-6 col-sm-4">
-        <div class="figure">
-            <h4>{{ object.total_incl_tax|currency|default:"-" }}</h4>
-            <span class="text-muted">Total (incl. tax)</span>
-        </div>
-    </div>
-    <div class="col-xs-6 col-sm-4">
-        <div class="figure">
-            <h4>{{ object.total_excl_tax|currency|default:"-" }}</h4>
-            <span class="text-muted">Total (excl. tax)</span>
-        </div>
-    </div>
-    <div class="col-xs-6 col-sm-4">
-        <div class="figure">
-            <h4>{{ object.total_tax|currency }}</h4>
-            <span class="text-muted">Tax</span>
-        </div>
-    </div>
-    <div class="col-xs-6 col-sm-4">
-        <div class="figure">
-            <h4>{{ object.date_issued|default:"-" }}</h4>
-            <span class="text-muted">Date issued</span>
-        </div>
-    </div>
-    <div class="col-xs-6 col-sm-4">
-        <div class="figure">
-            <h4>{{ object.total_due_incl_tax|currency|default:"-" }}</h4>
-            <span class="text-muted">Total still due (incl. tax)</span>
-        </div>
-    </div>
-    <div class="col-xs-6 col-sm-4">
-        <div class="figure">
-            <h4>{{ object.date_dued|default:"-" }}</h4>
-            <span class="text-muted">Date dued</span>
-        </div>
-    </div>
-</div>
+{% include "accounting/books/include/sale_header.html" with object=object %}
+<hr>
 
 {% include "accounting/books/_generics/checklist.html" with object=object %}
 <hr>
