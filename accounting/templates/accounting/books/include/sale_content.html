@@ -1,9 +1,11 @@
-{% load currency_filters format_filters %}
+{% load currency_filters %}
+{% load format_filters %}
+{% load introspection_filters %}
 
 <div class="card" id="printDiv">
   <div class="card-header">
     <div class="d-flex m-0">
-      <h3 class="card-title flex-grow-1">Invoice</h3>
+      <h3 class="card-title flex-grow-1">{{object|get_model_verbose_name}} {{extra_suffix}}{{extra}}</h3>
       <div class="card-text">
         <button class="btn btn-secondary btn-sm d-print-none" type="submit" id="doPrint">
           Print
