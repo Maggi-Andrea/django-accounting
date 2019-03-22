@@ -24,6 +24,7 @@
         </div>
       </div>
       <div>
+        {% include "accounting/books/include/sale_dates.html" with lines=lines %}
         {% include "accounting/books/include/sale_lines.html" with lines=lines %}
         {% include "accounting/books/include/sale_contributions.html" with lines=contributions %}
       </div>

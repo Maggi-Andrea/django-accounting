@@ -1,19 +1,19 @@
 <div class="card">
-<div class="card-body">
-  <h4 class="card-title">{{from_to}}: <a href="{{ client.get_absolute_url }}">{{ client }}</a></h4>
-  <dl class="row">
-    <dt class="col-lg-3 col-print-3">Vat no:</dt>
-    <dd class="col-lg-9 col-print-9">
-      <address>
-        {{ client.vat_number }}
-      </address>
-    </dd>
-    <dt class="col-lg-3">Address:</dt>
-    <dd class="col-lg-9">
-      <address>
-        {{ client.address.full_address|linebreaksbr }}<br>
-      </address>
-    </dd>
-  </dl>
-</div> 
+  <div class="card-body">
+    <h4 class="card-title">{{from_to}}: <a href="{{ client.get_absolute_url }}">{{ client }}</a></h4>
+    <dl class="row">
+      <dt class="col-lg-3 col-print-3">Vat no:</dt>
+      <dd class="col-lg-9 col-print-9">
+        <address>
+          {{ client.vat_number }}
+        </address>
+      </dd>
+      <dt class="col-lg-3">Address:</dt>
+      <dd class="col-lg-9">
+        <address>
+          {{ client.address.full_address|linebreaksbr }}<br>
+        </address>
+      </dd>
+    </dl>
+  </div> 
 </div>
