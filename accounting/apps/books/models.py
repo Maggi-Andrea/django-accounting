@@ -258,6 +258,12 @@ class AbstractSale(CheckingModelMixin,
     blank=True,
     null=True,
   )
+  
+  description = models.TextField(
+    blank = True,
+    null = True,
+    help_text="Insert notes, description or any relevant information",
+  )
 
   class Meta:
     abstract = True

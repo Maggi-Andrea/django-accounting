@@ -176,7 +176,7 @@ class PayRunReport(BaseReport):
         self.summaries = defaultdict(PayRunSummary)
 
     def generate(self):
-        employee_queryset = self.organization.employees.all()
+        employee_queryset = self.organization.people_employees.all()
         self.generate_for_employees(employee_queryset)
 
     def generate_for_employees(self, employee_queryset):

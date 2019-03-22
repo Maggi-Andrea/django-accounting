@@ -164,4 +164,4 @@ class Employee(BusinessOrganization):
 
   @property
   def composite_name(self):
-    return "{} {}".format(self.name, self.last_name)
+    return "{} {}".format(self.first_name, self.last_name)

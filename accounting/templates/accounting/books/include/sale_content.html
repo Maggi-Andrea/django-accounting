@@ -28,6 +28,9 @@
         {% include "accounting/books/include/sale_lines.html" with lines=lines %}
         {% include "accounting/books/include/sale_contributions.html" with lines=contributions %}
       </div>
+      <p>
+        {{object.description}}
+      </p>
     </div>
   </div>
   <div class="card-footer">

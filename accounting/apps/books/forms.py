@@ -192,6 +192,7 @@ class InvoiceForm(ModelForm):
       "client",
       "date_issued",
       "date_dued",
+      "description"
     )
     widgets = {
       'client' : ClientForOrganizationChoices(),
