@@ -91,8 +91,6 @@ class Client(BusinessOrganization):
   vat_number = models.CharField(
     max_length=30,
     help_text='Fiscal id of the client',
-    blank=False,
-    null=True,
   )
   
   address = models.ForeignKey(
@@ -103,7 +101,9 @@ class Client(BusinessOrganization):
   )
 
   class Meta:
-    pass
+    unique_together = (
+      ('organization', 'vat_number'),
+    )
   
   def get_absolute_url(self):
     return self.get_detail_url()

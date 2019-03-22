@@ -41,8 +41,7 @@ class Organization(models.Model):
   vat_number = models.CharField(
     max_length=30,
     help_text='Fiscal id of the organization',
-    blank=False,
-    null=True,
+    unique=True,
   )
   
   address = models.ForeignKey(
