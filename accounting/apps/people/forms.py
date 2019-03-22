@@ -84,6 +84,7 @@ class ClientForm(AddressFormMixin, ModelForm):
     model = Client
     fields = (
       "name",
+      'vat_number',
     )
 
 

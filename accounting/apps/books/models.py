@@ -38,6 +38,13 @@ class Organization(models.Model):
     help_text="Official name to appear on your reports, sales invoices and bills",
   )
   
+  vat_number = models.CharField(
+    max_length=30,
+    help_text='Fiscal id of the organization',
+    blank=False,
+    null=True,
+  )
+  
   address = models.ForeignKey(
     to=Address,
     blank=True,

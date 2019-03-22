@@ -71,6 +71,7 @@ class OrganizationForm(AddressFormMixin, ModelForm):
     fields = (
       'display_name',
       'legal_name',
+      'vat_number',
       'members',
     )
     

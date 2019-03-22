@@ -16,29 +16,11 @@
   <div class="card-body">
     <div class="d-flex flex-column">
       <div class="d-flex flex-column flex-sm-row justify-content-between">
-        <div class="p-2">
-          <div class="card">
-            <div class="card-body">
-              {% with client=object.from_client %}
-              <h4 class="card-title">From: <a href="{{ client.get_absolute_url }}">{{ client }}</a></h4>
-              <address>
-                {{ client.address.full_address|linebreaksbr }}<br>
-              </address>
-              {% endwith %}
-            </div> 
-          </div>
+        <div class="p-2 flex-grow-1">
+          {% include "accounting/books/include/sale_from_to_client.html" with from_to='From' client=object.from_client %}
         </div>
-        <div class="p-2">
-          <div class="card">
-            <div class="card-body">
-              {% with client=object.to_client %}
-              <h4 class="card-title">To: <a href="{{ client.get_absolute_url }}">{{ client }}</a></h4>
-              <address>
-                {{ client.address.full_address|linebreaksbr }}<br>
-              </address>
-              {% endwith %}
-            </div>
-          </div>
+        <div class="p-2 flex-grow-1">
+          {% include "accounting/books/include/sale_from_to_client.html" with from_to='To' client=object.to_client %}
         </div>
       </div>
       <div>

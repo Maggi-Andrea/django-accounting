@@ -88,6 +88,13 @@ class Client(BusinessOrganization):
     max_length=150,
   )
   
+  vat_number = models.CharField(
+    max_length=30,
+    help_text='Fiscal id of the client',
+    blank=False,
+    null=True,
+  )
+  
   address = models.ForeignKey(
     to=Address,
     blank=True,
@@ -97,6 +104,12 @@ class Client(BusinessOrganization):
 
   class Meta:
     pass
+  
+  def get_absolute_url(self):
+    return self.get_detail_url()
+  
+  def get_detail_url(self):
+    return reverse('people:client-detail', args=[self.pk]) 
 
   def __str__(self):
     return self.name
