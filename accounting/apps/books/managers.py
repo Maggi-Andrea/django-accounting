@@ -3,6 +3,8 @@ from datetime import date
 from django.db import models
 from django.db.models import Sum
 
+from decimal import Decimal as D
+
 
 class TotalQuerySetMixin(object):
 
@@ -10,7 +12,7 @@ class TotalQuerySetMixin(object):
         return self.aggregate(sum=Sum(prop))["sum"]
 
     def total_paid(self):
-        return self._get_total('payments__amount')
+        return self._get_total('payments__amount') or D(0)
 
 
 class InvoiceQuerySetMixin(object):
