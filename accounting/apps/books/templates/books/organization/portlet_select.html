@@ -1,0 +1,34 @@
+{% load currency_filters %}
+
+<div class="kt-portlet">
+	<div class="kt-portlet__head">
+	    <div class="kt-portlet__head-label">
+	        <h3 class="kt-portlet__head-title">
+	            {{ organization.display_name }}
+	        </h3>
+	    </div>
+	    <div class="kt-portlet__head-toolbar">
+	        {% if organization.owner == request.user %}
+	        <span class="badge badge-pill badge-warning">owned</span>
+	        {% else %}
+	        <span class="badge badge-pill badge-info">member</span>
+	        {% endif %}
+	    </div>
+	</div>
+	<div class="kt-portlet__body">
+	    <div class="kt-portlet__content">
+	        <dl class="row">
+	            <dt class="col-4">Turn over (excl. tax)</dt>
+	            <dd class="col-8">{{ organization.turnover_excl_tax|currency|default:"-" }}</dd>
+	            <dt class="col-4">Due payments</dt>
+	            <dd class="col-8">{{ organization.overdue_total|currency|default:0 }}</dd>
+	        </dl>
+	    </div>
+	</div>
+	<div class="kt-portlet__foot kt-portlet__foot--sm kt-align-right">
+	    <form action="{% url 'books:organization-select' organization.pk %}" method="post" id="form_orga_{{organization.pk}}">
+	        {% csrf_token %}
+	    </form>
+	    <button type="submit" role="button" form="form_orga_{{organization.pk}}" class="btn btn-success btn-sm btn-focus btn-pill">Select</button>
+	</div>
+</div>

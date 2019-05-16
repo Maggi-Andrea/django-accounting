@@ -1,0 +1,15 @@
+{% extends "accounting/_layout.html" %}
+
+{% block subheader-toolbar %}
+<a class="btn btn-primary btn-block" role="button" href="{% url 'books:organization-create' %}">New organization</a>
+{% endblock subheader-toolbar %}
+
+{% block content %}
+<div class="row">
+{% for organization in organizations %}
+	<div class="col-lg-6">
+	   {% include 'books/organization/portlet_select.html' with organization=organization %}
+	</div>
+{% endfor %}
+</div>
+{% endblock content %}

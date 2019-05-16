@@ -53,7 +53,7 @@ class OrganizationSelectorView(
     LoginRequiredMixin,
     generic.TemplateView,
   ):
-  template_name = "accounting/books/organization_selector.html"
+  template_name = "books/organization/selector.html"
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
@@ -81,7 +81,7 @@ class DashboardView(
     LoginRequiredMixin,
     generic.DetailView,
   ):
-  template_name = "accounting/books/dashboard.html"
+  template_name = "books/dashboard.html"
   model = Organization
   context_object_name = "organization"
 
@@ -266,7 +266,7 @@ class EstimateListView(
     SaleListQuerySetMixin,
     generic.ListView):
   
-  template_name = "accounting/books/estimate_list.html"
+  template_name = "books/estimate/list.html"
   model = Estimate
   context_object_name = "estimates"
 
@@ -325,7 +325,7 @@ class InvoiceListView(
     SaleListQuerySetMixin,
     generic.ListView):
   
-  template_name = "accounting/books/invoice_list.html"
+  template_name = "books/invoice/list.html"
   model = Invoice
   context_object_name = "invoices"
 
@@ -387,7 +387,7 @@ class BillListView(
     SaleListQuerySetMixin,
     generic.ListView):
   
-  template_name = "accounting/books/bill_list.html"
+  template_name = "books/bill/list.html"
   model = Bill
   context_object_name = "bills"
 
@@ -447,7 +447,7 @@ class BillDetailView(
 class ExpenseClaimListView(RestrictToSelectedOrganizationQuerySetMixin,
                SaleListQuerySetMixin,
                generic.ListView):
-  template_name = "accounting/books/expense_claim_list.html"
+  template_name = "books/expense_claim/list.html"
   model = ExpenseClaim
   context_object_name = "expense_claims"
 

@@ -1,0 +1,57 @@
+{% load nav %}
+
+{% url 'books:dashboard' as books_dashboard_url %}
+<li class="kt-menu__item {% active request books_dashboard_url exact_match=True active='kt-menu__item--active'%}" aria-haspopup="true">
+    <a href="{{books_dashboard_url}}" class="kt-menu__link">
+        <i class="kt-menu__link-icon flaticon2-gear"></i>
+        <span class="kt-menu__link-text">Dashboard</span>
+    </a>
+</li>
+
+{% url 'books:estimate-list' as books_estimate_list_url %}
+<li class="kt-menu__item {% active request books_estimate_list_url exact_match=True active='kt-menu__item--active'%}">
+    <a href="{{books_estimate_list_url}}" class="kt-menu__link" >
+        <i class="kt-menu__link-icon flaticon2-gear"></i>
+        <span class="kt-menu__link-text">Estimates</span>
+    </a>
+</li>
+
+{% url 'books:invoice-list' as books_invoice_list_url %}
+<li class="kt-menu__item {% active request books_invoice_list_url exact_match=True active='kt-menu__item--active'%}">
+    <a href="{{books_invoice_list_url}}" class="kt-menu__link" >
+        <i class="kt-menu__link-icon flaticon2-gear"></i>
+        <span class="kt-menu__link-text">Invoices</span>
+    </a>
+</li>
+
+{% url 'books:bill-list' as books_bill_list_url %}
+<li class="kt-menu__item {% active request books_bill_list_url exact_match=True active='kt-menu__item--active'%}">
+    <a href="{{books_bill_list_url}}" class="kt-menu__link" >
+        <i class="kt-menu__link-icon flaticon2-gear"></i>
+        <span class="kt-menu__link-text">Bills</span>
+    </a>
+</li>
+
+{% url 'books:expense_claim-list' as books_exepense_claim_list_url %}
+<li class="kt-menu__item {% active request books_exepense_claim_list_url exact_match=True active='kt-menu__item--active'%}">
+    <a href="{{books_exepense_claim_list_url}}" class="kt-menu__link" >
+        <i class="kt-menu__link-icon flaticon2-gear"></i>
+        <span class="kt-menu__link-text">Expense claims</span>
+    </a>
+</li>
+
+{% url 'books:tax_rate-list' as books_tax_rate_list_url %}
+<li class="kt-menu__item {% active request books_tax_rate_list_url exact_match=True active='kt-menu__item--active'%}">
+    <a href="{{books_tax_rate_list_url}}" class="kt-menu__link" >
+        <i class="kt-menu__link-icon flaticon2-gear"></i>
+        <span class="kt-menu__link-text">Tax Rates</span>
+    </a>
+</li>
+
+{% url 'books:contribution_rate-list' as books_contribution_rate_list_url %}
+<li class="kt-menu__item {% active request books_contribution_rate_list_url exact_match=True active='kt-menu__item--active'%}">
+    <a href="{{books_contribution_rate_list_url}}" class="kt-menu__link" >
+        <i class="kt-menu__link-icon flaticon2-gear"></i>
+        <span class="kt-menu__link-text">Contribution Rates</span>
+    </a>
+</li>

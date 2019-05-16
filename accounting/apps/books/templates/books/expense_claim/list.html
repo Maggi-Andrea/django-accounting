@@ -1,0 +1,6 @@
+{% extends "accounting/_layout.html" %}
+{% load currency_filters %}
+
+{% block content %}
+    {% include 'books/expense_claim/portlet_table.html' with expense_claims=expense_claims hide_edit=True %}
+{% endblock content %}

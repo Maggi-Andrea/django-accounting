@@ -1,0 +1,6 @@
+{% extends "accounting/_layout.html" %}
+{% load currency_filters %}
+
+{% block content %}
+{% include 'books/estimate/portlet_table.html' with bills=bills hide_edit=True %}
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "accounting/_layout.html" %}
+
+{% block content %}
+
+{% include 'books/organization/portlet_statistic.html' with organization=organization %}
+
+<div class="row">
+  <div class="col-xs-12 col-sm-6">
+    {% include 'books/invoice/portlet_table.html' with invoices=invoices hide_edit=True %}
+  </div>
+  <div class="col-xs-12 col-sm-6">
+    {% include 'books/bill/portlet_table.html' with bills=bills hide_edit=True %}
+  </div>
+</div>
+{% endblock content %}
