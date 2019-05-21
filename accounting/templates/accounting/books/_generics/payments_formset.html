@@ -1,14 +1,16 @@
 {% load bootstrap4 %}
 
 {% if payment_form %}
-<div class="card">
-    <div class="card-header">
-        <h4>Payments</h4>
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+	        <h3 class="kt-portlet__head-title">Payments</h3>
+        </div>
     </div>
-    <div class="card-body">
-    {% include "accounting/books/_partials/payment_list.html" with payments=payments %}
+    <div class="kt-portlet__body">
+        {% include "accounting/books/_partials/payment_list.html" with payments=payments %}
     </div>
-    <div class="card-footer">
+    <div class="kt-portlet__foot">
         <form action="." method="post" class="form">
             {% csrf_token %}
 

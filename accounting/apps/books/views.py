@@ -373,7 +373,7 @@ class InvoiceDetailView(
     AbstractSaleDetailMixin,
     generic.DetailView):
   
-  template_name = "accounting/books/sale_detail.html"
+  template_name = "books/invoice/detail.html"
   model = Invoice
   context_object_name = "invoice"
   payment_form_class = PaymentForm

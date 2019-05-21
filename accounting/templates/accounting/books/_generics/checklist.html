@@ -1,10 +1,12 @@
 {% load check_filters check_tags %}
 {% if checklist %}
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">Checklist</h3>
+<div class="kt-portlet">
+  <div class="kt-portlet__head">
+    <div class="kt-portlet__head-label">
+	    <h3 class="kt-portlet__head-title">Checklist</h3>
+    </div>
   </div>
-  <div class="card-body">
+  <div class="kt-portlet__body">
     <ul class="list-group list-group-flush check-list">
       {% for check in checklist %}
       <li class="list-group-item list-group-item-{{ check|level_to_css_classname }}">
