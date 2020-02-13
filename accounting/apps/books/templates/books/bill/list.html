@@ -1,6 +1,6 @@
-{% extends "accounting/_layout.html" %}
+{% extends "dkt/_layout.html" %}
 {% load currency_filters %}
 
 {% block content %}
-    {% include 'books/bill/portlet_table.html' with bills=bills hide_edit=True %}
+    {% include 'books/bill/portlet/table.html' with bills=bills hide_edit=True %}
 {% endblock content %}

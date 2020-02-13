@@ -119,7 +119,7 @@ class DashboardView(
 
 
 class OrganizationListView(generic.ListView):
-  template_name = "accounting/books/organization_list.html"
+  template_name = "books/organization/list.html"
   model = Organization
   context_object_name = "organizations"
 
@@ -144,7 +144,7 @@ class OrganizationUpdateView(generic.UpdateView):
   template_name = "accounting/books/organization_create_or_update.html"
   model = Organization
   form_class = OrganizationForm
-  
+
   success_url = reverse_lazy("books:organization-list")
 
   def get_queryset(self):
@@ -187,7 +187,7 @@ class OrganizationSelectionView(generic.DetailView):
 
 
 class TaxRateListView(RestrictToSelectedOrganizationQuerySetMixin, generic.ListView):
-  template_name = "accounting/books/tax_rate_list.html"
+  template_name = "books/tax_rates/list.html"
   model = TaxRate
   context_object_name = "tax_rates"
 
@@ -210,28 +210,28 @@ class TaxRateDeleteView(generic.DeleteView):
   template_name = "accounting/_generics/delete_entity.html"
   model = TaxRate
   success_url = reverse_lazy('books:tax_rate-list')
-  
+
 class ContributionRateListView(
     RestrictToSelectedOrganizationQuerySetMixin,
     generic.ListView):
-  
-  template_name = "accounting/books/contribution_rate_list.html"
+
+  template_name = "books/contribution_rates/list.html"
   model = ContributionRate
   context_object_name = "contribution_rates"
-  
+
 class ContributionRateCreateView(
     AutoSetSelectedOrganizationMixin,
     generic.CreateView):
-  
+
   template_name = "accounting/books/contribution_create_or_update.html"
   model = ContributionRate
   form_class = ContributionRateForm
   success_url = reverse_lazy("books:contribution_rate-list")
-  
+
 class ContributionRateUpdateView(
     AutoSetSelectedOrganizationMixin,
     generic.UpdateView):
-  
+
   template_name = "accounting/books/contribution_create_or_update.html"
   model = ContributionRate
   form_class = ContributionRateForm
@@ -265,7 +265,7 @@ class EstimateListView(
     RestrictToSelectedOrganizationQuerySetMixin,
     SaleListQuerySetMixin,
     generic.ListView):
-  
+
   template_name = "books/estimate/list.html"
   model = Estimate
   context_object_name = "estimates"
@@ -275,7 +275,7 @@ class EstimateCreateView(
     AutoSetSelectedOrganizationMixin,
     SaleLineCreateUpdateMixin,
     generic.CreateView):
-  
+
   template_name = "accounting/books/sale_create_or_update.html"
   model = Estimate
   form_class = EstimateForm
@@ -295,7 +295,7 @@ class EstimateUpdateView(
     AutoSetSelectedOrganizationMixin,
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
-  
+
   template_name = "accounting/books/sale_create_or_update.html"
   model = Estimate
   form_class = EstimateForm
@@ -324,7 +324,7 @@ class InvoiceListView(
     RestrictToSelectedOrganizationQuerySetMixin,
     SaleListQuerySetMixin,
     generic.ListView):
-  
+
   template_name = "books/invoice/list.html"
   model = Invoice
   context_object_name = "invoices"
@@ -334,7 +334,7 @@ class InvoiceCreateView(
     AutoSetSelectedOrganizationMixin,
     SaleLineCreateUpdateMixin,
     generic.CreateView):
-  
+
   template_name = "accounting/books/sale_create_or_update.html"
   model = Invoice
   form_class = InvoiceForm
@@ -353,7 +353,7 @@ class InvoiceUpdateView(
     AutoSetSelectedOrganizationMixin,
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
-  
+
   template_name = "accounting/books/sale_create_or_update.html"
   model = Invoice
   form_class = InvoiceForm
@@ -372,7 +372,7 @@ class InvoiceDetailView(
     PaymentFormMixin,
     AbstractSaleDetailMixin,
     generic.DetailView):
-  
+
   template_name = "books/invoice/detail.html"
   model = Invoice
   context_object_name = "invoice"
@@ -386,7 +386,7 @@ class BillListView(
     RestrictToSelectedOrganizationQuerySetMixin,
     SaleListQuerySetMixin,
     generic.ListView):
-  
+
   template_name = "books/bill/list.html"
   model = Bill
   context_object_name = "bills"
@@ -396,7 +396,7 @@ class BillCreateView(
     AutoSetSelectedOrganizationMixin,
     SaleLineCreateUpdateMixin,
     generic.CreateView):
-  
+
   template_name = "accounting/books/sale_create_or_update.html"
   model = Bill
   form_class = BillForm
@@ -416,7 +416,7 @@ class BillUpdateView(
     AutoSetSelectedOrganizationMixin,
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
-  
+
   template_name = "accounting/books/sale_create_or_update.html"
   model = Bill
   form_class = BillForm
@@ -434,7 +434,7 @@ class BillDetailView(
     PaymentFormMixin,
     AbstractSaleDetailMixin,
     generic.DetailView):
-  
+
   template_name = "accounting/books/sale_detail.html"
   model = Bill
   context_object_name = "bill"
@@ -456,7 +456,7 @@ class ExpenseClaimCreateView(
     AutoSetSelectedOrganizationMixin,
     SaleLineCreateUpdateMixin,
     generic.CreateView):
-  
+
   template_name = "accounting/books/sale_create_or_update.html"
   model = ExpenseClaim
   form_class = ExpenseClaimForm
@@ -465,7 +465,7 @@ class ExpenseClaimCreateView(
 
   def get_initial(self):
     initial = super().get_initial()
-    
+
     orga = organization_manager.get_selected_organization(self.request)
     initial['number'] = ExpenseClaimNumberGenerator().next_number(orga)
     return initial
@@ -475,7 +475,7 @@ class ExpenseClaimUpdateView(
     AutoSetSelectedOrganizationMixin,
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
-  
+
   template_name = "accounting/books/sale_create_or_update.html"
   model = ExpenseClaim
   form_class = ExpenseClaimForm
@@ -493,7 +493,7 @@ class ExpenseClaimDetailView(
     PaymentFormMixin,
     AbstractSaleDetailMixin,
     generic.DetailView):
-  
+
   template_name = "accounting/books/sale_detail.html"
   model = ExpenseClaim
   context_object_name = "expense_claim"

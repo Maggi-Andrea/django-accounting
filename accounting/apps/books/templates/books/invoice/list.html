@@ -1,6 +1,5 @@
-{% extends "accounting/_layout.html" %}
-{% load currency_filters %}
+{% extends "dkt/_layout.html" %}
 
 {% block content %}
-    {% include 'books/invoice/portlet_table.html' with invoices=invoices hide_edit=False %}
+{% include 'books/invoice/portlet/table.html' with invoices=invoices hide_edit=False %}
 {% endblock content %}

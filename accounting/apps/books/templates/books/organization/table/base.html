@@ -1,0 +1,27 @@
+{% load currency_filters %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Display name</th>
+            <th>Legal name</th>
+            <th>Turnover</th>
+            <th class="text-right">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for orga in organizations %}
+        <tr>
+            <td>{{ orga.id }}</td>
+            <td>{{ orga.name }}</td>
+            <td>{{ orga.legal_name }}</td>
+            <td>{{ orga.turnover_excl_tax|currency|default:"-" }}</td>
+            <td class="text-right">
+                <a href="{% url 'books:organization-detail' orga.pk %}" class="btn btn-success btn-sm" role="button">View</a>
+                <a href="{% url 'books:organization-edit' orga.pk %}" class="btn btn-warning btn-sm" role="button">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

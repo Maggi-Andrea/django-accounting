@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-app_name = 'accounting.apps.books'
+app_name = 'books'
 
 urlpatterns = [
   path('',
@@ -42,7 +42,7 @@ urlpatterns = [
   path('tax_rates/<int:pk>/delete/',
     views.TaxRateDeleteView.as_view(),
     name="tax_rate-delete"),
-  
+
   #Contribution Rates
   path('contribution_rates/',
     views.ContributionRateListView.as_view(),
@@ -53,7 +53,7 @@ urlpatterns = [
   path('contribution_rates/<int:pk>/edit/',
     views.ContributionRateUpdateView.as_view(),
     name="contribution_rate-edit"),
-  
+
 
   # Estimates
   path('estimate/',

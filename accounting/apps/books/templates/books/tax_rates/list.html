@@ -2,5 +2,5 @@
 {% load currency_filters %}
 
 {% block content %}
-{% include 'books/estimate/portlet_table.html' with bills=bills hide_edit=True %}
+    {% include 'books/tax_rates/portlet/table.html' with tax_rates=tax_rates %}
 {% endblock content %}

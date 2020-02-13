@@ -1,0 +1,6 @@
+{% extends "dkt/_layout.html" %}
+{% load currency_filters %}
+
+{% block content %}
+    {% include "books/contribution_rates/portlet/table.html" with contribution_rates=contribution_rates %}
+{% endblock content %}

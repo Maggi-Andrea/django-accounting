@@ -5,17 +5,16 @@
                 <i class="flaticon-map-location"></i>
             </span>
             <h3 class="kt-portlet__head-title">
-                Bills
-                <small>what you owe</small>
+                Contribution Rates <small>applyed on invoces</small>
             </h3>
         </div>
         <div class="kt-portlet__head-toolbar">
             <div class="kt-portlet__head-group">
-                <a href="{% url 'books:bill-create' %}" class="btn btn-brand btn-sm btn-elevate" role="button"><i class="fa fa-dollar-sign"></i>Add bill</a>
+                <a href="{% url 'books:contribution_rate-create' %}" class="btn btn-brand btn-sm btn-elevate" role="button"><i class="fa fa-dollar-sign"></i>Add a Contribution rate</a>
             </div>
         </div>
     </div>
     <div class="kt-portlet__body kt-portlet__body--fit">
-        {% include "accounting/books/_generics/sale_list.html" with sales=bills hide_edit=hide_edit %}
+        {% include "books/contribution_rates/_table.html" with contribution_rates=contribution_rates %}
     </div>
 </div>
