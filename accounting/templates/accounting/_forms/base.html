@@ -1,0 +1,27 @@
+{% load introspection_filters %}
+{% load sekizai_tags %}
+
+{% addtoblock "body-scripts-page_scripts" %}
+{{ form.media }}
+{% endaddtoblock %}
+
+{% if object.pk %}
+<h1 class="page-header">Edit a {{ form|get_form_model_verbose_name }}</h1>
+{% else %}
+<h1 class="page-header">Create a {{ form|get_form_model_verbose_name }}</h1>
+{% endif %}
+
+<form action="." method="post" class="form">
+    {% csrf_token %}
+    {% include "accounting/_forms/fields/base.html" with form=form %}
+    {% if form.address_form %}
+    {% include "accounting/_forms/fields/base.html" with form=form.address_form %}
+    {% endif%}
+
+    <button type="submit" class="btn btn-success">
+        {% if object.pk %}
+        <i class="fa fa-hand-point-right"></i>Save
+        {% else %}
+        <i class="fa fa-thumbs-up"></i>Create{% endif %}
+    </button>
+</form>

@@ -1,6 +1,5 @@
 {% extends "dkt/_layout.html" %}
-{% load currency_filters %}
 
 {% block content %}
-    {% include 'books/tax_rates/portlet/table.html' with tax_rates=tax_rates %}
+    {% include 'books/tax_rates/portlet/table.html' with tax_rates=tax_rates hide_edit=False %}
 {% endblock content %}

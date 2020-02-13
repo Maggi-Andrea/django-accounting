@@ -150,7 +150,7 @@ class OrganizationDetailView(generic.DetailView):
 
 
 class OrganizationCreateView(generic.CreateView):
-  template_name = "accounting/books/organization_create_or_update.html"
+  template_name = "books/organization/create_or_update.html"
   model = Organization
   form_class = OrganizationForm
   success_url = reverse_lazy("books:organization-list")
@@ -162,7 +162,7 @@ class OrganizationCreateView(generic.CreateView):
 
 
 class OrganizationUpdateView(generic.UpdateView):
-  template_name = "accounting/books/organization_create_or_update.html"
+  template_name = "books/organization/create_or_update.html"
   model = Organization
   form_class = OrganizationForm
 
@@ -194,21 +194,21 @@ class TaxRateListView(RestrictToSelectedOrganizationQuerySetMixin, generic.ListV
 
 
 class TaxRateCreateView(AutoSetSelectedOrganizationMixin, generic.CreateView):
-  template_name = "accounting/books/tax_rate_create_or_update.html"
+  template_name = "books/tax_rates/create_or_update.html"
   model = TaxRate
   form_class = TaxRateForm
   success_url = reverse_lazy("books:tax_rate-list")
 
 
 class TaxRateUpdateView(AutoSetSelectedOrganizationMixin, generic.UpdateView):
-  template_name = "accounting/books/tax_rate_create_or_update.html"
+  template_name = "books/tax_rates/create_or_update.html"
   model = TaxRate
   form_class = TaxRateForm
   success_url = reverse_lazy("books:tax_rate-list")
 
 
 class TaxRateDeleteView(generic.DeleteView):
-  template_name = "accounting/_generics/delete_entity.html"
+  template_name = "accounting/_forms/delete.html"
   model = TaxRate
   success_url = reverse_lazy('books:tax_rate-list')
 
@@ -226,7 +226,7 @@ class ContributionRateCreateView(
     AutoSetSelectedOrganizationMixin,
     generic.CreateView):
 
-  template_name = "accounting/books/contribution_create_or_update.html"
+  template_name = "books/contribution_rates/create_or_update.html"
   model = ContributionRate
   form_class = ContributionRateForm
   success_url = reverse_lazy("books:contribution_rate-list")
@@ -235,7 +235,7 @@ class ContributionRateUpdateView(
     AutoSetSelectedOrganizationMixin,
     generic.UpdateView):
 
-  template_name = "accounting/books/contribution_create_or_update.html"
+  template_name = "books/contribution_rates/create_or_update.html"
   model = ContributionRate
   form_class = ContributionRateForm
   success_url = reverse_lazy("books:contribution_rate-list")
@@ -259,7 +259,7 @@ class EstimateCreateView(
     SaleLineCreateUpdateMixin,
     generic.CreateView):
 
-  template_name = "accounting/books/sale_create_or_update.html"
+  template_name = "books/_sale/create_or_update.html"
   model = Estimate
   form_class = EstimateForm
   inlines_formset_pairs = (('line_formset', EstimateLineFormSet),)
@@ -279,7 +279,7 @@ class EstimateUpdateView(
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
 
-  template_name = "accounting/books/sale_create_or_update.html"
+  template_name = "books/_sale/create_or_update.html"
   model = Estimate
   form_class = EstimateForm
   inlines_formset_pairs = (('line_formset', EstimateLineFormSet),)
@@ -287,7 +287,7 @@ class EstimateUpdateView(
 
 
 class EstimateDeleteView(generic.DeleteView):
-  template_name = "accounting/_generics/delete_entity.html"
+  template_name = "accounting/_forms/delete.html"
   model = Estimate
   success_url = reverse_lazy('books:estimate-list')
 
@@ -320,7 +320,7 @@ class InvoiceCreateView(
     SaleLineCreateUpdateMixin,
     generic.CreateView):
 
-  template_name = "accounting/books/sale_create_or_update.html"
+  template_name = "books/_sale/create_or_update.html"
   model = Invoice
   form_class = InvoiceForm
   inlines_formset_pairs = (('line_formset', InvoiceLineFormSet),
@@ -339,7 +339,7 @@ class InvoiceUpdateView(
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
 
-  template_name = "accounting/books/sale_create_or_update.html"
+  template_name = "books/_sale/create_or_update.html"
   model = Invoice
   form_class = InvoiceForm
   inlines_formset_pairs = (('line_formset', InvoiceLineFormSet),
@@ -348,7 +348,7 @@ class InvoiceUpdateView(
 
 
 class InvoiceDeleteView(generic.DeleteView):
-  template_name = "accounting/_generics/delete_entity.html"
+  template_name = "accounting/_forms/delete.html"
   model = Invoice
   success_url = reverse_lazy('books:invoice-list')
 
@@ -383,7 +383,7 @@ class BillCreateView(
     SaleLineCreateUpdateMixin,
     generic.CreateView):
 
-  template_name = "accounting/books/sale_create_or_update.html"
+  template_name = "books/_sale/create_or_update.html"
   model = Bill
   form_class = BillForm
   inlines_formset_pairs = (('line_formset', BillLineFormSet),)
@@ -403,7 +403,7 @@ class BillUpdateView(
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
 
-  template_name = "accounting/books/sale_create_or_update.html"
+  template_name = "books/_sale/create_or_update.html"
   model = Bill
   form_class = BillForm
   inlines_formset_pairs = (('line_formset', BillLineFormSet),)
@@ -411,7 +411,7 @@ class BillUpdateView(
 
 
 class BillDeleteView(generic.DeleteView):
-  template_name = "accounting/_generics/delete_entity.html"
+  template_name = "accounting/_forms/delete.html"
   model = Bill
   success_url = reverse_lazy('books:bill-list')
 
@@ -451,7 +451,7 @@ class PaymentUpdateView(generic.UpdateView):
 
 
 class PaymentDeleteView(generic.DeleteView):
-  template_name = "accounting/_generics/delete_entity.html"
+  template_name = "accounting/_forms/delete.html"
   model = Payment
   success_url = reverse_lazy('books:invoice-list')
 
@@ -473,7 +473,7 @@ class ExpenseClaimCreateView(
     SaleLineCreateUpdateMixin,
     generic.CreateView):
 
-  template_name = "accounting/books/sale_create_or_update.html"
+  template_name = "books/_sale/create_or_update.html"
   model = ExpenseClaim
   form_class = ExpenseClaimForm
   inlines_formset_pairs = (('line_formset', ExpenseClaimLineFormSet),)
@@ -492,7 +492,7 @@ class ExpenseClaimUpdateView(
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
 
-  template_name = "accounting/books/sale_create_or_update.html"
+  template_name = "books/_sale/create_or_update.html"
   model = ExpenseClaim
   form_class = ExpenseClaimForm
   inlines_formset_pairs = (('line_formset', ExpenseClaimLineFormSet),)
@@ -500,7 +500,7 @@ class ExpenseClaimUpdateView(
 
 
 class ExpenseClaimDeleteView(generic.DeleteView):
-  template_name = "accounting/_generics/delete_entity.html"
+  template_name = "accounting/_forms/delete.html"
   model = ExpenseClaim
   success_url = reverse_lazy('books:expense_claim-list')
 

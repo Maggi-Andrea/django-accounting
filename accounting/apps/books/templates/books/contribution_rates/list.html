@@ -2,5 +2,5 @@
 {% load currency_filters %}
 
 {% block content %}
-    {% include "books/contribution_rates/portlet/table.html" with contribution_rates=contribution_rates %}
+    {% include "books/contribution_rates/portlet/table.html" with contribution_rates=contribution_rates hide_edit=False %}
 {% endblock content %}

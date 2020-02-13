@@ -1,0 +1,46 @@
+{% extends "dkt/_layout.html" %}
+{% load static %}
+{% load bootstrap4 %}
+{% load introspection_filters %}
+{% load crispy_forms_tags %}
+{% load icons %}
+{% load sekizai_tags %}
+
+
+
+{% block content %}
+
+{% addtoblock "head-scripts-global_theme_bundle" %}
+{{ form.media }}
+{% endaddtoblock %}
+{% addtoblock "body-scripts-page_scripts" %}
+<script src="{% static 'accounting/js/jquery.formset.js' %}"></script>
+{% endaddtoblock %}
+{% addtoblock "body-scripts-page_scripts" %}
+<script src="{% static 'accounting/js/books/invoice_or_bill_create.js' %}"></script>
+{% endaddtoblock %}
+
+<h1 class="page-header">
+{% with form|get_form_model_verbose_name as instace_name %}
+    {% if form.instance.pk %}
+        Update {{instace_name}}
+    {% else %}
+        Create a {{instace_name}}
+    {%endif%}
+{%endwith%}
+</h1>
+
+<form action="." method="post" class="form">
+    {% csrf_token %}
+
+    {{ form|crispy }}
+
+    {% include "books/_sale/lines/inline_formset.html" with formset=line_formset title='Lines' %}
+    {% include "books/_sale/contributions/inline_formset.html" with formset=contribution_formset title='Contributions' %}
+
+    <button type="submit" class="btn btn-success">
+        {% icon "star" %} Create
+    </button>
+ </form>
+{% endblock content %}
+

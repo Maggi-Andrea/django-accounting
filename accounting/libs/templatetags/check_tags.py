@@ -10,7 +10,7 @@ register = template.Library()
 @register.tag
 class Check(InclusionTag):
     name = 'render_check'
-    template = 'accounting/_generics/check_tag.html'
+    template = 'books/_sale/checks/tag.html'
     options = Options(
         Argument('check'),
     )

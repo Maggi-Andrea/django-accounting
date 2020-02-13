@@ -1,7 +1,7 @@
 {% extends "dkt/_layout.html" %}
 
-{% load sekizai_tags %}
 {% load static %}
+{% load sekizai_tags %}
 
 {% block content %}
 
@@ -17,7 +17,7 @@
         <div class="row">
             {% if checklist %}
             <div class="col-12">
-		        {% include "books/_sale/portlet/checklist.html" with checklist=checklist %}
+		        {% include "books/_sale/checks/portlet/list.html" with checklist=checklist %}
             </div>
             {% endif %}
             <div class="col-12">
