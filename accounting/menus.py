@@ -28,6 +28,18 @@ AsideMenu.add_item(AsideItem(
 ))
 
 AsideMenu.add_item(AsideItem(
+  "Tax Rates",
+  reverse('books:tax_rate-list'),
+  icon="flaticon2-gear",
+))
+
+AsideMenu.add_item(AsideItem(
+  "Contribution Rates",
+  reverse('books:contribution_rate-list'),
+  icon="flaticon2-gear",
+))
+
+AsideMenu.add_item(AsideItem(
   "Estimates",
   reverse('books:estimate-list'),
   icon="flaticon2-gear",
@@ -51,14 +63,3 @@ AsideMenu.add_item(AsideItem(
   icon="flaticon2-gear",
 ))
 
-AsideMenu.add_item(AsideItem(
-  "Tax Rates",
-  reverse('books:tax_rate-list'),
-  icon="flaticon2-gear",
-))
-
-AsideMenu.add_item(AsideItem(
-  "Contribution Rates",
-  reverse('books:contribution_rate-list'),
-  icon="flaticon2-gear",
-))

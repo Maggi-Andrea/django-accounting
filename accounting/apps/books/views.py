@@ -88,6 +88,8 @@ class DashboardView(
       return HttpResponseRedirect(reverse('books:organization-selector'))
     return super().get(request, *args, **kwargs)
 
+#Organization
+
 class OrganizationSelectorView(
     LoginRequiredMixin,
     generic.TemplateView,
@@ -115,6 +117,7 @@ class OrganizationSelectorView(
 
     return context
 
+
 class OrganizationListView(generic.ListView):
   template_name = "books/organization/list.html"
   model = Organization
@@ -123,6 +126,7 @@ class OrganizationListView(generic.ListView):
   def get_queryset(self):
     # only current authenticated user organizations
     return organization_manager.get_user_organizations(self.request.user)
+
 
 class OrganizationDetailView(generic.DetailView):
   template_name = "books/organization/detail.html"
@@ -143,6 +147,7 @@ class OrganizationDetailView(generic.DetailView):
       .select_related('client', 'organization')
       .prefetch_related('lines'))
     return ctx
+
 
 class OrganizationCreateView(generic.CreateView):
   template_name = "accounting/books/organization_create_or_update.html"
@@ -168,7 +173,6 @@ class OrganizationUpdateView(generic.UpdateView):
     return organization_manager.get_user_organizations(self.request.user)
 
 
-
 class OrganizationSelectionView(generic.DetailView):
   model = Organization
 
@@ -181,6 +185,7 @@ class OrganizationSelectionView(generic.DetailView):
     organization_manager.set_selected_organization(self.request, orga)
     return HttpResponseRedirect(reverse('books:dashboard'))
 
+#Tax Rates
 
 class TaxRateListView(RestrictToSelectedOrganizationQuerySetMixin, generic.ListView):
   template_name = "books/tax_rates/list.html"
@@ -206,6 +211,8 @@ class TaxRateDeleteView(generic.DeleteView):
   template_name = "accounting/_generics/delete_entity.html"
   model = TaxRate
   success_url = reverse_lazy('books:tax_rate-list')
+
+# Contribution Rates
 
 class ContributionRateListView(
     RestrictToSelectedOrganizationQuerySetMixin,
@@ -233,29 +240,7 @@ class ContributionRateUpdateView(
   form_class = ContributionRateForm
   success_url = reverse_lazy("books:contribution_rate-list")
 
-
-class PaymentUpdateView(generic.UpdateView):
-  template_name = "accounting/books/payment_create_or_update.html"
-  model = Payment
-  form_class = PaymentForm
-
-  def get_success_url(self):
-    related_obj = self.object.content_object
-    if isinstance(related_obj, Invoice):
-      return reverse("books:invoice-detail", args=[related_obj.pk])
-    elif isinstance(related_obj, Bill):
-      return reverse("books:bill-detail", args=[related_obj.pk])
-
-    logger.warning("Unsupported related object '{}' for "
-             "payment '{}'".format(self.object, related_obj))
-    return reverse("books:dashboard")
-
-
-class PaymentDeleteView(generic.DeleteView):
-  template_name = "accounting/_generics/delete_entity.html"
-  model = Payment
-  success_url = reverse_lazy('books:invoice-list')
-
+# Estimates
 
 class EstimateListView(
     RestrictToSelectedOrganizationQuerySetMixin,
@@ -315,6 +300,8 @@ class EstimateDetailView(
   def get_success_url(self):
     return reverse('books:estimate-detail', args=[self.object.pk])
 
+
+# Invoices
 
 class InvoiceListView(
     RestrictToSelectedOrganizationQuerySetMixin,
@@ -378,6 +365,9 @@ class InvoiceDetailView(
     return reverse('books:invoice-detail', args=[self.object.pk])
 
 
+
+# Bills
+
 class BillListView(
     RestrictToSelectedOrganizationQuerySetMixin,
     SaleListQuerySetMixin,
@@ -438,6 +428,36 @@ class BillDetailView(
 
   def get_success_url(self):
     return reverse('books:bill-detail', args=[self.object.pk])
+
+
+
+
+
+
+# Payments
+
+class PaymentUpdateView(generic.UpdateView):
+  template_name = "accounting/books/payment_create_or_update.html"
+  model = Payment
+  form_class = PaymentForm
+
+  def get_success_url(self):
+    related_obj = self.object.content_object
+    if isinstance(related_obj, Invoice):
+      return reverse("books:invoice-detail", args=[related_obj.pk])
+    elif isinstance(related_obj, Bill):
+      return reverse("books:bill-detail", args=[related_obj.pk])
+
+    logger.warning("Unsupported related object '{}' for "
+             "payment '{}'".format(self.object, related_obj))
+    return reverse("books:dashboard")
+
+
+class PaymentDeleteView(generic.DeleteView):
+  template_name = "accounting/_generics/delete_entity.html"
+  model = Payment
+  success_url = reverse_lazy('books:invoice-list')
+
 
 
 class ExpenseClaimListView(RestrictToSelectedOrganizationQuerySetMixin,

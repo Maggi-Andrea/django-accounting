@@ -1,6 +1,5 @@
 {% load bootstrap4 %}
 
-{% if payment_form %}
 <div class="kt-portlet">
     <div class="kt-portlet__head">
         <div class="kt-portlet__head-label">
@@ -13,7 +12,6 @@
     <div class="kt-portlet__foot">
         <form action="." method="post" class="form">
             {% csrf_token %}
-
             {{ payment_form.non_field_errors }}
             <div class="row">
                 <div class="col-md-2">
@@ -35,4 +33,3 @@
         </form>
     </div>
 </div>
-{% endif %}

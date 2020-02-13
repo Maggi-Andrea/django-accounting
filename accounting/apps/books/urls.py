@@ -54,7 +54,6 @@ urlpatterns = [
     views.ContributionRateUpdateView.as_view(),
     name="contribution_rate-edit"),
 
-
   # Estimates
   path('estimate/',
     views.EstimateListView.as_view(),
