@@ -48,35 +48,6 @@ from .utils import (
 
 logger = logging.getLogger(__name__)
 
-
-class OrganizationSelectorView(
-    LoginRequiredMixin,
-    generic.TemplateView,
-  ):
-  template_name = "books/organization/selector.html"
-
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-
-    user = self.request.user
-    orgas = organization_manager.get_user_organizations(user)
-    cumulated_turnovers = (orgas
-      .aggregate(sum=Sum('invoices__total_excl_tax'))["sum"]) or D('0')
-    cumulated_debts = (orgas
-      .aggregate(sum=Sum('bills__total_excl_tax'))["sum"]) or D('0')
-    cumulated_profits = cumulated_turnovers - cumulated_debts
-
-    context["organizations_count"] = orgas.count()
-    context["organizations_cumulated_turnovers"] = cumulated_turnovers
-    context["organizations_cumulated_profits"] = cumulated_profits
-    context["organizations_cumulated_active_days"] = 0
-
-    context["organizations"] = orgas
-    context["last_invoices"] = Invoice.objects.all()[:10]
-
-    return context
-
-
 class DashboardView(
     LoginRequiredMixin,
     generic.DetailView,
@@ -117,6 +88,32 @@ class DashboardView(
       return HttpResponseRedirect(reverse('books:organization-selector'))
     return super().get(request, *args, **kwargs)
 
+class OrganizationSelectorView(
+    LoginRequiredMixin,
+    generic.TemplateView,
+  ):
+  template_name = "books/organization/selector.html"
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+
+    user = self.request.user
+    orgas = organization_manager.get_user_organizations(user)
+    cumulated_turnovers = (orgas
+      .aggregate(sum=Sum('invoices__total_excl_tax'))["sum"]) or D('0')
+    cumulated_debts = (orgas
+      .aggregate(sum=Sum('bills__total_excl_tax'))["sum"]) or D('0')
+    cumulated_profits = cumulated_turnovers - cumulated_debts
+
+    context["organizations_count"] = orgas.count()
+    context["organizations_cumulated_turnovers"] = cumulated_turnovers
+    context["organizations_cumulated_profits"] = cumulated_profits
+    context["organizations_cumulated_active_days"] = 0
+
+    context["organizations"] = orgas
+    context["last_invoices"] = Invoice.objects.all()[:10]
+
+    return context
 
 class OrganizationListView(generic.ListView):
   template_name = "books/organization/list.html"
@@ -127,6 +124,25 @@ class OrganizationListView(generic.ListView):
     # only current authenticated user organizations
     return organization_manager.get_user_organizations(self.request.user)
 
+class OrganizationDetailView(generic.DetailView):
+  template_name = "books/organization/detail.html"
+  model = Organization
+  context_object_name = "organization"
+
+  def get_queryset(self):
+    # only current authenticated user organizations
+    return organization_manager.get_user_organizations(self.request.user)
+
+  def get_context_data(self, **kwargs):
+    ctx = super().get_context_data(**kwargs)
+    organization = self.get_object()
+    ctx['invoices'] = (organization.invoices.all()
+      .select_related('client', 'organization')
+      .prefetch_related('lines'))
+    ctx['bills'] = (organization.bills.all()
+      .select_related('client', 'organization')
+      .prefetch_related('lines'))
+    return ctx
 
 class OrganizationCreateView(generic.CreateView):
   template_name = "accounting/books/organization_create_or_update.html"
@@ -151,26 +167,6 @@ class OrganizationUpdateView(generic.UpdateView):
     # only current authenticated user organizations
     return organization_manager.get_user_organizations(self.request.user)
 
-
-class OrganizationDetailView(generic.DetailView):
-  template_name = "accounting/books/organization_detail.html"
-  model = Organization
-  context_object_name = "organization"
-
-  def get_queryset(self):
-    # only current authenticated user organizations
-    return organization_manager.get_user_organizations(self.request.user)
-
-  def get_context_data(self, **kwargs):
-    ctx = super().get_context_data(**kwargs)
-    organization = self.get_object()
-    ctx['invoices'] = (organization.invoices.all()
-      .select_related('client', 'organization')
-      .prefetch_related('lines'))
-    ctx['bills'] = (organization.bills.all()
-      .select_related('client', 'organization')
-      .prefetch_related('lines'))
-    return ctx
 
 
 class OrganizationSelectionView(generic.DetailView):

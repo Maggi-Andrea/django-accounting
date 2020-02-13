@@ -7,16 +7,23 @@ from django.urls import reverse
 
 from dkt.menu import AsideMenu, AsideItem
 
-
-AsideMenu.add_item(AsideItem(
-  "Dashboard",
-  reverse('books:dashboard'),
-  icon="flaticon2-gear",
-))
+_organizations = [
+  AsideItem(
+    "List",
+    reverse('books:organization-list'),
+    icon="flaticon2-gear",
+  ),
+  AsideItem(
+    "Selector",
+    reverse('books:organization-selector'),
+    icon="flaticon2-gear",
+  ),
+]
 
 AsideMenu.add_item(AsideItem(
   "Organizations",
   reverse('books:organization-list'),
+  children = _organizations,
   icon="flaticon2-gear",
 ))
 
