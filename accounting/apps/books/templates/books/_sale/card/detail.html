@@ -23,16 +23,19 @@
         <div class="d-flex flex-column">
             <div class="d-flex flex-column flex-sm-row justify-content-between">
                 <div class="p-2 flex-grow-1">
-                    {% include "accounting/books/include/sale_from_to_client.html" with from_to='From' client=object.from_client %}
+                    {% include "books/_sale/organization/card/from_to.html" with from_to='From' client=object.from_client %}
                 </div>
                 <div class="p-2 flex-grow-1">
-                    {% include "accounting/books/include/sale_from_to_client.html" with from_to='To' client=object.to_client %}
+                    {% include "books/_sale/organization/card/from_to.html" with from_to='To' client=object.to_client %}
                 </div>
             </div>
             <div>
-                {% include "accounting/books/include/sale_dates.html" with lines=lines %}
-                {% include "accounting/books/include/sale_lines.html" with lines=lines %}
-                {% include "accounting/books/include/sale_contributions.html" with lines=contributions %}
+                <h4>Dates:</h4>
+                {% include "books/_sale/dates/container.html" with object=object %}
+                <h4>Lines:</h4>
+                {% include "books/_sale/lines/table.html" with lines=lines %}
+                <h4>Contributions:</h4>
+                {% include "books/_sale/contributions/table.html" with lines=contributions %}
             </div>
             <p>{{object.description}}</p>
         </div>

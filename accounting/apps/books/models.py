@@ -27,23 +27,23 @@ TWO_PLACES = D(10) ** -2
 
 
 class Organization(models.Model):
-  
+
   display_name = models.CharField(
     max_length=150,
     help_text="Name that you communicate",
   )
-  
+
   legal_name = models.CharField(
     max_length=150,
     help_text="Official name to appear on your reports, sales invoices and bills",
   )
-  
+
   vat_number = models.CharField(
     max_length=30,
     help_text='Fiscal id of the organization',
     unique=True,
   )
-  
+
   address = models.ForeignKey(
     to=Address,
     blank=True,
@@ -56,7 +56,7 @@ class Organization(models.Model):
     on_delete=models.CASCADE,
     related_name="owned_organizations",
   )
-  
+
   members = models.ManyToManyField(
     settings.AUTH_USER_MODEL,
     related_name="organizations",
@@ -71,7 +71,7 @@ class Organization(models.Model):
 
   def get_absolute_url(self):
     return reverse('books:organization-detail', args=[self.pk])
-  
+
   def get_edit_url(self):
     return reverse('books:organization-edit', args=[self.pk])
 
@@ -117,11 +117,11 @@ class Organization(models.Model):
     return due_turnonver - total_paid
 
 class Rate(models.Model):
-  
+
   name = models.CharField(
     max_length=50,
   )
-  
+
   rate = models.DecimalField(
     max_digits=6,
     decimal_places=5,
@@ -130,13 +130,13 @@ class Rate(models.Model):
       MaxValueValidator(D('1')),
       ],
   )
-  
+
   class Meta:
     abstract=True
 
   def __str__(self):
     return "{} ({})".format(self.name, percentage_formatter(self.rate))
-  
+
 class TaxRate(Rate):
   """
   Every transaction line item needs a Tax Rate.
@@ -180,9 +180,9 @@ class ContributionRate(Rate):
 
   class Meta:
     pass
-  
+
 class TotaLinesMixin:
-  
+
   def get_lines_total_tax(self, tax_rate=None):
     if not hasattr(self, 'lines'): return D('0')
     lines = self.lines.filter(tax_rate = tax_rate) if tax_rate else self.lines
@@ -197,9 +197,9 @@ class TotaLinesMixin:
     if not hasattr(self, 'lines'): return D('0')
     lines = self.lines.filter(tax_rate = tax_rate) if tax_rate else self.lines
     return self._get_total(lines, 'line_price_incl_tax')
-  
+
 class TotaContributionsMixin:
-  
+
   def get_contributions_total_tax(self, tax_rate=None):
     if not hasattr(self, 'contributions'): return D('0')
     contributions = self.contributions.filter(tax_rate = tax_rate) if tax_rate else self.contributions
@@ -214,7 +214,7 @@ class TotaContributionsMixin:
     if not hasattr(self, 'contributions'): return D('0')
     contributions = self.contributions.filter(tax_rate = tax_rate) if tax_rate else self.contributions
     return self._get_total(contributions, 'contribution_incl_tax')
-  
+
 class AbstractSale(CheckingModelMixin,
                    TotaLinesMixin,
                    TotaContributionsMixin,
@@ -224,7 +224,7 @@ class AbstractSale(CheckingModelMixin,
     default=1,
     db_index=True,
   )
-  
+
   # Total price needs to be stored with and wihtout taxes
   # because the tax percentage can vary depending on the associated lines
   total_incl_tax = models.DecimalField(
@@ -233,7 +233,7 @@ class AbstractSale(CheckingModelMixin,
     max_digits=12,
     default=D('0'),
   )
-  
+
   total_excl_tax = models.DecimalField(
     verbose_name="Total (excl. tax)",
     decimal_places=2,
@@ -245,20 +245,20 @@ class AbstractSale(CheckingModelMixin,
   date_issued = models.DateField(
     default=date.today,
   )
-  
+
   date_dued = models.DateField(
     verbose_name="Due date",
     default=None,
-    blank=True, 
+    blank=True,
     null=True,
     help_text="The date when the total amount should have been collected",
   )
-  
+
   date_paid = models.DateField(
     blank=True,
     null=True,
   )
-  
+
   description = models.TextField(
     blank = True,
     null = True,
@@ -303,7 +303,7 @@ class AbstractSale(CheckingModelMixin,
   @property
   def total_tax(self):
     return self.total_incl_tax - self.total_excl_tax
-  
+
   def get_total_tax(self, tax_rate=None):
     lines = self.get_lines_total_tax(tax_rate)
     contributions = self.get_contributions_total_tax(tax_rate)
@@ -402,17 +402,17 @@ class AbstractSaleLine(models.Model):
   label = models.CharField(
     max_length=255,
   )
-  
+
   description = models.TextField(
     blank=True,
     null=True,
   )
-  
+
   unit_price_excl_tax = models.DecimalField(
     max_digits=8,
     decimal_places=2,
   )
-  
+
   quantity = models.DecimalField(
     max_digits=8,
     decimal_places=2,
@@ -432,7 +432,7 @@ class AbstractSaleLine(models.Model):
     tax = unit * self.tax_rate.rate
     p = prices.Price(settings.ACCOUNTING_DEFAULT_CURRENCY, unit, tax=tax)
     return p
-  
+
   @property
   def line_price(self):
     unit = self.quantity * self.unit_price.excl_tax
@@ -464,12 +464,12 @@ class Estimate(AbstractSale):
     on_delete=models.CASCADE,
     related_name="estimates",
     verbose_name="From Organization")
-  
+
   client = models.ForeignKey(
     to='people.Client',
     on_delete=models.CASCADE,
     verbose_name="To Client")
-  
+
   payments = GenericRelation(
     to='books.Payment')
 
@@ -484,7 +484,7 @@ class Estimate(AbstractSale):
 
   def get_edit_url(self):
     return reverse('books:estimate-edit', args=[self.pk])
-  
+
   def get_delete_url(self):
     return reverse('books:estimate-delete', args=[self.pk])
 
@@ -500,7 +500,7 @@ class EstimateLine(AbstractSaleLine):
     to='books.Estimate',
     on_delete=models.CASCADE,
     related_name="lines")
-  
+
   tax_rate = models.ForeignKey(
     to='books.TaxRate',
     on_delete=models.CASCADE,
@@ -516,13 +516,13 @@ class Invoice(AbstractSale):
     on_delete=models.CASCADE,
     related_name="invoices",
     verbose_name="From Organization")
-  
+
   client = models.ForeignKey(
     to='people.Client',
     on_delete=models.CASCADE,
     verbose_name="To Client",
   )
-  
+
   payments = GenericRelation('books.Payment')
 
   objects = InvoiceQuerySet.as_manager()
@@ -536,7 +536,7 @@ class Invoice(AbstractSale):
 
   def get_edit_url(self):
     return reverse('books:invoice-edit', args=[self.pk])
-  
+
   def get_delete_url(self):
     return reverse('books:invoice-delete', args=[self.pk])
 
@@ -553,7 +553,7 @@ class InvoiceLine(AbstractSaleLine):
     on_delete=models.CASCADE,
     related_name="lines",
   )
-  
+
   tax_rate = models.ForeignKey(
     to='books.TaxRate',
     on_delete=models.CASCADE,
@@ -563,18 +563,18 @@ class InvoiceLine(AbstractSaleLine):
     pass
 
 class InvoiceContribution(models.Model):
-  
+
   invoice = models.ForeignKey(
     to='books.Invoice',
     on_delete=models.CASCADE,
     related_name="contributions",
   )
-  
+
   contribution_rate = models.ForeignKey(
     to='books.ContributionRate',
     on_delete=models.CASCADE,
   )
-  
+
   tax_rate = models.ForeignKey(
     to='books.TaxRate',
     on_delete=models.CASCADE,
@@ -582,7 +582,7 @@ class InvoiceContribution(models.Model):
 
   class Meta:
     pass
-  
+
   @property
   def amount(self):
     amount = self.invoice.get_lines_total_excl_tax(self.tax_rate) * self.contribution_rate.rate
@@ -600,11 +600,11 @@ class InvoiceContribution(models.Model):
   @property
   def contribution_tax(self):
     return self.amount.tax
-  
+
 
   def __str__(self):
     return "{} ({})".format(self.contribution_rate, self.tax_rate)
-  
+
 
 class Bill(AbstractSale):
   organization = models.ForeignKey(
@@ -612,12 +612,12 @@ class Bill(AbstractSale):
     on_delete=models.CASCADE,
     related_name="bills",
     verbose_name="To Organization")
-  
+
   client = models.ForeignKey(
     to='people.Client',
     on_delete=models.CASCADE,
     verbose_name="From Client")
-  
+
   payments = GenericRelation('books.Payment')
 
   objects = BillQuerySet.as_manager()
@@ -632,6 +632,9 @@ class Bill(AbstractSale):
   def get_edit_url(self):
     return reverse('books:bill-edit', args=[self.pk])
 
+  def get_delete_url(self):
+    return reverse('books:bill-delete', args=[self.pk])
+
   def from_client(self):
     return self.client
 
@@ -644,7 +647,7 @@ class BillLine(AbstractSaleLine):
     to='books.Bill',
     on_delete=models.CASCADE,
     related_name="lines")
-  
+
   tax_rate = models.ForeignKey(
     to='books.TaxRate',
     on_delete=models.CASCADE,
@@ -660,13 +663,13 @@ class ExpenseClaim(AbstractSale):
     on_delete=models.CASCADE,
     related_name="expense_claims",
     verbose_name="From Organization")
-  
+
   employee = models.ForeignKey(
     to='people.Employee',
     on_delete=models.CASCADE,
     verbose_name="Paid by employee",
   )
-  
+
   payments = GenericRelation('books.Payment')
 
   objects = ExpenseClaimQuerySet.as_manager()
@@ -681,6 +684,9 @@ class ExpenseClaim(AbstractSale):
   def get_edit_url(self):
     return reverse('books:expense_claim-edit', args=[self.pk])
 
+  def get_delete_url(self):
+    return reverse('books:expense_claim-delete', args=[self.pk])
+
   def from_client(self):
     return self.employee
 
@@ -693,7 +699,7 @@ class ExpenseClaimLine(AbstractSaleLine):
     to='books.ExpenseClaim',
     on_delete=models.CASCADE,
     related_name="lines")
-  
+
   tax_rate = models.ForeignKey(
     to='books.TaxRate',
     on_delete=models.CASCADE,
@@ -704,16 +710,16 @@ class ExpenseClaimLine(AbstractSaleLine):
 
 
 class Payment(models.Model):
-  
+
   amount = models.DecimalField("Amount",
                  decimal_places=2,
                  max_digits=12)
-  
+
   detail = models.CharField(max_length=255,
                 blank=True,
                 null=True)
   date_paid = models.DateField(default=date.today)
-  
+
   reference = models.CharField(max_length=255,
                  blank=True,
                  null=True)
@@ -723,9 +729,9 @@ class Payment(models.Model):
     to=ContentType,
     on_delete=models.CASCADE,
   )
-  
+
   object_id = models.PositiveIntegerField()
-  
+
   content_object = GenericForeignKey('content_type', 'object_id')
 
   class Meta:

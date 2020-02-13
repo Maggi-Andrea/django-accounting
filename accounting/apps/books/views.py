@@ -240,6 +240,8 @@ class ContributionRateUpdateView(
   form_class = ContributionRateForm
   success_url = reverse_lazy("books:contribution_rate-list")
 
+
+
 # Estimates
 
 class EstimateListView(
@@ -293,7 +295,7 @@ class EstimateDeleteView(generic.DeleteView):
 class EstimateDetailView(
     AbstractSaleDetailMixin,
     generic.DetailView):
-  template_name = "accounting/books/sale_detail.html"
+  template_name = "books/_sale/detail.html"
   model = Estimate
   context_object_name = "estimate"
 
@@ -356,15 +358,13 @@ class InvoiceDetailView(
     AbstractSaleDetailMixin,
     generic.DetailView):
 
-  template_name = "books/invoice/detail.html"
+  template_name = "books/_sale/detail.html"
   model = Invoice
   context_object_name = "invoice"
   payment_form_class = PaymentForm
 
   def get_success_url(self):
     return reverse('books:invoice-detail', args=[self.object.pk])
-
-
 
 # Bills
 
@@ -421,16 +421,13 @@ class BillDetailView(
     AbstractSaleDetailMixin,
     generic.DetailView):
 
-  template_name = "accounting/books/sale_detail.html"
+  template_name = "books/_sale/detail.html"
   model = Bill
   context_object_name = "bill"
   payment_form_class = PaymentForm
 
   def get_success_url(self):
     return reverse('books:bill-detail', args=[self.object.pk])
-
-
-
 
 
 
@@ -459,10 +456,13 @@ class PaymentDeleteView(generic.DeleteView):
   success_url = reverse_lazy('books:invoice-list')
 
 
+# ExpenseClaim
 
-class ExpenseClaimListView(RestrictToSelectedOrganizationQuerySetMixin,
-               SaleListQuerySetMixin,
-               generic.ListView):
+class ExpenseClaimListView(
+    RestrictToSelectedOrganizationQuerySetMixin,
+    SaleListQuerySetMixin,
+    generic.ListView):
+
   template_name = "books/expense_claim/list.html"
   model = ExpenseClaim
   context_object_name = "expense_claims"
@@ -510,7 +510,7 @@ class ExpenseClaimDetailView(
     AbstractSaleDetailMixin,
     generic.DetailView):
 
-  template_name = "accounting/books/sale_detail.html"
+  template_name = "books/_sale/detail.html"
   model = ExpenseClaim
   context_object_name = "expense_claim"
   payment_form_class = PaymentForm

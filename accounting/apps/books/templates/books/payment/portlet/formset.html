@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="kt-portlet__body">
-        {% include "accounting/books/_partials/payment_list.html" with payments=payments %}
+        {% include "books/payment/table/base.html" with payments=payments %}
     </div>
     <div class="kt-portlet__foot">
         <form action="." method="post" class="form">
@@ -27,7 +27,7 @@
                     {% bootstrap_field payment_form.amount show_label=False %}
                 </div>
                 <div class="col-md-2 text-right">
-                    <button type="submit" class="btn btn-success">Add payment</button>
+                    <button type="submit" class="btn btn-success">Add</button>
                 </div>
             </div>
         </form>

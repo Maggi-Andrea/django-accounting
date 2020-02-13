@@ -1,0 +1,26 @@
+{% load currency_filters %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Ref</th>
+            <th scope="col">Detail</th>
+            <th scope="col">Amount</th>
+            <th scope="col" class="text-right">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for paym in payments %}
+        <tr>
+            <td>{{ paym.date_paid }}</td>
+            <td>{{ paym.reference|default:"-" }}</td>
+            <td>{{ paym.detail }}</td>
+            <td>{{ paym.amount|currency }}</td>
+            <td class="text-right">
+                <a href="{% url 'books:payment-edit' paym.pk %}" class="btn btn-warning btn-xs" role="button">Edit</a>
+                <a href="{% url 'books:payment-delete' paym.pk %}" class="btn btn-danger btn-xs" role="button">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
