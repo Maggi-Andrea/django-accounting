@@ -131,6 +131,12 @@ AsideMenu.add_item(AsideItem(
   icon="flaticon-customer",
 ))
 
+AsideMenu.add_item(AsideItem(
+  "Connect",
+  reverse('connect:getting_started'),
+  icon="flaticon-customer",
+))
+
 def _fiscalprofile_url(request):
   user = getattr(request, 'user', None)
   if user and user.is_authenticated:

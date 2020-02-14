@@ -7,7 +7,7 @@
         {% include "books/organization/portlet/statistic.html" with organization=organization %}
     </div>
     <div class="col-12">
-        {% include "accounting/people/_partials/address_detail.html" with address=organization.address %}
+        {% include "people/address/detail.html" with address=organization.address %}
     </div>
     <div class="col-xs-12 col-sm-6">
         {% include "books/invoice/portlet/table.html" with sales=invoices hide_edit=True %}

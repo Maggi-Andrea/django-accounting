@@ -166,8 +166,8 @@ class AddEmployeesStep(BaseStep):
 
     def check_completion(self, request):
         orga = organization_manager.get_selected_organization(request)
-        if orga is None:
-            return False
+        if orga is None or not hasattr(orga, 'employees'):
+          return False
         count = orga.employees.all().count()
         return count > 0
 
@@ -206,7 +206,7 @@ class AddFirstClientStep(BaseStep):
 
     def check_completion(self, request):
         orga = organization_manager.get_selected_organization(request)
-        if orga is None:
+        if orga is None or not hasattr(orga, 'clients'):
             return False
         count = orga.clients.all().count()
         return count > 0

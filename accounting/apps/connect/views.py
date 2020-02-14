@@ -25,11 +25,11 @@ class RootRedirectionView(generic.View):
     def get(self, *args, **kwargs):
         if Organization.objects.all().count():
             return HttpResponseRedirect(reverse('books:dashboard'))
-        return HttpResponseRedirect(reverse('connect:getting-started'))
+        return HttpResponseRedirect(reverse('connect:getting_started'))
 
 
 class GettingStartedView(generic.TemplateView):
-    template_name = "accounting/connect/getting_started.html"
+    template_name = "connect/getting_started.html"
 
     def get_steps(self, request):
         user = request.user

@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-app_name = 'accounting.apps.connect'
+app_name = 'connect'
 
 urlpatterns = [
 
@@ -13,5 +13,5 @@ urlpatterns = [
     # Step by step
   path('getting-started/',
        views.GettingStartedView.as_view(),
-       name="getting-started")
+       name="getting_started")
 ]
