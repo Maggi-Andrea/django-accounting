@@ -1,16 +1,6 @@
 {% extends "dkt/_layout.html" %}
 {% load static %}
 
-{% block header-mobile-logo %}
-    <a href="{{books_organization_selector_url}}">
-        <i class="flaticon2-cube" style="font-size:2em;"><span> Home</span></i>
-    </a>
-{% endblock header-mobile-logo %}
-
-{% block aside-menu-nav %}
-    {% include 'books/_aside-menu.html' %}
-{% endblock aside-menu-nav %}
-
 {% block aside-brand-logo %}
     {% url 'books:organization-selector' as books_organization_selector_url %}
     <a href="{{books_organization_selector_url}}">
@@ -18,61 +8,11 @@
     </a>
 {% endblock aside-brand-logo %}
 
-{% block header-menu %}
-{% endblock header-menu %}
-
-{% block header-topbar-user %}
-<div class="kt-header__topbar-item kt-header__topbar-item--user">
-    <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px, 0px">
-        <div class="kt-header__topbar-user">
-            <span class="kt-header__topbar-welcome kt-hidden-mobile">Hi,</span> <span class="kt-header__topbar-username kt-hidden-mobile">{{request.user.username}}</span>
-            {% if request.user.picture %}
-                <img alt="Pic" src="request.user.picture.url" />
-            {% else %}
-                <span class="kt-badge kt-badge--username kt-badge--lg kt-badge--brand kt-badge--bold">{{request.user.username.0}}</span> 
-            {% endif %}
-        </div>
-    </div>
-    <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-sm">
-        {% include 'dkt/partials/_user_card.html' %}
-        <ul class="kt-nav kt-margin-b-10">
-            <li class="kt-nav__item">
-                <a href="{% url 'people:fiscalprofile-detail' request.user.pk %}" class="kt-nav__link">
-                    <span class="kt-nav__link-icon"><i class="flaticon2-calendar-3"></i></span>
-                    <span class="kt-nav__link-text">My Profile</span> 
-                </a>
-            </li>
-            <li class="kt-nav__item">
-                <a href="#" class="kt-nav__link">
-                    <span class="kt-nav__link-icon"><i class="flaticon2-browser-2"></i></span>
-                    <span class="kt-nav__link-text">My Tasks</span> 
-                </a>
-            </li>
-            <li class="kt-nav__item">
-                <a href="#" class="kt-nav__link">
-                    <span class="kt-nav__link-icon"><i class="flaticon2-mail"></i></span>
-                    <span class="kt-nav__link-text">Messages</span> 
-                </a>
-            </li>
-            <li class="kt-nav__item">
-                <a href="#" class="kt-nav__link">
-                    <span class="kt-nav__link-icon"><i class="flaticon2-gear"></i></span>
-                    <span class="kt-nav__link-text">Settings</span> 
-                </a>
-            </li>
-            <li class="kt-nav__item kt-nav__item--custom kt-margin-t-15">
-              <a href="{% url 'people:logout' %}" class="btn btn-outline-metal btn-hover-brand btn-upper btn-font-dark btn-sm btn-bold">Sign Out</a>
-            </li>
-        </ul>
-    </div>
-</div>
-{% endblock header-topbar-user %}
-
 {% block header-topbar-version %}
 <div class="kt-header__topbar-item">
     <div class="kt-header__topbar-icon" style="width:auto;">
         <i class="flaticon-add-label-button"><span>Ver.: {{ display_version }}</span></i>
-        
+
     </div>
 </div>
 
