@@ -150,7 +150,7 @@ class OrganizationDetailView(generic.DetailView):
 
 
 class OrganizationCreateView(generic.CreateView):
-  template_name = "books/organization/create_or_update.html"
+  template_name = "books/organization/edit.html"
   model = Organization
   form_class = OrganizationForm
   success_url = reverse_lazy("books:organization-list")
@@ -162,7 +162,7 @@ class OrganizationCreateView(generic.CreateView):
 
 
 class OrganizationUpdateView(generic.UpdateView):
-  template_name = "books/organization/create_or_update.html"
+  template_name = "books/organization/edit.html"
   model = Organization
   form_class = OrganizationForm
 
@@ -194,14 +194,14 @@ class TaxRateListView(RestrictToSelectedOrganizationQuerySetMixin, generic.ListV
 
 
 class TaxRateCreateView(AutoSetSelectedOrganizationMixin, generic.CreateView):
-  template_name = "books/tax_rates/create_or_update.html"
+  template_name = "books/tax_rates/edit.html"
   model = TaxRate
   form_class = TaxRateForm
   success_url = reverse_lazy("books:tax_rate-list")
 
 
 class TaxRateUpdateView(AutoSetSelectedOrganizationMixin, generic.UpdateView):
-  template_name = "books/tax_rates/create_or_update.html"
+  template_name = "books/tax_rates/edit.html"
   model = TaxRate
   form_class = TaxRateForm
   success_url = reverse_lazy("books:tax_rate-list")
@@ -226,7 +226,7 @@ class ContributionRateCreateView(
     AutoSetSelectedOrganizationMixin,
     generic.CreateView):
 
-  template_name = "books/contribution_rates/create_or_update.html"
+  template_name = "books/contribution_rates/edit.html"
   model = ContributionRate
   form_class = ContributionRateForm
   success_url = reverse_lazy("books:contribution_rate-list")
@@ -235,7 +235,7 @@ class ContributionRateUpdateView(
     AutoSetSelectedOrganizationMixin,
     generic.UpdateView):
 
-  template_name = "books/contribution_rates/create_or_update.html"
+  template_name = "books/contribution_rates/edit.html"
   model = ContributionRate
   form_class = ContributionRateForm
   success_url = reverse_lazy("books:contribution_rate-list")
@@ -259,7 +259,7 @@ class EstimateCreateView(
     SaleLineCreateUpdateMixin,
     generic.CreateView):
 
-  template_name = "books/_sale/create_or_update.html"
+  template_name = "books/_sale/edit.html"
   model = Estimate
   form_class = EstimateForm
   inlines_formset_pairs = (('line_formset', EstimateLineFormSet),)
@@ -279,7 +279,7 @@ class EstimateUpdateView(
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
 
-  template_name = "books/_sale/create_or_update.html"
+  template_name = "books/_sale/edit.html"
   model = Estimate
   form_class = EstimateForm
   inlines_formset_pairs = (('line_formset', EstimateLineFormSet),)
@@ -320,7 +320,7 @@ class InvoiceCreateView(
     SaleLineCreateUpdateMixin,
     generic.CreateView):
 
-  template_name = "books/_sale/create_or_update.html"
+  template_name = "books/_sale/edit.html"
   model = Invoice
   form_class = InvoiceForm
   inlines_formset_pairs = (('line_formset', InvoiceLineFormSet),
@@ -339,7 +339,7 @@ class InvoiceUpdateView(
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
 
-  template_name = "books/_sale/create_or_update.html"
+  template_name = "books/_sale/edit.html"
   model = Invoice
   form_class = InvoiceForm
   inlines_formset_pairs = (('line_formset', InvoiceLineFormSet),
@@ -383,7 +383,7 @@ class BillCreateView(
     SaleLineCreateUpdateMixin,
     generic.CreateView):
 
-  template_name = "books/_sale/create_or_update.html"
+  template_name = "books/_sale/edit.html"
   model = Bill
   form_class = BillForm
   inlines_formset_pairs = (('line_formset', BillLineFormSet),)
@@ -403,7 +403,7 @@ class BillUpdateView(
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
 
-  template_name = "books/_sale/create_or_update.html"
+  template_name = "books/_sale/edit.html"
   model = Bill
   form_class = BillForm
   inlines_formset_pairs = (('line_formset', BillLineFormSet),)
@@ -434,7 +434,7 @@ class BillDetailView(
 # Payments
 
 class PaymentUpdateView(generic.UpdateView):
-  template_name = "accounting/books/payment_create_or_update.html"
+  template_name = "books/payment/edit.html"
   model = Payment
   form_class = PaymentForm
 
@@ -473,7 +473,7 @@ class ExpenseClaimCreateView(
     SaleLineCreateUpdateMixin,
     generic.CreateView):
 
-  template_name = "books/_sale/create_or_update.html"
+  template_name = "books/_sale/edit.html"
   model = ExpenseClaim
   form_class = ExpenseClaimForm
   inlines_formset_pairs = (('line_formset', ExpenseClaimLineFormSet),)
@@ -492,7 +492,7 @@ class ExpenseClaimUpdateView(
     SaleLineCreateUpdateMixin,
     generic.UpdateView):
 
-  template_name = "books/_sale/create_or_update.html"
+  template_name = "books/_sale/edit.html"
   model = ExpenseClaim
   form_class = ExpenseClaimForm
   inlines_formset_pairs = (('line_formset', ExpenseClaimLineFormSet),)
