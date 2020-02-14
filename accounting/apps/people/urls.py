@@ -4,13 +4,13 @@ from django.urls import include
 
 from . import views
 
-app_name = 'accounting.apps.people'
+app_name = 'people'
 
 
 urlpatterns = [
 
   path('', include('django.contrib.auth.urls')),
-  
+
   path('profile/create/', views.FiscalProfileCreateView.as_view(), name="fiscalprofile-create"),
   path('profile/<int:pk>/detail/', views.FiscalProfileDetailView.as_view(), name="fiscalprofile-detail"),
   path('profile/<int:pk>/edit/', views.FiscalProfileEditView.as_view(), name="fiscalprofile-edit"),

@@ -10,13 +10,13 @@ from .forms import ClientForm, EmployeeForm, FiscalProfileForm
 
 
 class FiscalProfileCreateView(generic.CreateView):
-  
+
   template_name = "accounting/people/fiscalprofile_edit.html"
-  
+
   model = FiscalProfile
-  
+
   form_class = FiscalProfileForm
-  
+
   def form_valid(self, form):
     profile = form.save(commit=False)
     profile.user = self.request.user
@@ -24,35 +24,35 @@ class FiscalProfileCreateView(generic.CreateView):
     return super().form_valid(form)
 
 class FiscalProfileDetailView(generic.DetailView):
-  
+
   template_name = "accounting/people/fiscalprofile_detail.html"
-  
+
   model = FiscalProfile
-  
+
   def get(self, request, *args, **kwargs):
     try:
       self.get_object()
     except Exception as e:
       FiscalProfile(request.user, fiscal_id = request.user.username).save()
     return super().get(request, *args, **kwargs)
-  
+
 class FiscalProfileEditView(generic.UpdateView):
-  
+
   template_name = "accounting/people/fiscalprofile_edit.html"
-  
+
   model = FiscalProfile
-  
+
   form_class = FiscalProfileForm
 
 class ClientListView(RestrictToSelectedOrganizationQuerySetMixin,
                      generic.ListView):
-    template_name = "accounting/people/client_list.html"
+    template_name = "people/client/list.html"
     model = Client
     context_object_name = "clients"
 
 class ClientCreateView(AutoSetSelectedOrganizationMixin,
                        generic.CreateView):
-    template_name = "accounting/people/client_create_or_update.html"
+    template_name = "people/client/create_or_update.html"
     model = Client
     form_class = ClientForm
 
@@ -63,7 +63,7 @@ class ClientCreateView(AutoSetSelectedOrganizationMixin,
 class ClientUpdateView(RestrictToSelectedOrganizationQuerySetMixin,
                        AutoSetSelectedOrganizationMixin,
                        generic.UpdateView):
-    template_name = "accounting/people/client_create_or_update.html"
+    template_name = "people/client/create_or_update.html"
     model = Client
     form_class = ClientForm
 
@@ -73,21 +73,21 @@ class ClientUpdateView(RestrictToSelectedOrganizationQuerySetMixin,
 
 class ClientDetailView(RestrictToSelectedOrganizationQuerySetMixin,
                        generic.DetailView):
-    template_name = "accounting/people/client_detail.html"
+    template_name = "people/client/detail.html"
     model = Client
     context_object_name = "client"
 
 
 class EmployeeListView(RestrictToSelectedOrganizationQuerySetMixin,
                        generic.ListView):
-    template_name = "accounting/people/employee_list.html"
+    template_name = "people/employee/list.html"
     model = Employee
     context_object_name = "employees"
 
 
 class EmployeeCreateView(AutoSetSelectedOrganizationMixin,
                          generic.CreateView):
-    template_name = "accounting/people/employee_create_or_update.html"
+    template_name = "people/employee/create_or_update.html"
     model = Employee
     form_class = EmployeeForm
 
@@ -98,7 +98,7 @@ class EmployeeCreateView(AutoSetSelectedOrganizationMixin,
 class EmployeeUpdateView(RestrictToSelectedOrganizationQuerySetMixin,
                          AutoSetSelectedOrganizationMixin,
                          generic.UpdateView):
-    template_name = "accounting/people/employee_create_or_update.html"
+    template_name = "people/employee/create_or_update.html"
     model = Employee
     form_class = EmployeeForm
 
@@ -108,6 +108,6 @@ class EmployeeUpdateView(RestrictToSelectedOrganizationQuerySetMixin,
 
 class EmployeeDetailView(RestrictToSelectedOrganizationQuerySetMixin,
                          generic.DetailView):
-    template_name = "accounting/people/employee_detail.html"
+    template_name = "people/employee/detail.html"
     model = Employee
     context_object_name = "employee"

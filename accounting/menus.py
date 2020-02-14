@@ -63,3 +63,22 @@ AsideMenu.add_item(AsideItem(
   icon="flaticon2-gear",
 ))
 
+_people = [
+  AsideItem(
+    "Clients",
+    reverse('people:client-list'),
+  ),
+  AsideItem(
+    "Employees",
+    reverse('people:employee-list'),
+  ),
+]
+
+AsideMenu.add_item(AsideItem(
+  "People",
+  reverse('people:client-list'),
+  children = _people,
+  icon="flaticon-customer",
+))
+
+
