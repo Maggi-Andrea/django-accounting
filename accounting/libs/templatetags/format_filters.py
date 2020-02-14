@@ -15,7 +15,7 @@ def percentage_formatter(value):
     if value or value == 0:
         kwargs = {
             'locale': to_locale(get_language()),
-            'format': "#,##0.00%",
+            'format': "#,##0.00 %",
         }
         return format_percent(value, **kwargs)
 
