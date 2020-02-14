@@ -3,7 +3,7 @@ from django.urls import path
 
 from . import views
 
-app_name = 'accounting.apps.reports'
+app_name = 'reports'
 
 urlpatterns = [
 
@@ -13,16 +13,16 @@ urlpatterns = [
     name="report-list"),
   path('report/tax/',
     views.TaxReportView.as_view(),
-    name="tax-report"),
+    name="report-tax"),
   path('report/profitloss/',
     views.ProfitAndLossReportView.as_view(),
-    name="profit-and-loss-report"),
+    name="report-profit_and_loss"),
   path('report/payrun/',
     views.PayRunReportView.as_view(),
-    name="pay-run-report"),
+    name="report-payrun"),
   path('report/invoicedetails/',
     views.InvoiceDetailsView.as_view(),
-    name="invoice-details-report"),
+    name="report-invoice_details"),
 
   # Settings
   path('settings/',

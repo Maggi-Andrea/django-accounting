@@ -1,32 +1,32 @@
-{% extends "accounting/_layout.html" %}
+{% extends "dkt/_layout.html" %}
 
 {% block content %}
 <h1 class="page-header">Reports <small>which belong to you</small></h1>
 
 <div class="card panel-link">
   <div class="card-body">
-    <a href="{% url 'reports:tax-report' %}"><h3 class="card-title">Tax Report</h3></a>
+    <a href="{% url 'reports:report-tax' %}"><h3 class="card-title">Tax Report</h3></a>
     Prepare the tax report for your tax period (defined in the <a href="{% url 'reports:settings-financial' %}">financial settings</a>)
   </div>
 </div>
 
 <div class="card panel-link">
   <div class="card-body">
-    <a href="{% url 'reports:profit-and-loss-report' %}"><h3 class="panel-title">Profit and Loss</h3></a>
+    <a href="{% url 'reports:report-profit_and_loss' %}"><h3 class="panel-title">Profit and Loss</h3></a>
     Know how your business is doing
   </div>
 </div>
 
 <div class="card panel-link">
   <div class="card-body">
-    <a href="{% url 'reports:pay-run-report' %}"><h3 class="panel-title">Pay run</h3></a>
+    <a href="{% url 'reports:report-payrun' %}"><h3 class="panel-title">Pay run</h3></a>
     How much payroll you should keep
   </div>
 </div>
 
 <div class="card panel-link">
   <div class="card-body">
-    <a href="{% url 'reports:invoice-details-report' %}"><h3 class="panel-title">Invoice details</h3></a>
+    <a href="{% url 'reports:report-invoice_details' %}"><h3 class="panel-title">Invoice details</h3></a>
     How much payroll you should keep
   </div>
 </div>

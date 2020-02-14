@@ -1,4 +1,4 @@
-{% extends "accounting/layout.html" %}
+{% extends "dkt/_layout.html" %}
 {% load currency_filters bootstrap4 %}
 
 {% block content %}
@@ -7,7 +7,7 @@
 <div class="card">
   <div class="card-body">
     <h3 class="card-title">{{ form_title }}</h3>
-    {% include "accounting/reports/_partials/period_form.html" with form=form %}
+    {% include "reports/_partials/period_form.html" with form=form %}
   </div>
 </div>
 

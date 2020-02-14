@@ -85,16 +85,48 @@ _reports = [
   AsideItem(
     "Reports",
     reverse('reports:report-list'),
+    children=[
+      AsideItem(
+        "Tax",
+        reverse('reports:report-tax'),
+      ),
+      AsideItem(
+        "Profit and Loss",
+        reverse('reports:report-profit_and_loss'),
+      ),
+      AsideItem(
+        "Payrun",
+        reverse('reports:report-payrun'),
+      ),
+      AsideItem(
+        "Invoice Details",
+        reverse('reports:report-invoice_details'),
+      ),
+    ]
   ),
   AsideItem(
     "Settings",
     reverse('reports:settings-list'),
+    children=[
+      AsideItem(
+        "Business",
+        reverse('reports:settings-business'),
+      ),
+      AsideItem(
+        "Financial",
+        reverse('reports:settings-financial'),
+      ),
+      AsideItem(
+        "Pay Run",
+        reverse('reports:settings-payrun'),
+      ),
+    ]
   ),
 ]
 
 AsideMenu.add_item(AsideItem(
   "Reports",
-  reverse('reports:report-list'),
+  "/reports",
   children = _reports,
   icon="flaticon-customer",
 ))
