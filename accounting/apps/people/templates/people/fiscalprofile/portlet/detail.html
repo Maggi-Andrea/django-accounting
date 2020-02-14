@@ -1,0 +1,35 @@
+{% load introspection_filters %}
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <span class="kt-portlet__head-icon">
+                <i class="flaticon-map-location"></i>
+            </span>
+            <h3 class="kt-portlet__head-title">
+                {{profile|get_model_verbose_name}} <small>{{profile.user.username}}</small>
+            </h3>
+        </div>
+        <div class="kt-portlet__head-toolbar">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                {% if profile.get_edit_url %}
+                <a href="{{profile.get_edit_url}}" class="btn btn-warning" role="button">
+                    <i class="la la-check"></i>
+                    <span class="kt-hidden-mobile">Edit</span>
+                </a>
+                {% endif %}
+                {% if profile.get_delete_url %}
+                <a href="{{profile.get_delete_url}}" class="btn btn-danger" role="button">
+                    <i class="la la-close"></i>
+                    <span class="kt-hidden-mobile">Delete</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="kt-portlet__body kt-portlet__body--fit">
+        <dl class="row">
+            <dt class="col-lg-3 col-print-3">Fiscal id:</dt>
+            <dd class="col-lg-9 col-print-9">{{profile.fiscal_id}}</dd>
+        </dl>
+    </div>
+</div>
