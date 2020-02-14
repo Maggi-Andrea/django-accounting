@@ -1,4 +1,4 @@
-{% extends "accounting/layout.html" %}
+{% extends "dkt/_layout.html" %}
 
 {% load crispy_forms_tags %}
 
@@ -12,7 +12,7 @@
       Please try again.
     </p>
   {% else %}
-    <p>Please, use the following form to log-in. 
+    <p>Please, use the following form to log-in.
     {# <--If you don't have an account <a href="{% url 'user:register' %}">register here</a> -->#}
     </p>
   {% endif %}

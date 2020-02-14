@@ -6,7 +6,6 @@ from . import views
 
 app_name = 'people'
 
-
 urlpatterns = [
 
   path('', include('django.contrib.auth.urls')),

@@ -11,7 +11,7 @@ from .forms import ClientForm, EmployeeForm, FiscalProfileForm
 
 class FiscalProfileCreateView(generic.CreateView):
 
-  template_name = "accounting/people/fiscalprofile_edit.html"
+  template_name = "people/fiscalprofile/edit.html"
 
   model = FiscalProfile
 
@@ -25,7 +25,7 @@ class FiscalProfileCreateView(generic.CreateView):
 
 class FiscalProfileDetailView(generic.DetailView):
 
-  template_name = "accounting/people/fiscalprofile_detail.html"
+  template_name = "people/fiscalprofile/detail.html"
 
   model = FiscalProfile
 
@@ -38,7 +38,7 @@ class FiscalProfileDetailView(generic.DetailView):
 
 class FiscalProfileEditView(generic.UpdateView):
 
-  template_name = "accounting/people/fiscalprofile_edit.html"
+  template_name = "people/fiscalprofile/edit.html"
 
   model = FiscalProfile
 
@@ -52,7 +52,7 @@ class ClientListView(RestrictToSelectedOrganizationQuerySetMixin,
 
 class ClientCreateView(AutoSetSelectedOrganizationMixin,
                        generic.CreateView):
-    template_name = "people/client/create_or_update.html"
+    template_name = "people/client/edit.html"
     model = Client
     form_class = ClientForm
 
@@ -63,7 +63,7 @@ class ClientCreateView(AutoSetSelectedOrganizationMixin,
 class ClientUpdateView(RestrictToSelectedOrganizationQuerySetMixin,
                        AutoSetSelectedOrganizationMixin,
                        generic.UpdateView):
-    template_name = "people/client/create_or_update.html"
+    template_name = "people/client/edit.html"
     model = Client
     form_class = ClientForm
 
@@ -87,7 +87,7 @@ class EmployeeListView(RestrictToSelectedOrganizationQuerySetMixin,
 
 class EmployeeCreateView(AutoSetSelectedOrganizationMixin,
                          generic.CreateView):
-    template_name = "people/employee/create_or_update.html"
+    template_name = "people/employee/edit.html"
     model = Employee
     form_class = EmployeeForm
 
@@ -98,7 +98,7 @@ class EmployeeCreateView(AutoSetSelectedOrganizationMixin,
 class EmployeeUpdateView(RestrictToSelectedOrganizationQuerySetMixin,
                          AutoSetSelectedOrganizationMixin,
                          generic.UpdateView):
-    template_name = "people/employee/create_or_update.html"
+    template_name = "people/employee/edit.html"
     model = Employee
     form_class = EmployeeForm
 
