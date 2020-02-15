@@ -1,0 +1,29 @@
+{% extends 'kt/portlet__head/title.html' %}
+
+{% block kt-portlet__head-title.div %}
+    {{ organization.display_name }}
+    <small>
+        {% if organization.owner == request.user %}
+        <span class="badge badge-pill badge-warning">owned</span>
+        {% else %}
+        <span class="badge badge-pill badge-info">member</span>
+        {% endif %}
+    </small>
+{% endblock %}
+
+{% block kt-portlet__head %}
+<div class="kt-portlet__head">
+    <div class="kt-portlet__head-label">
+        <h3 class="kt-portlet__head-title">
+            {{ organization.display_name }}
+        </h3>
+    </div>
+    <div class="kt-portlet__head-toolbar">
+        {% if organization.owner == request.user %}
+        <span class="badge badge-pill badge-warning">owned</span>
+        {% else %}
+        <span class="badge badge-pill badge-info">member</span>
+        {% endif %}
+    </div>
+</div>
+{% endblock kt-portlet__head %}

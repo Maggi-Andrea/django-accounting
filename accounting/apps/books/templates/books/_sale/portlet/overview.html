@@ -1,0 +1,11 @@
+{% extends 'kt/portlet.html' %}
+
+{% block kt-portlet__head %}
+    {% include 'kt/portlet__head.html' with icon_class='flaticon-tabs' title_text='Overview' toolbar=False %}
+{% endblock kt-portlet__head %}
+
+{% block kt-portlet__body %}
+    {% include 'kt/portlet__body.html' with portlet__content='books/_sale/portlet/overview__content.html' %}
+{% endblock %}
+
+{% block kt-portlet__foot %}{% endblock %}

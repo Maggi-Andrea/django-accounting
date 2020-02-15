@@ -17,11 +17,11 @@
         <div class="row">
             {% if checklist %}
             <div class="col-12">
-		        {% include "books/_sale/checks/portlet/list.html" with checklist=checklist %}
+		        {% include "books/_sale/portlet/checks.html" with checklist=checklist %}
             </div>
             {% endif %}
             <div class="col-12">
-                {% include "books/_sale/portlet/details.html" with object=object %}
+                {% include "books/_sale/portlet/overview.html" with object=object %}
             </div>
         </div>
     </div>

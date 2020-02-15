@@ -1,0 +1,12 @@
+{% extends 'kt/portlet__content.html' %}
+{% load currency_filters %}
+
+{% block kt-portlet__content.div %}
+<dl class="row">
+    <dt class="col-4">Turn over (excl. tax)</dt>
+    <dd class="col-8">{{ organization.turnover_excl_tax|currency|default:"-" }}</dd>
+    <dt class="col-4">Due payments</dt>
+    <dd class="col-8">{{ organization.overdue_total|currency|default:0 }}</dd>
+</dl>
+{% endblock kt-portlet__content.div %}
+

@@ -1,0 +1,11 @@
+<div class="kt-portlet__body">
+    {% block kt-portlet__content %}
+	    {% if portlet__content != False %}
+	        {% if portlet__content %}
+		       {% include portlet__content with content=content %}
+		    {% else %}
+		       {% include 'kt/portlet__content.html' with content=content %}
+	        {% endif %}
+	    {% endif %}
+    {% endblock kt-portlet__content %}
+</div>

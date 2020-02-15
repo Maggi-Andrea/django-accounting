@@ -1,0 +1,21 @@
+<div class="kt-portlet__head-label">
+    {% block kt-portlet__head-icon %}
+        {% if icon != False %}
+            {% if icon %}
+                {% include icon with class=icon_class %}
+            {% else %}
+                {% include 'kt/portlet__head/icon.html' with class=icon_class  %}
+            {% endif %}
+        {% endif %}
+    {% endblock kt-portlet__head-icon %}
+
+    {% block kt-portlet__head-title %}
+        {% if title != False %}
+            {% if title %}
+                {% include title with text=title_text %}
+            {% else %}
+                {% include 'kt/portlet__head/title.html' with text=title_text  %}
+            {% endif %}
+        {% endif %}
+    {% endblock kt-portlet__head-title %}
+</div>
