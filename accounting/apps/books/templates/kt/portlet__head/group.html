@@ -1,4 +1,10 @@
 <div class="kt-portlet__head-group">
-    <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md"><i class="la la-cog"></i></button>&nbsp;
-    <button type="button" class="btn btn-default btn-sm btn-bold btn-upper">Preview</button>
+    {% block kt-portlet__head-group.div %}
+        <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md">
+            <i class="la la-cog"></i>
+        </button>&nbsp;
+	    <button type="button" class="btn btn-default btn-sm btn-bold btn-upper">
+	       Preview
+       </button>
+    {% endblock %}
 </div>

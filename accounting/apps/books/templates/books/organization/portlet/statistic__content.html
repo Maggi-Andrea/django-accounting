@@ -1,0 +1,67 @@
+{% extends 'kt/portlet__content.html' %}
+{% load currency_filters %}
+
+{% block kt-portlet__content.div %}
+    <div class="kt-widget-2">
+        <div class="kt-widget-2__content ">
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-6">
+                    <div class="kt-widget-2__item m-0">
+                        <div class="kt-widget-2__item-title">
+                            Turnover
+                        </div>
+                        <div class="kt-widget-2__item-stats">
+                            <div class="kt-widget-2__item-info">
+                                <div class="kt-widget-2__item-text">
+                                    {{ organization.turnover_excl_tax|currency|default:"-" }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-6">
+                    <div class="kt-widget-2__item m-0">
+                        <div class="kt-widget-2__item-title">
+                            Profits
+                        </div>
+                        <div class="kt-widget-2__item-stats">
+                            <div class="kt-widget-2__item-info">
+                                <div class="kt-widget-2__item-text">
+                                    {{ organization.profits|currency|default:"-" }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-6">
+                    <div class="kt-widget-2__item m-0">
+                        <div class="kt-widget-2__item-title">
+                            Tax Provisionning
+                        </div>
+                        <div class="kt-widget-2__item-stats">
+                            <div class="kt-widget-2__item-info">
+                                <div class="kt-widget-2__item-text">
+                                    {{ organization.tax_provisionning|currency|default:0 }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-6">
+                    <div class="kt-widget-2__item m-0">
+                        <div class="kt-widget-2__item-title">
+                            Due payments
+                        </div>
+                        <div class="kt-widget-2__item-stats">
+                            <div class="kt-widget-2__item-info">
+                                <div class="kt-widget-2__item-text">
+                                    {{ organization.overdue_total|currency|default:0 }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock kt-portlet__content.div %}
