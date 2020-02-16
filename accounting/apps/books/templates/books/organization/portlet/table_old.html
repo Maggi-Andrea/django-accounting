@@ -1,0 +1,18 @@
+{% extends 'kt/portlet.html' %}
+
+{% block kt-portlet.div %}
+    {% with title_text='Organizations <small>where you work</small>' %}
+    {% with title='books/organization/portlet/table__head/title.html' %}
+    {% with group='books/organization/portlet/table__head/group.html' %}
+    {% with portlet__body_class='kt-portlet__body--fit' %}
+    {% with portlet__content='books/organization/portlet/table__content.html' %}
+    {% with portlet__foot=False %}
+        {{block.super}}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+{% endblock kt-portlet.div %}
+

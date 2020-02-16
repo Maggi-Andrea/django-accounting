@@ -1,20 +1,24 @@
-<div class="kt-portlet">
-    <div class="kt-portlet__head">
-        <div class="kt-portlet__head-label">
-            <span class="kt-portlet__head-icon">
-                <i class="flaticon-map-location"></i>
-            </span>
-            <h3 class="kt-portlet__head-title">
-                Organizations <small>where you work</small>
-            </h3>
-        </div>
-        <div class="kt-portlet__head-toolbar">
-            <div class="kt-portlet__head-group">
-                <a href="{% url 'books:organization-create' %}" class="btn btn-brand btn-sm btn-elevate" role="button"><i class="fa fa-dollar-sign"></i>Add an organization</a>
-            </div>
-        </div>
-    </div>
-    <div class="kt-portlet__body kt-portlet__body--fit">
-        {% include "books/organization/table/base.html" with organizations=organizations %}
-    </div>
-</div>
+{% extends 'kt/portlet_base.html' %}
+
+{% block kt-portlet.div %}
+    {% with portlet__foot=False %}
+        {{block.super}}
+    {% endwith %}
+{% endblock kt-portlet.div %}
+
+{% block kt-portlet__head-title.div %}
+     Organizations<small>where you work</small>
+{% endblock %}
+
+{% block kt-portlet__head-group.div %}
+    <a href="{% url 'books:organization-create' %}" class="btn btn-brand btn-sm btn-elevate" role="button">
+        <i class="fa fa-dollar-sign"></i>Add an organization
+    </a>
+{% endblock %}
+
+{% block kt-portlet__body.class %}kt-portlet__body--fit{% endblock %}
+
+{% block kt-portlet__content.div %}
+    {% include "books/organization/table/base.html" with organizations=organizations %}
+{% endblock %}
+

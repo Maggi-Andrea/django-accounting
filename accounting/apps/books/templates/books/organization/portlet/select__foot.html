@@ -1,7 +1,7 @@
 {% extends 'kt/portlet__foot.html' %}
 {% load currency_filters %}
 
-{% block kt-portlet__foot.class %}kt-align-right{% endblock %}
+{% block kt-portlet__foot.class %}{{block.super}} kt-align-right{% endblock %}
 
 {% block kt-portlet__foot.div %}
     <form action="{% url 'books:organization-select' organization.pk %}" method="post" id="form_orga_{{organization.pk}}">

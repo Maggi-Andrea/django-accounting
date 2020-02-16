@@ -1,17 +1,14 @@
 {% extends 'kt/portlet.html' %}
-{% load currency_filters %}
 
 {% block kt-portlet.div %}
-{% with title='books/organization/portlet/statistic__head/title.html' %}
-{% with group='books/organization/portlet/statistic__head/group.html' %}
-{% with  portlet__content='books/organization/portlet/statistic__content.html' %}
-{{block.super}}
-{% endwith %}
-{% endwith %}
-{% endwith %}
+    {% with title='books/organization/portlet/statistic__head/title.html' %}
+    {% with group='books/organization/portlet/statistic__head/group.html' %}
+    {% with portlet__content='books/organization/portlet/statistic__content.html' %}
+    {% with portlet__foot=False %}
+        {{block.super}}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
 {% endblock kt-portlet.div %}
-
-{% block kt-portlet__foot %}
-{#    {% include 'kt/portlet__foot.html' with class=foot_class small=foot_small foot=foot %}#}
-{% endblock kt-portlet__foot %}
 

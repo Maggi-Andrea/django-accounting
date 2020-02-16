@@ -1,0 +1,120 @@
+<!--begin::Portlet-->
+<div class="kt-portlet {% block kt-portlet.class %}{{portlet_class}}{% endblock %}">
+{% block kt-portlet.div %}
+    {% block kt-portlet__head %}
+        {% if portlet__head != False %}
+            {% if portlet__head %}
+                {% include portlet__head %}
+            {% else %}
+                <div class="kt-portlet__head {% block kt-portlet__head.class %}{{portlet__head_class}}{% endblock %}">
+                    {% block kt-portlet__head.div %}
+                        {% block kt-portlet__head-label %}
+                            {% if label != False %}
+                                {% if label %}
+                                    {% include label %}
+                                {% else %}
+                                    <div class="kt-portlet__head-label {% block kt-portlet__head-label.class %}{{portlet__head_label_class}}{% endblock %}">
+                                        {% block kt-portlet__head-label.div %}
+                                            {% block kt-portlet__head-icon %}
+                                                {% if icon != False %}
+                                                    {% if icon %}
+                                                        {% include icon %}
+                                                    {% else %}
+                                                        <span class="kt-portlet__head-icon {% block kt-portlet__head-icon.class %}{{portlet__head_icon_class}}{% endblock %}">
+                                                            {% block kt-portlet__head-icon.div %}
+                                                                {% include 'kt/icon.html' with class=icon_class %}
+                                                            {% endblock %}
+                                                        </span>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endblock kt-portlet__head-icon %}
+
+                                            {% block kt-portlet__head-title %}
+                                                {% if title != False %}
+                                                    {% if title %}
+                                                        {% include title %}
+                                                    {% else %}
+                                                        <h3 class="kt-portlet__head-title {% block kt-portlet__head-title.class %}{{portlet__head_title_class}}{% endblock %}">
+                                                            {% block kt-portlet__head-title.div %}{{title_text}}{% endblock %}
+                                                        </h3>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endblock kt-portlet__head-title %}
+                                        {% endblock kt-portlet__head-label.div %}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endblock kt-portlet__head-label %}
+                    {% endblock kt-portlet__head.div %}
+
+                    {% block kt-portlet__head-toolbar %}
+                        {% if toolbar != False %}
+                            {% if toolbar %}
+                                {% include toolbar %}
+                            {% else %}
+                                <div class="kt-portlet__head-toolbar">
+                                    {% block kt-portlet__head-group %}
+                                        {% if group != False %}
+                                            {% if group %}
+                                                {% include group %}
+                                            {% else %}
+                                                <div class="kt-portlet__head-group {% block kt-portlet__head-group.class %}{{portlet__head_group_class}}{% endblock %}">
+                                                    {% block kt-portlet__head-group.div %}
+                                                        <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md">
+                                                            <i class="la la-cog"></i>
+                                                        </button>&nbsp;
+                                                        <button type="button" class="btn btn-default btn-sm btn-bold btn-upper">
+                                                           Preview
+                                                       </button>
+                                                    {% endblock %}
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endblock kt-portlet__head-group %}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endblock kt-portlet__head-toolbar %}
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endblock kt-portlet__head %}
+
+    {% block kt-portlet__body %}
+            {% if portlet__body != False %}
+                {% if portlet__body %}
+                    {% include portlet__body %}
+                {% else %}
+                    <div class="kt-portlet__body {% block kt-portlet__body.class %}{{portlet__body_class}}{% endblock %}">
+                        {% block kt-portlet__body.div %}
+                            {% block kt-portlet__content %}
+                                {% if portlet__content != False %}
+                                    {% if portlet__content %}
+                                       {% include portlet__content %}
+                                    {% else %}
+                                        <div class="kt-portlet__content {% block kt-portlet__content.class %}{{portlet__content_class}}{% endblock %}">
+                                            {% block kt-portlet__content.div %}{{portlet__content_text}}{% endblock %}
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endblock kt-portlet__content %}
+                        {% endblock kt-portlet__body.div %}
+                    </div>
+                {% endif %}
+            {% endif %}
+    {% endblock kt-portlet__body %}
+
+    {% block kt-portlet__foot %}
+        {% if portlet__foot != False %}
+            {% if portlet__foot %}
+                {% include portlet__foot %}
+            {% else %}
+                <div class="kt-portlet__foot {% block kt-portlet__foot.class %}{{portlet__foot_class}}{% endblock %}">
+                    {% block kt-portlet__foot.div %}{% endblock %}
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endblock kt-portlet__foot %}
+{% endblock kt-portlet.div %}
+</div>
+<!--end::Portlet-->

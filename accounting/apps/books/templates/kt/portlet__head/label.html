@@ -1,21 +1,23 @@
-<div class="kt-portlet__head-label">
-    {% block kt-portlet__head-icon %}
-        {% if icon != False %}
-            {% if icon %}
-                {% include icon with class=icon_class %}
-            {% else %}
-                {% include 'kt/portlet__head/icon.html' with class=icon_class  %}
+<div class="kt-portlet__head-label {% block kt-portlet__head-label.class %}portlet__head_label_class{% endblock %}">
+    {% block kt-portlet__head-label.div %}
+        {% block kt-portlet__head-icon %}
+            {% if icon != False %}
+                {% if icon %}
+                    {% include icon  %}
+                {% else %}
+                    {% include 'kt/portlet__head/icon.html' %}
+                {% endif %}
             {% endif %}
-        {% endif %}
-    {% endblock kt-portlet__head-icon %}
+        {% endblock kt-portlet__head-icon %}
 
-    {% block kt-portlet__head-title %}
-        {% if title != False %}
-            {% if title %}
-                {% include title with text=title_text %}
-            {% else %}
-                {% include 'kt/portlet__head/title.html' with text=title_text  %}
+        {% block kt-portlet__head-title %}
+            {% if title != False %}
+                {% if title %}
+                    {% include title %}
+                {% else %}
+                    {% include 'kt/portlet__head/title.html' %}
+                {% endif %}
             {% endif %}
-        {% endif %}
-    {% endblock kt-portlet__head-title %}
+        {% endblock kt-portlet__head-title %}
+    {% endblock kt-portlet__head-label.div %}
 </div>

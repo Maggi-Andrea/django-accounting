@@ -1,16 +1,35 @@
 <!--begin::Portlet-->
-<div class="kt-portlet">
+<div class="kt-portlet {% block kt-portlet.class %}{{portlet_class}}{% endblock %}">
+{% block kt-portlet.div %}">
 {% block kt-portlet.div %}
     {% block kt-portlet__head %}
-    {% include 'kt/portlet__head.html' with label=label icon=icon icon_class=icon_class title=title title_text=title_text toolbar=toolbar group=group menu=menu %}
-	{% endblock kt-portlet__head %}
+        {% if portlet__head != False %}
+            {% if portlet__head %}
+                {% include portlet__head %}
+            {% else %}
+                {% include 'kt/portlet__head.html' %}
+            {% endif %}
+        {% endif %}
+    {% endblock kt-portlet__head %}
 
     {% block kt-portlet__body %}
-    {% include 'kt/portlet__body.html' with portlet__content=portlet__content content=content %}
+        {% if portlet__body != False %}
+            {% if portlet__body %}
+                {% include portlet__body%}
+            {% else %}
+                {% include 'kt/portlet__body.html' %}
+            {% endif %}
+        {% endif %}
     {% endblock kt-portlet__body %}
 
     {% block kt-portlet__foot %}
-    {% include 'kt/portlet__foot.html' with class=foot_class small=foot_small foot=foot %}
+        {% if portlet__foot != False %}
+            {% if portlet__foot %}
+                {% include portlet__foot %}
+            {% else %}
+                {% include 'kt/portlet__foot.html' %}
+            {% endif %}
+        {% endif %}
     {% endblock kt-portlet__foot %}
 {% endblock kt-portlet.div %}
 </div>

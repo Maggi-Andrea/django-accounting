@@ -1,3 +1,3 @@
-<div class="kt-portlet__content">
-    {% block kt-portlet__content.div %}{{content}}{% endblock %}
+<div class="kt-portlet__content {% block kt-portlet__content.class %}{{portlet__content_class}}{% endblock %}">
+    {% block kt-portlet__content.div %}{{portlet__content_text}}{% endblock %}
 </div>

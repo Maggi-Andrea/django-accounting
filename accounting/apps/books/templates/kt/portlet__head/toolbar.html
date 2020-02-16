@@ -2,9 +2,9 @@
     {% block kt-portlet__head-group %}
         {% if group != False %}
             {% if group %}
-                {% include group with menu=menu %}
+                {% include group %}
             {% else %}
-			    {% include 'kt/portlet__head/group.html' with menu=menu %}
+          {% include 'kt/portlet__head/group.html'%}
             {% endif %}
         {% endif %}
     {% endblock kt-portlet__head-group %}
