@@ -5,19 +5,15 @@
 
 {% block content %}
 
-{% addtoblock "body-scripts-page_scripts" %}
-{{ form.media }}
-{% endaddtoblock %}
-
 <div class="row">
     <div class="col-xl-8">
-		{% include "books/_sale/card/detail.html" with object=object extra_suffix='number: ' extra=object.number %}
+    {% include "books/_sale/portlet/detail.html" with object=object extra_suffix='number: ' extra=object.number %}
     </div>
     <div class="col-xl-4">
         <div class="row">
             {% if checklist %}
             <div class="col-12">
-		        {% include "books/_sale/portlet/checks.html" with checklist=checklist %}
+            {% include "books/_sale/portlet/checks.html" with checklist=checklist %}
             </div>
             {% endif %}
             <div class="col-12">
@@ -32,4 +28,7 @@
     {% endif %}
 </div>
 
+{% addtoblock "body-scripts-page_scripts" %}
+{{ form.media }}
+{% endaddtoblock %}
 {% endblock content %}

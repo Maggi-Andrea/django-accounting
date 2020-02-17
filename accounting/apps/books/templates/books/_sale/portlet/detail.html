@@ -1,0 +1,101 @@
+{% extends 'kt/portlet_base.html' %}
+
+{% load introspection_filters %}
+{% load currency_filters %}
+{% load sekizai_tags %}
+
+{% block kt-portlet.attrs %}id='printDiv'{% endblock kt-portlet.attrs %}
+
+{% block kt-portlet.div %}
+    {% with portlet__head_icon=Flase %}
+        {{block.super}}
+    {% endwith %}
+
+    {% addtoblock "body-scripts-page_scripts" %}
+    <style>
+        @page {
+            size:  A4;
+            margin-top: 50px;
+            margin-bottom: 100px;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+    </style>
+    {% endaddtoblock %}
+    {% addtoblock "body-scripts-page_scripts" %}
+    <script language="javascript" type="text/javascript">
+        document.getElementById("doPrint").addEventListener(
+            "click",
+            function() {
+                var printContents = document.getElementById('printDiv').innerHTML;
+                var originalContents = document.body.innerHTML;
+                document.body.innerHTML = printContents;
+                window.print();
+                document.body.innerHTML = originalContents;
+            }
+        );
+    </script>
+    {% endaddtoblock %}
+{% endblock kt-portlet.div %}
+
+{% block kt-portlet__head-title.div %}
+    {{object|get_model_verbose_name}} {{extra_suffix}}{{extra}}
+{% endblock %}
+
+{% block kt-portlet__head-group.class %}{% endblock %}
+
+{% block kt-portlet__head-group.div %}
+    <div class="btn-group mr-2 d-print-none">
+        {% if object.get_edit_url %}
+        <a href="{{object.get_edit_url}}" class="btn btn-warning d-print-none" role="button">Edit</a>
+        {% endif %}
+        {% if object.get_delete_url %}
+        <a href="{{object.get_delete_url}}" class="btn btn-danger d-print-none" role="button">Supprimer</a>
+        {% endif %}
+        <a class="btn btn-secondary d-print-none" role="button" type="submit" id="doPrint">Print</a>
+    </div>
+{% endblock %}
+
+
+{% block kt-portlet__content.div %}
+    <div class="d-flex flex-column">
+        <div class="d-flex flex-column flex-sm-row justify-content-between">
+            <div class="p-2 flex-grow-1">
+                {% include "books/_sale/organization/card/from_to.html" with from_to='From' client=object.from_client %}
+            </div>
+            <div class="p-2 flex-grow-1">
+                {% include "books/_sale/organization/card/from_to.html" with from_to='To' client=object.to_client %}
+            </div>
+        </div>
+        <div>
+            <h4>Dates:</h4>
+            {% include "books/_sale/dates/container.html" with object=object %}
+            <h4>Lines:</h4>
+            {% include "books/_sale/lines/table.html" with lines=lines %}
+            <h4>Contributions:</h4>
+            {% include "books/_sale/contributions/table.html" with lines=contributions %}
+        </div>
+        <p>{{object.description}}</p>
+    </div>
+{% endblock kt-portlet__content.div %}
+
+
+{% block kt-portlet__foot.div %}
+    <dl class="row m-0 justify-content-end text-right">
+        <dt class="col-auto">Sub Total:</dt>
+        <dd class="col-3 col-xl-2">{{object.total_excl_tax|currency }}</dd>
+    </dl>
+    <dl class="row m-0 justify-content-end text-right">
+        <dt class="col-auto">Tax:</dt>
+        <dd class="col-3 col-xl-2">{{object.total_tax|currency }}</dd>
+    </dl>
+    <dl class="row m-0 justify-content-end text-right">
+        <dt class="col-auto">Total:</dt>
+        <dd class="col-3 col-xl-2">{{object.total_incl_tax|currency }}</dd>
+    </dl>
+{% endblock %}
+
+
+
+
+
