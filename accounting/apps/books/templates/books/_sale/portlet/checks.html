@@ -1,12 +1,26 @@
-{% extends 'kt/portlet.html' %}
+{% extends 'kt/portlet_base.html' %}
 
-{% block kt-portlet__head %}
-    {% include 'kt/portlet__head.html' with icon_class='flaticon2-checkmark' title_text='Checklist' toolbar=False %}
-{% endblock kt-portlet__head %}
+{% load check_filters %}
+{% load check_tags %}
 
-{% block kt-portlet__body %}
-    {% include 'kt/portlet__body.html' with portlet__content='books/_sale/portlet/checks__content.html' %}
-{% endblock %}
+{% block kt-portlet.div %}
+    {% with icon_class='flaticon2-checkmark' %}
+    {% with title_text='Checklist' %}
+    {% with portlet__head_toolbar=False %}
+    {% with portlet__foot=False %}
+        {{block.super}}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+{% endblock kt-portlet.div %}
 
-{% block kt-portlet__foot %}{% endblock %}
-
+{% block kt-portlet__content.div %}
+    <ul class="list-group list-group-flush check-list">
+        {% for check in checklist %}
+        <li class="list-group-item list-group-item-{{ check|level_to_css_classname }}">
+            {% render_check check %}
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock kt-portlet__content.div %}

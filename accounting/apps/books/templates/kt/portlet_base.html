@@ -9,16 +9,16 @@
                 <div class="kt-portlet__head {% block kt-portlet__head.class %}{{portlet__head_class}}{% endblock %}">
                     {% block kt-portlet__head.div %}
                         {% block kt-portlet__head-label %}
-                            {% if label != False %}
-                                {% if label %}
-                                    {% include label %}
+                            {% if portlet__head_label != False %}
+                                {% if portlet__head_label %}
+                                    {% include portlet__head_label %}
                                 {% else %}
                                     <div class="kt-portlet__head-label {% block kt-portlet__head-label.class %}{{portlet__head_label_class}}{% endblock %}">
                                         {% block kt-portlet__head-label.div %}
                                             {% block kt-portlet__head-icon %}
-                                                {% if icon != False %}
-                                                    {% if icon %}
-                                                        {% include icon %}
+                                                {% if portlet__head_icon != False %}
+                                                    {% if portlet__head_icon %}
+                                                        {% include portlet__head_icon %}
                                                     {% else %}
                                                         <span class="kt-portlet__head-icon {% block kt-portlet__head-icon.class %}{{portlet__head_icon_class}}{% endblock %}">
                                                             {% block kt-portlet__head-icon.div %}
@@ -30,9 +30,9 @@
                                             {% endblock kt-portlet__head-icon %}
 
                                             {% block kt-portlet__head-title %}
-                                                {% if title != False %}
-                                                    {% if title %}
-                                                        {% include title %}
+                                                {% if portlet__head_title != False %}
+                                                    {% if portlet__head_title %}
+                                                        {% include portlet__head_title %}
                                                     {% else %}
                                                         <h3 class="kt-portlet__head-title {% block kt-portlet__head-title.class %}{{portlet__head_title_class}}{% endblock %}">
                                                             {% block kt-portlet__head-title.div %}{{title_text}}{% endblock %}
@@ -48,15 +48,15 @@
                     {% endblock kt-portlet__head.div %}
 
                     {% block kt-portlet__head-toolbar %}
-                        {% if toolbar != False %}
-                            {% if toolbar %}
-                                {% include toolbar %}
+                        {% if portlet__head_toolbar != False %}
+                            {% if portlet__head_toolbar %}
+                                {% include portlet__head_toolbar %}
                             {% else %}
                                 <div class="kt-portlet__head-toolbar">
                                     {% block kt-portlet__head-group %}
-                                        {% if group != False %}
-                                            {% if group %}
-                                                {% include group %}
+                                        {% if portlet__head_group != False %}
+                                            {% if portlet__head_group %}
+                                                {% include portlet__head_group %}
                                             {% else %}
                                                 <div class="kt-portlet__head-group {% block kt-portlet__head-group.class %}{{portlet__head_group_class}}{% endblock %}">
                                                     {% block kt-portlet__head-group.div %}
@@ -110,7 +110,43 @@
                 {% include portlet__foot %}
             {% else %}
                 <div class="kt-portlet__foot {% block kt-portlet__foot.class %}{{portlet__foot_class}}{% endblock %}">
-                    {% block kt-portlet__foot.div %}{% endblock %}
+                    {% block kt-portlet__foot.div %}
+                        {% block kt-portlet__foot-wrapper %}
+                            {% if portlet__foot_wrapper != False %}
+                                {% if portlet__foot_wrapper %}
+                                    {% include portlet__foot_wrapper %}
+                                {% else %}
+                                    <div class="kt-portlet__foot-wrapper {% block kt-portlet__foot-wrapper.class %}{{portlet__foot_wrapper_class}}{% endblock %}">
+                                        {% block kt-portlet__foot-wrapper.div %}
+                                            {% block kt-portlet__foot-info %}
+                                                {% if portlet__foot_info != False %}
+                                                    {% if portlet__foot_info %}
+                                                        {% include portlet__foot_info %}
+                                                    {% else %}
+                                                        <div class="kt-portlet__foot-info {% block kt-portlet__foot-info.class %}{{portlet__foot_info_class}}{% endblock %}">
+                                                            {% block kt-portlet__foot-info.div %}{% endblock %}
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endblock kt-portlet__foot-info %}
+
+                                            {% block kt-portlet__foot-toolbar %}
+                                                {% if portlet__foot_toolbar != False %}
+                                                    {% if portlet__foot_toolbar %}
+                                                        {% include portlet__foot_toolbar %}
+                                                    {% else %}
+                                                        <div class="kt-portlet__foot-toolbar {% block kt-portlet__foot-toolbar.class %}{{portlet__foot_toolbar_class}}{% endblock %}">
+                                                            {% block kt-portlet__foot-toolbar.div %}{% endblock %}
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endblock kt-portlet__foot-toolbar %}
+                                        {% endblock kt-portlet__foot-wrapper.div %}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endblock kt-portlet__foot-wrapper %}
+                    {% endblock kt-portlet__foot.div %}
                 </div>
             {% endif %}
         {% endif %}

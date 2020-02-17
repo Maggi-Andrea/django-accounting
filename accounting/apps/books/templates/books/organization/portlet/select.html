@@ -1,14 +1,43 @@
-{% extends 'kt/portlet.html' %}
+{% extends 'kt/portlet_base.html' %}
+
+
+{% block kt-portlet.div %}
+    {% with portlet__head_icon=False %}
+    {% with portlet__head_toolbar=False %}
+        {{block.super}}
+    {% endwith %}
+    {% endwith %}
+{% endblock kt-portlet.div %}
+
 {% load currency_filters %}
 
-{% block kt-portlet__head %}
-{% include 'kt/portlet__head.html' with title='books/organization/portlet/select__head/title.html' toolbar=False%}
-{% endblock kt-portlet__head %}
-
-{% block kt-portlet__body %}
-    {% include 'kt/portlet__body.html' with portlet__content='books/organization/portlet/select__content.html' %}
+{% block kt-portlet__head-title.div %}
+    {{ organization.display_name }}
+    <small>
+        {% if organization.owner == request.user %}
+        <span class="badge badge-pill badge-warning">owned</span>
+        {% else %}
+        <span class="badge badge-pill badge-info">member</span>
+        {% endif %}
+    </small>
 {% endblock %}
 
-{% block kt-portlet__foot %}
-    {% include 'books/organization/portlet/select__foot.html' with portlet__foot_class='kt-portlet__foot--sm' %}
+
+{% block kt-portlet__content.div %}
+    <dl class="row">
+        <dt class="col-4">Turn over (excl. tax)</dt>
+        <dd class="col-8">{{ organization.turnover_excl_tax|currency|default:"-" }}</dd>
+        <dt class="col-4">Due payments</dt>
+        <dd class="col-8">{{ organization.overdue_total|currency|default:0 }}</dd>
+    </dl>
+{% endblock kt-portlet__content.div %}
+
+
+{% block kt-portlet__foot.class %}{{block.super}}kt-portlet__foot--sm{% endblock %}
+
+{% block kt-portlet__foot-toolbar.div %}
+    <form action="{% url 'books:organization-select' organization.pk %}" method="post" id="form_orga_{{organization.pk}}">
+        {% csrf_token %}
+    </form>
+    <button type="submit" role="button" form="form_orga_{{organization.pk}}" class="btn btn-success btn-sm btn-focus btn-pill">Select</button>
 {% endblock %}

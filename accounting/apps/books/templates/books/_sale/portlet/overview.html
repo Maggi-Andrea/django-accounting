@@ -1,11 +1,67 @@
-{% extends 'kt/portlet.html' %}
+{% extends 'kt/portlet_base.html' %}
+{% load currency_filters %}
 
-{% block kt-portlet__head %}
-    {% include 'kt/portlet__head.html' with icon_class='flaticon-tabs' title_text='Overview' toolbar=False %}
-{% endblock kt-portlet__head %}
+{% block kt-portlet.div %}
+    {% with icon_class='flaticon-tabs' %}
+    {% with title_text='Overview' %}
+    {% with portlet__head_toolbar=False %}
+    {% with portlet__foot=False %}
+        {{block.super}}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+{% endblock kt-portlet.div %}
 
-{% block kt-portlet__body %}
-    {% include 'kt/portlet__body.html' with portlet__content='books/_sale/portlet/overview__content.html' %}
-{% endblock %}
-
-{% block kt-portlet__foot %}{% endblock %}
+{% block kt-portlet__content.div %}
+<div class="row">
+    <div class="col-xs-6 col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h4>{{ object.total_incl_tax|currency|default:"-" }}</h4>
+                <span class="text-muted">Total (incl. tax)</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h4>{{ object.total_excl_tax|currency|default:"-" }}</h4>
+                <span class="text-muted">Total (excl. tax)</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h4>{{ object.total_tax|currency }}</h4>
+                <span class="text-muted">Tax</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h4>{{ object.date_issued|default:"-" }}</h4>
+                <span class="text-muted">Date issued</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h4>{{ object.total_due_incl_tax|currency|default:"-" }}</h4>
+                <span class="text-muted">Total still due (incl. tax)</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h4>{{ object.date_dued|default:"-" }}</h4>
+                <span class="text-muted">Date dued</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock kt-portlet__content.div %}

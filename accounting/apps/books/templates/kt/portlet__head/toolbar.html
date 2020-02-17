@@ -1,8 +1,8 @@
 <div class="kt-portlet__head-toolbar">
     {% block kt-portlet__head-group %}
-        {% if group != False %}
-            {% if group %}
-                {% include group %}
+        {% if portlet__head_group != False %}
+            {% if portlet__head_group %}
+                {% include portlet__head_group %}
             {% else %}
           {% include 'kt/portlet__head/group.html'%}
             {% endif %}

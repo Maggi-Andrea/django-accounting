@@ -1,8 +1,8 @@
-{% extends 'kt/portlet.html' %}
+{% extends 'kt/portlet_base.html' %}
 
 {% block kt-portlet.div %}
-    {% with title='books/organization/portlet/statistic__head/title.html' %}
-    {% with group='books/organization/portlet/statistic__head/group.html' %}
+    {% with portlet__head_title='books/organization/portlet/statistic__head/title.html' %}
+    {% with portlet__head_group='books/organization/portlet/statistic__head/group.html' %}
     {% with portlet__content='books/organization/portlet/statistic__content.html' %}
     {% with portlet__foot=False %}
         {{block.super}}
