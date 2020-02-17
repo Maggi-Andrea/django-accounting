@@ -1,35 +1,48 @@
+{% extends 'kt/portlet_base.html' %}
 {% load bootstrap4 %}
+{% load sekizai_tags %}
 
-<div class="kt-portlet">
-    <div class="kt-portlet__head">
-        <div class="kt-portlet__head-label">
-	        <h3 class="kt-portlet__head-title">Payments</h3>
-        </div>
-    </div>
-    <div class="kt-portlet__body">
-        {% include "books/payment/table/base.html" with payments=payments %}
-    </div>
-    <div class="kt-portlet__foot">
-        <form action="." method="post" class="form">
-            {% csrf_token %}
-            {{ payment_form.non_field_errors }}
-            <div class="row">
-                <div class="col-md-2">
-                    {% bootstrap_field payment_form.date_paid show_label=False %}
-                </div>
-                <div class="col-md-2">
-                    {% bootstrap_field payment_form.reference show_label=False %}
-                </div>
-                <div class="col-md-4">
-                    {% bootstrap_field payment_form.detail show_label=False %}
-                </div>
-                <div class="col-md-2">
-                    {% bootstrap_field payment_form.amount show_label=False %}
-                </div>
-                <div class="col-md-2 text-right">
-                    <button type="submit" class="btn btn-success">Add</button>
-                </div>
+{% block kt-portlet.div %}
+    {% with title_text='Payments' %}
+    {% with portlet__head_icon=False %}
+    {% with portlet__head_toolbar=False %}
+         {{block.super}}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+{% endblock kt-portlet.div %}
+
+
+{% block kt-portlet__foot.class %}{% endblock %}
+
+{% block kt-portlet__foot.div %}
+    <form action="." method="post" class="form">
+        {% csrf_token %}
+        {{ payment_form.non_field_errors }}
+        <div class="row">
+            <div class="col-md-2">
+                {% bootstrap_field payment_form.date_paid show_label=False %}
             </div>
-        </form>
-    </div>
-</div>
+            <div class="col-md-2">
+                {% bootstrap_field payment_form.reference show_label=False %}
+            </div>
+            <div class="col-md-4">
+                {% bootstrap_field payment_form.detail show_label=False %}
+            </div>
+            <div class="col-md-2">
+                {% bootstrap_field payment_form.amount show_label=False %}
+            </div>
+            <div class="col-md-2 text-right">
+                <button type="submit" class="btn btn-success">Add</button>
+            </div>
+        </div>
+    </form>
+    {% addtoblock "body-scripts-page_scripts" %}
+        {{ payment_form.media }}
+    {% endaddtoblock %}
+{% endblock %}
+
+{% block kt-portlet__content.div %}
+    {% include "books/payment/table/base.html" with payments=payments %}
+{% endblock %}
+
