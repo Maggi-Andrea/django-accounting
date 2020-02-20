@@ -30,22 +30,22 @@ setup(name='django-accounting',
       packages=find_packages(exclude=["tests*"]),
       include_package_data=True,
       install_requires=[
-          'django==2.1.7',
+          'django>=3',
+          # Used to render the forms
+          'django_icons>=1.1.1',
+          'django-crispy-forms>=1.8.1',
           # Used to render the forms
           'django-bootstrap4>=0.0.7',
-          # Used to render the forms
-          'django_icons>=0.2.1',
           # Used for date/time form fields
           'django-tempus-dominus>=5.1.2.2',
           # Used to improve the forms
-          'django_select2==6.3.1',
-          'django-crispy-forms>=1.7.2',
+          'django_select2>=6.3.1',
           # Define beautiful tags
           'django-classy-tags>=0.8.0',
-          # Internationalization
-          'Babel>=2.6.0',
           # Date utilities
           'python-dateutil>=2.8',
+          # Internationalization
+          'Babel>=2.6.0',
       ],
       # See http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[

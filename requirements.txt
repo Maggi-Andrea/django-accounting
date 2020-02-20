@@ -1,34 +1,11 @@
-Django==2.1.7
-django-bootstrap4
-django_icons
-django-tempus-dominus
-django-crispy-forms
-django-select2
-django-classy-tags
-python-dateutil
-Babel
+Django>=3
+django-icons>=1.1.1
+django-crispy-forms>=1.8.1
 
-## Testing
-django-dynamic-fixture>=2.0.0
-WebTest>=2.0.33
-django-webtest>=1.9.4
-django-nose>=1.4.6
-nose>=1.3.7
-
-pytest-django>=3.4.8
-
-##Testing with eclipse
-# git+https://github.com/jenniferlianne/django_nose_adapter.git
+django-select2>=7.2.0
+django-bootstrap4>=1.1.1
+django-tempus-dominus>=5.1.2.13
+django-classy-tags>=1.0.0
 
 
-flake8>=3.7.7
-
-ipython>=7.3.0
-ipdb>=0.11
-ipdbplugin>=1.5.0
-
-coverage>=4.5.2
-coveralls>=1.6.0
-
-
-
+Babel>=2.8.0

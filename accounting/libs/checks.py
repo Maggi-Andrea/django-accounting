@@ -1,6 +1,5 @@
 from django.core.validators import EMPTY_VALUES
-from django.utils.datastructures import OrderedDict
-
+from collections import OrderedDict
 
 class PrimaryKeyRelatedField(object):
   pass
@@ -55,7 +54,7 @@ class CheckResult:
   @property
   def has_passed(self):
     return self.result == self.RESULT_PASSED
-  
+
   def __str__(self):
     result = "%s: %s" % (self.field.name, self.result)
     if self.has_failed:
@@ -63,7 +62,7 @@ class CheckResult:
     if self.message:
       result = "%s - %s" % (result, self.message)
     return result
-  
+
   def __repr__(self):
     return "%s(%s,%s,%s,%s)" % (self.__class__.__name__, self.field, self.result, self.level, self.message)
 
@@ -89,8 +88,8 @@ class CheckingModelMixin(object):
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self.opts = self._options_class(getattr(self, 'CheckingOptions', None))
-    
-  
+
+
   def get_checking_fields(self, special_exclude=['id']):
     """
     Returns the set of fields on which we perform checkings
@@ -107,7 +106,7 @@ class CheckingModelMixin(object):
             if (f.one_to_many or f.one_to_one)
             and f.auto_created and not f.concrete
             ]
-    
+
     # reverse_rels += self._meta.get_all_related_many_to_many_objects()
     for relation in reverse_rels:
       accessor_name = relation.get_accessor_name()

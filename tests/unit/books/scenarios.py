@@ -18,18 +18,21 @@ from accounting.apps.books.models import BillLine
 from accounting.apps.books.models import Invoice
 from accounting.apps.books.models import InvoiceLine, InvoiceContribution
 
+from django.conf import settings
+
 class Alfa_Organization:
-  
+
   def setUp(self):
     super().setUp()
-    self.organization_a = G(Organization, display_name='Organization Alfa')
+    self.user = G(settings.AUTH_USER_MODEL)
+    self.organization_a = G(Organization, display_name='Organization Alfa', owner=self.user)
     self.esente_a = G(TaxRate, organization=self.organization_a, name="Esente", rate=D('0.0'))
     self.iva20_a = G(TaxRate, organization=self.organization_a, name="Iva 20", rate=D('0.20'))
-    
+
     self.ritenura4_a = G(ContributionRate, organization=self.organization_a, name="Contributo 4%", rate=D('0.04'))
 
 class Alfa_Bill_1:
-  
+
   def setUp(self):
     super().setUp()
     self.bill_a_1 = G(
@@ -37,7 +40,7 @@ class Alfa_Bill_1:
       organization=self.organization_a,
       number=1,
     )
-    
+
     self.bill_line_a_1_01 = G(
       BillLine,
       bill=self.bill_a_1,
@@ -45,16 +48,16 @@ class Alfa_Bill_1:
       quantity=D('5'),
       tax_rate=self.iva20_a,
     )
-    
+
     self.bill_a_1.compute_totals().save()
-    
-  
+
+
 class Alfa_Bills_1_2(Alfa_Bill_1):
-  
+
   def setUp(self):
     super().setUp()
-    
-    
+
+
     self.bill_a_2 = G(
       Bill,
       organization=self.organization_a,
@@ -62,18 +65,18 @@ class Alfa_Bills_1_2(Alfa_Bill_1):
       total_excl_tax=D('5.00'),
       total_incl_tax=D('6.00'),
     )
-    
+
 class Alfa_Invoice_1:
-  
+
   def setUp(self):
     super().setUp()
-    
+
     self.invoice_a_1 = G(
       Invoice,
       organization = self.organization_a,
       number = 1,
     )
-    
+
     self.invoice_line_a_1_01 = G(
       InvoiceLine,
       invoice= self.invoice_a_1,
@@ -82,23 +85,23 @@ class Alfa_Invoice_1:
       tax_rate = self.esente_a,
       quantity = 1,
     )
-    
+
     self.invoice_contribution_a_1_01 = G(
       InvoiceContribution,
       invoice = self.invoice_a_1,
       contribution_rate = self.ritenura4_a,
       tax_rate = self.esente_a,
     )
-    
+
     self.invoice_a_1.compute_totals().save()
 
-    
+
 
 class Alfa_Invoices_1_2(Alfa_Invoice_1):
-  
+
   def setUp(self):
     super().setUp()
-    
+
     self.invoice_a_2 = G(
       Invoice,
       organization=self.organization_a,
